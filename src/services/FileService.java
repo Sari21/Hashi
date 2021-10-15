@@ -1,8 +1,8 @@
 package services;
 
-import fields.Board;
-import fields.Bridge;
-import fields.Island;
+import models.Board;
+import models.Bridge;
+import models.Island;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -40,8 +40,6 @@ public class  FileService {
         }
     }
      public static Board ReadFile(File file) {
-         //String path = "src\\resources\\hashiBoards\\";
-         //String fileName = "proba.txt";
          Board board = new Board();
          try {
              //File myObj = new File(path + fileName);
@@ -91,7 +89,8 @@ public class  FileService {
              System.out.println("An error occurred.");
              e.printStackTrace();
          }
-             return board;
+
+         return board;
 
     }
 }

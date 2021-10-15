@@ -1,4 +1,4 @@
-package fields;
+package models;
 
 import interfaces.CsvPrintable;
 
@@ -13,7 +13,21 @@ public class Bridge implements CsvPrintable {
         this.isDouble = isDouble;
         this.isVertical = isVertical;
     }
-    public Bridge(){}
+
+    public Bridge(Island firstIsland, Island secondIsland) {
+        if (firstIsland.getPosition().getX() < secondIsland.getPosition().getX() || firstIsland.getPosition().getY() < firstIsland.getPosition().getY()) {
+            this.sartIsland = firstIsland;
+            this.endIsland = secondIsland;
+        } else {
+            this.sartIsland = secondIsland;
+            this.endIsland = firstIsland;
+        }
+        this.isDouble = false;
+        this.isVertical = firstIsland.getPosition().getX() == secondIsland.getPosition().getX();
+    }
+
+    public Bridge() {
+    }
 
     public Island getSartIsland() {
         return sartIsland;

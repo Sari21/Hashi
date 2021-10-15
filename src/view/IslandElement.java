@@ -1,7 +1,7 @@
 package view;
 
-import fields.Coordinates;
-import fields.Island;
+import models.Coordinates;
+import models.Island;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -33,12 +33,12 @@ public class IslandElement implements ViewElement{
         number.setX(island.getPosition().getX() * FIELD_WIDTH - 45);
         number.setY(island.getPosition().getY() * FIELD_WIDTH - 35);
 
-        circle.setOnMouseClicked((EventHandler<? super MouseEvent>) new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                    circle.setFill(Color.DIMGREY);
-                }
-            });
+//        circle.setOnMouseClicked((EventHandler<? super MouseEvent>) new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent event) {
+//                    circle.setFill(Color.DIMGREY);
+//                }
+//            });
     }
 
     public Circle getCircle() {
