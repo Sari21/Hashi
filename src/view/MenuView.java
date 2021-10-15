@@ -3,12 +3,8 @@ package view;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import fields.Board;
-import javafx.application.Application;
+import controllers.MenuController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -19,26 +15,24 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import services.FileService;
 
 public class MenuView implements ViewElement {
-        private static Desktop desktop = Desktop.getDesktop();
+        private Desktop desktop = Desktop.getDesktop();
+        private FileChooser fileChooser = new FileChooser();
+        private Button openButton = new Button("Open");
+        private Stage stage;
 
-        public static Stage getMenuView() {
-            Stage stage = new Stage();
+        public MenuView(){
+            stage = new Stage();
             stage.setTitle("Menu");
 
-            final FileChooser fileChooser = new FileChooser();
-            final Button openButton = new Button("Open");
             openButton.setOnAction(
                     new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(final ActionEvent e) {
                             File file = fileChooser.showOpenDialog(stage);
                             if (file != null) {
-                                Board board = FileService.ReadFile(file);
-                                BoardView boardView = new BoardView(board);
-                                boardView.getBoardStage();
+                                MenuController.openGame(file);
                             }
                         }
                     });
@@ -55,17 +49,17 @@ public class MenuView implements ViewElement {
             rootGroup.setPadding(new Insets(12, 12, 12, 12));
 
             stage.setScene(new Scene(rootGroup));
+        }
+        public Stage getMenuStage(){
             return stage;
         }
 
-        public static void main(String[] args) {
-            Application.launch(args);
-        }
-
-        private static void openFile(File file) {
+        private void openFile(File file) {
             try {
                 desktop.open(file);
             } catch (IOException ex) {
+                System.out.println(ex);
             }
         }
+
 }

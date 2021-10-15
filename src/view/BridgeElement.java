@@ -1,9 +1,7 @@
 package view;
 
-import fields.Bridge;
-import javafx.application.Application;
+import models.Bridge;
 import javafx.scene.shape.Line;
-import javafx.stage.Stage;
 
 public class BridgeElement implements ViewElement{
     private Bridge bridge;
@@ -12,8 +10,9 @@ public class BridgeElement implements ViewElement{
     private static final int FIELD_WIDTH = 80;
 
     public BridgeElement (Bridge bridge) {
-        line.setStrokeWidth(3);
-        doubleLine.setStrokeWidth(3);
+        this.bridge = bridge;
+        line.setStrokeWidth(5);
+        doubleLine.setStrokeWidth(5);
         if (!bridge.isDouble() && !bridge.isVertical()) {
             line.setStartX(bridge.getSartIsland().getPosition().getX() * FIELD_WIDTH - 40 + 35);
             line.setStartY(bridge.getSartIsland().getPosition().getY() * FIELD_WIDTH - 40);
