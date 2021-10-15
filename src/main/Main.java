@@ -3,6 +3,7 @@ package main;
 import controllers.MenuController;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import services.PuzzleGenerator;
 import view.BoardView;
 import view.MenuView;
 
@@ -18,6 +19,7 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
+       // PuzzleGenerator.generatePuzzle(10, 10, 10);
       /*  ArrayList<Island> islands = new ArrayList<>();
         ArrayList<Bridge> bridges = new ArrayList<>();
         Island i1 = new Island(2, new Coordinates(2,1), 1);

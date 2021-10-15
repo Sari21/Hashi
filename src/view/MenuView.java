@@ -8,11 +8,14 @@ import controllers.MenuController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -37,18 +40,20 @@ public class MenuView implements ViewElement {
                         }
                     });
 
-            final GridPane inputGridPane = new GridPane();
+            final GridPane gridPane = new GridPane();
+            Text text2 = new Text("HASHI");
 
             GridPane.setConstraints(openButton, 0, 0);
-            inputGridPane.setHgap(6);
-            inputGridPane.setVgap(6);
-            inputGridPane.getChildren().addAll(openButton);
+            gridPane.setHgap(6);
+            gridPane.setVgap(6);
+            gridPane.getChildren().addAll(openButton);
 
             final Pane rootGroup = new VBox(12);
-            rootGroup.getChildren().addAll(inputGridPane);
+            rootGroup.getChildren().addAll(gridPane);
+            rootGroup.getChildren().addAll(text2);
             rootGroup.setPadding(new Insets(12, 12, 12, 12));
 
-            stage.setScene(new Scene(rootGroup));
+            stage.setScene(new Scene(rootGroup, 200, 200));
         }
         public Stage getMenuStage(){
             return stage;

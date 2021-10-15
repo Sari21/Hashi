@@ -5,14 +5,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import models.Board;
 import models.Bridge;
-import models.Island;
-import javafx.scene.Group;
-import javafx.stage.Stage;
 import view.BoardView;
 import view.BridgeElement;
 import view.IslandElement;
-
-import java.awt.*;
 
 public class BoardController {
     private static Board board;
@@ -50,7 +45,13 @@ public class BoardController {
                         if (startIsland == null) {
                             startIsland = islandElement;
                             islandElement.getCircle().setStroke(Color.BURLYWOOD);
-                        } else if (endIsland == null && startIsland != islandElement) {
+                        }
+                        else if(endIsland == null && startIsland == islandElement){
+                            startIsland.getCircle().setStroke(null);
+                            endIsland = null;
+                            startIsland = null;
+                        }
+                        else if (endIsland == null && startIsland != islandElement) {
                             endIsland = islandElement;
                             if ((startIsland.getIsland().getPosition().getX() == endIsland.getIsland().getPosition().getX() ||
                                     startIsland.getIsland().getPosition().getY() == endIsland.getIsland().getPosition().getY())) {
@@ -59,8 +60,8 @@ public class BoardController {
                                 boolean done = false;
                                 for (Bridge b : board.getBridges()) {
                                     newBridge = null;
-                                    if ((b.getSartIsland().equals(startIsland.getIsland()) && b.getEndIsland().equals(endIsland.getIsland()))
-                                            || (b.getSartIsland().equals(endIsland.getIsland()) && b.getEndIsland().equals(startIsland.getIsland()))) {
+                                    if ((b.getStartIsland().equals(startIsland.getIsland()) && b.getEndIsland().equals(endIsland.getIsland()))
+                                            || (b.getStartIsland().equals(endIsland.getIsland()) && b.getEndIsland().equals(startIsland.getIsland()))) {
                                         if (!b.isDouble()) {
                                             b.setDouble(true);
                                         }
@@ -72,7 +73,7 @@ public class BoardController {
                                     newBridge = new Bridge(startIsland.getIsland(), endIsland.getIsland());
                                 }
                                 if (newBridge != null) {
-                                    board.addBridges(newBridge);
+                                    board.addBridge(newBridge);
                                 }
                                 boardView.refreshBridges();
                                 setEventHandlersForBridges();

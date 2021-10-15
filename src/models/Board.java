@@ -3,22 +3,48 @@ package models;
 import interfaces.CsvPrintable;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Board implements CsvPrintable {
     private int width, height;
-    private ArrayList<Island> islands;
-    private ArrayList<Bridge> bridges ;
+    private ArrayList<Island> islands = new ArrayList<>();
+    private ArrayList<Bridge> bridges = new ArrayList<>();
+    private Set<Coordinates> fields = new HashSet<>();
 
-    public Board(int width, int height, ArrayList<Island> islands, ArrayList<Bridge> bridges) {
+    public Board(int width, int height) {
         this.width = width;
         this.height = height;
-        this.islands = islands;
-        this.bridges = bridges;
     }
-    public Board(){
-        islands = new ArrayList<>();
-        bridges = new ArrayList<>();
 
+    public Board() {
+    }
+
+    public void addBridge(Bridge bridge) {
+        bridges.add(bridge);
+        fields.addAll(bridge.getFields());
+    }
+
+    public void addIsland(Island island) {
+        islands.add(island);
+        fields.add(island.getPosition());
+    }
+
+    @Override
+    public String printCsv() {
+        StringBuilder printedBoard = new StringBuilder();
+        printedBoard.append("board").append("\n")
+                .append(this.width).append(CSV_SEPARATOR)
+                .append(this.height).append("\n")
+                .append("islands").append("\n");
+        for (Island island : islands) {
+            printedBoard.append(island.printCsv()).append("\n");
+        }
+        printedBoard.append("bridges").append("\n");
+        for (Bridge bridge : bridges) {
+            printedBoard.append(bridge.printCsv()).append("\n");
+        }
+        return printedBoard.toString();
     }
 
     public int getWidth() {
@@ -52,27 +78,12 @@ public class Board implements CsvPrintable {
     public void setBridges(ArrayList<Bridge> bridges) {
         this.bridges = bridges;
     }
-    public void addBridges(Bridge bridge){
-        bridges.add(bridge);
-    }
-    public void addIsland(Island island){
-        islands.add(island);
+
+    public Set<Coordinates> getFields() {
+        return fields;
     }
 
-    @Override
-    public String printCsv() {
-        StringBuilder printedBoard = new StringBuilder();
-        printedBoard.append("board").append("\n")
-                .append(this.width).append(CSV_SEPARATOR)
-                .append(this.height).append("\n")
-                .append("islands").append("\n");
-        for(Island island : islands){
-            printedBoard.append(island.printCsv()).append("\n");
-        }
-        printedBoard.append("bridges").append("\n");
-        for(Bridge bridge : bridges){
-            printedBoard.append(bridge.printCsv()).append("\n");
-        }
-        return printedBoard.toString();
+    public void setFields(Set<Coordinates> fields) {
+        this.fields = fields;
     }
 }

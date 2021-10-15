@@ -8,12 +8,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Scanner;
 
 public class  FileService {
     public static void printBoardToCsv(Board board){
             String path = "src\\resources\\hashiBoards\\";
-            String fileName = "proba.txt";
+            Date date = new Date();
+            String fileName = date.getTime() + ".txt";
         try {
             File myObj = new File(path + fileName);
             if (myObj.createNewFile()) {
@@ -76,11 +78,11 @@ public class  FileService {
                  String[] finalSplittedLine = splittedLine;
                  Island startIsland = board.getIslands().stream().filter(isl -> isl.getId() == Integer.parseInt(finalSplittedLine[0])).findFirst().orElse(null);
                  Island endIsland = board.getIslands().stream().filter(isl -> isl.getId() == Integer.parseInt(finalSplittedLine[1])).findFirst().orElse(null);
-                 bridge.setSartIsland(startIsland);
+                 bridge.setStartIsland(startIsland);
                  bridge.setEndIsland(endIsland);
                  bridge.setDouble(splittedLine[2].equals("double"));
                  bridge.setVertical(splittedLine[3].equals("vertical"));
-                 board.addBridges(bridge);
+                 board.addBridge(bridge);
              }
              myReader.close();
              System.out.println(board.printCsv());
