@@ -16,6 +16,7 @@ public class IslandElement implements ViewElement{
     private Coordinates coordinates;
     private Island island;
     private static final int RADIUS = 35;
+    private boolean isMarked = false;
 
     public IslandElement(Island island){
         this.island = island;
@@ -39,6 +40,24 @@ public class IslandElement implements ViewElement{
 //                    circle.setFill(Color.DIMGREY);
 //                }
 //            });
+    }
+
+    public boolean isMarked() {
+        return isMarked;
+    }
+
+    public void setMarked(boolean marked) {
+        isMarked = marked;
+    }
+
+    public void mark() {
+        isMarked = !isMarked;
+        if(isMarked){
+        this.circle.setFill(Color.GRAY);
+        }
+        else{
+            this.circle.setFill(Color.BISQUE);
+        }
     }
 
     public Circle getCircle() {

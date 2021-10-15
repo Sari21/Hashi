@@ -41,6 +41,7 @@ public class BoardView implements ViewElement {
 
         boardStage = new Stage();
         boardStage.setScene(new Scene(root, this.width, this.height));
+        boardStage.setResizable(false);
         boardStage.setTitle("Hashi");
     }
 
