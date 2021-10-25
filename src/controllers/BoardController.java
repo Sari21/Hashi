@@ -44,10 +44,17 @@ public class BoardController {
                     if (e.getButton().name().equals("PRIMARY")) {
                         if (startIsland == null) {
                             startIsland = islandElement;
-                            islandElement.getCircle().setStroke(Color.BURLYWOOD);
+                            islandElement.addStroke();
                         }
                         else if(endIsland == null && startIsland == islandElement){
-                            startIsland.getCircle().setStroke(null);
+                            startIsland.removeStroke();
+                            endIsland = null;
+                            startIsland = null;
+                        }
+                        else if(endIsland == null &&
+                                (Math.abs(startIsland.getIsland().getPosition().getX() - islandElement.getIsland().getPosition().getX()) == 1
+                                || Math.abs(startIsland.getIsland().getPosition().getY() - islandElement.getIsland().getPosition().getY()) == 1)){
+                            startIsland.removeStroke();
                             endIsland = null;
                             startIsland = null;
                         }
@@ -55,7 +62,7 @@ public class BoardController {
                             endIsland = islandElement;
                             if ((startIsland.getIsland().getPosition().getX() == endIsland.getIsland().getPosition().getX() ||
                                     startIsland.getIsland().getPosition().getY() == endIsland.getIsland().getPosition().getY())) {
-                                startIsland.getCircle().setStroke(null);
+                                startIsland.removeStroke();
                                 Bridge newBridge = null;
                                 boolean done = false;
                                 for (Bridge b : board.getBridges()) {
@@ -80,7 +87,7 @@ public class BoardController {
                                 endIsland = null;
                                 startIsland = null;
                             } else {
-                                startIsland.getCircle().setStroke(null);
+                                startIsland.removeStroke();
                                 endIsland = null;
                                 startIsland = null;
                             }
@@ -99,7 +106,6 @@ public class BoardController {
             bridgeElement.getLine().setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(javafx.scene.input.MouseEvent e) {
-
                         System.out.println("katt");
                         if (!bridgeElement.getBridge().isDouble()) {
                             board.getBridges().remove(bridgeElement.getBridge());
@@ -116,7 +122,6 @@ public class BoardController {
             bridgeElement.getDoubleLine().setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(javafx.scene.input.MouseEvent e) {
-
                         bridgeElement.getBridge().setDouble(false);
                         boardView.refreshBridges();
                         setEventHandlersForBridges();

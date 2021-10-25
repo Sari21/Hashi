@@ -4,20 +4,24 @@ import models.Board;
 import models.Bridge;
 import models.Coordinates;
 import models.Island;
+import services.interfaces.IFileService;
 
+import java.io.File;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-public class PuzzleGenerator {
+public class PuzzleGeneratorService {
     private static Board board;
+    private static IFileService fileService = new FileService();
 
-    public static void generatePuzzle(int width, int height, int numberOfIslands) {
+
+    public static File generatePuzzle(int width, int height, int numberOfIslands) {
         board = new Board(width, height);
         Random random = new Random();
 
-        int randomX = random.nextInt(width);
-        int randomY = random.nextInt(height);
+        int randomX = random.nextInt(width - 1) + 1;
+        int randomY = random.nextInt(height - 1) + 1;
         int id = 1;
         Island firstIsland = new Island(new Coordinates(randomX, randomY), id++);
         board.addIsland(firstIsland);
@@ -30,14 +34,13 @@ public class PuzzleGenerator {
             switch (direction) {
                 case 0:
                     x++;
-                    if (checkIfFieldIsFree(x, y)) {
+                    if (checkIfFieldIsFree(x, y) && checkIfFieldIsFree(++x, y)) {
                         while (random.nextBoolean()) {
                             x++;
                             if (!checkIfFieldIsFree(x, y)) {
                                 break;
                             }
                         }
-                        x--;
                         if(checkIfFieldIsFree(x, y)){
                             Island newIsland = new Island(new Coordinates(x, y), id++);
                             Bridge newBridge = new Bridge(randomIsland, newIsland, random.nextBoolean());
@@ -56,14 +59,13 @@ public class PuzzleGenerator {
                     break;
                 case 1:
                     y++;
-                    if (checkIfFieldIsFree(x, y)) {
+                    if (checkIfFieldIsFree(x, y) && checkIfFieldIsFree(x, ++y)) {
                         while (random.nextBoolean()) {
                             y++;
                             if (!checkIfFieldIsFree(x, y)) {
                                 break;
                             }
                         }
-                        y--;
                         if(checkIfFieldIsFree(x, y)){
                             Island newIsland = new Island(new Coordinates(x, y), id++);
                             Bridge newBridge = new Bridge(randomIsland, newIsland, random.nextBoolean());
@@ -81,14 +83,13 @@ public class PuzzleGenerator {
                     break;
                 case 2:
                     x--;
-                    if (checkIfFieldIsFree(x, y)) {
+                    if (checkIfFieldIsFree(x, y) && checkIfFieldIsFree(--x, y)) {
                         while (random.nextBoolean()) {
                             x--;
                             if (!checkIfFieldIsFree(x, y)) {
                                 break;
                             }
                         }
-                        x++;
                         if (checkIfFieldIsFree(x, y)) {
                             Island newIsland = new Island(new Coordinates(x, y), id++);
                             Bridge newBridge = new Bridge(randomIsland, newIsland, random.nextBoolean());
@@ -106,14 +107,13 @@ public class PuzzleGenerator {
                     break;
                 case 3:
                     y--;
-                    if (checkIfFieldIsFree(x, y)) {
+                    if (checkIfFieldIsFree(x, y) && checkIfFieldIsFree(x, --y)) {
                         while (random.nextBoolean()) {
                             y--;
                             if (!checkIfFieldIsFree(x, y)) {
                                 break;
                             }
                         }
-                        y++;
                         if (checkIfFieldIsFree(x, y)) {
                             Island newIsland = new Island(new Coordinates(x, y), id++);
                             Bridge newBridge = new Bridge(randomIsland, newIsland, random.nextBoolean());
@@ -131,7 +131,7 @@ public class PuzzleGenerator {
                     break;
             }
         }
-        FileService.printBoardToCsv(board);
+        return fileService.printBoardToCsv(board);
     }
 
     private static Island chooseARandomIsland() {
@@ -149,14 +149,12 @@ public class PuzzleGenerator {
     }
 
     private static boolean checkIfFieldIsFree(int x, int y) {
-        boolean free = true;
         for (Coordinates field : board.getFields()) {
             if (field.getX() == x && field.getY() == y) {
-                free =  false;
-                break;
+                return false;
             }
         }
-        boolean isInTheBoard = (x <= board.getWidth() && y <= board.getHeight());
-        return free && isInTheBoard;
+
+        return  (x >= 1 && x <= board.getWidth() && y >= 1 && y <= board.getHeight());
     }
 }

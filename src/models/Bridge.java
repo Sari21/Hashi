@@ -37,16 +37,16 @@ public class Bridge implements CsvPrintable {
         Set<Coordinates> fields = new HashSet<>();
         int x = this.startIsland.getPosition().getX();
         int y = this.startIsland.getPosition().getY();
-        if(isVertical){
+        if(!isVertical){
             x++;
-            while(x < this.endIsland.getPosition().getX()){
+            while(x <= this.endIsland.getPosition().getX()){
                 fields.add(new Coordinates(x, y));
                 x++;
             }
         }
         else{
             y++;
-            while(y < this.endIsland.getPosition().getY()){
+            while(y <= this.endIsland.getPosition().getY()){
                 fields.add(new Coordinates(x, y));
                 y++;
             }

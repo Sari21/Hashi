@@ -3,6 +3,7 @@ package services;
 import models.Board;
 import models.Bridge;
 import models.Island;
+import services.interfaces.IFileService;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,8 +12,9 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Scanner;
 
-public class  FileService {
-    public static void printBoardToCsv(Board board){
+public class  FileService implements IFileService {
+    @Override
+    public File printBoardToCsv(Board board){
             String path = "src\\resources\\hashiBoards\\";
             Date date = new Date();
             String fileName = date.getTime() + ".txt";
@@ -29,8 +31,9 @@ public class  FileService {
         }
         FileWriter(path+fileName, board.printCsv());
 
+        return new File(path + fileName);
     }
-    private static void FileWriter(String filename, String textToWrite){
+    private void FileWriter(String filename, String textToWrite){
         try {
             FileWriter myWriter = new FileWriter(filename);
             myWriter.write(textToWrite);
@@ -41,7 +44,7 @@ public class  FileService {
             e.printStackTrace();
         }
     }
-     public static Board ReadFile(File file) {
+     public Board ReadSolution(File file) {
          Board board = new Board();
          try {
              //File myObj = new File(path + fileName);
@@ -85,7 +88,47 @@ public class  FileService {
                  board.addBridge(bridge);
              }
              myReader.close();
-             System.out.println(board.printCsv());
+         } catch (FileNotFoundException e) {
+             System.out.println("An error occurred.");
+             e.printStackTrace();
+         }
+
+         return board;
+
+    }
+    @Override
+    public Board ReadGame(File file) {
+         Board board = new Board();
+         try {
+             //File myObj = new File(path + fileName);
+             Scanner myReader = new Scanner(file);
+             if (myReader.hasNextLine() && !myReader.nextLine().equals("board")) {
+                 return null;
+             }
+             String[] splittedLine;
+             while (myReader.hasNextLine()) {
+                 String data = myReader.nextLine();
+                 if (data.equals("islands")) {
+                     break;
+                 }
+                 splittedLine = data.split(";");
+                 board.setWidth(Integer.parseInt(splittedLine[0]));
+                 board.setHeight(Integer.parseInt(splittedLine[1]));
+             }
+             while (myReader.hasNextLine()) {
+                 String data = myReader.nextLine();
+                 if (data.equals("bridges")) {
+                     break;
+                 }
+                 Island island = new Island();
+                 splittedLine = data.split(";");
+                 island.setId(Integer.parseInt(splittedLine[0]));
+                 island.setValue(Integer.parseInt(splittedLine[1]));
+                 island.getPosition().setX(Integer.parseInt(splittedLine[2]));
+                 island.getPosition().setY(Integer.parseInt(splittedLine[3]));
+                 board.addIsland(island);
+             }
+             myReader.close();
 
          } catch (FileNotFoundException e) {
              System.out.println("An error occurred.");

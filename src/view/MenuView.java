@@ -1,6 +1,8 @@
 package view;
 
-import java.awt.Desktop;
+
+
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
@@ -8,28 +10,81 @@ import controllers.MenuController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import services.PuzzleGeneratorService;
 
 public class MenuView implements ViewElement {
         private Desktop desktop = Desktop.getDesktop();
         private FileChooser fileChooser = new FileChooser();
-        private Button openButton = new Button("Open");
-        private Stage stage;
+    private Stage stage;
 
         public MenuView(){
             stage = new Stage();
             stage.setTitle("Menu");
 
-            openButton.setOnAction(
+
+            final GridPane gridPane = new GridPane();
+            Text title = new Text("HASHI");
+            TextField widthTextField = new TextField();
+            TextField heightTextField = new TextField();
+            TextField islandsTextField = new TextField();
+
+            Label widthLabel = new Label("Width:");
+            Label heightLabel = new Label("Height:");
+            Label islandsLabel = new Label("Islands:");
+            HBox widthHB = new HBox();
+            HBox heightHB = new HBox();
+            HBox islandsHB = new HBox();
+            widthHB.getChildren().addAll(widthLabel, widthTextField);
+            heightHB.getChildren().addAll(heightLabel, heightTextField);
+            islandsHB.getChildren().addAll(islandsLabel, islandsTextField);
+            widthHB.setSpacing(10);
+            heightHB.setSpacing(10);
+            islandsHB.setSpacing(10);
+
+            Button openSolution = new Button("Open solution");
+            Button generateNewGame = new Button("Generate new game");
+            Button generateNewGameWithSolution = new Button("Generate new game with solution");
+            Button openGame = new Button ("Open game");
+
+            GridPane.setConstraints(title, 0, 0);
+            GridPane.setConstraints(openGame, 1, 1);
+            GridPane.setConstraints(openSolution, 1, 2);
+            GridPane.setConstraints(widthHB, 0, 1);
+            GridPane.setConstraints(heightHB, 0, 2);
+            GridPane.setConstraints(islandsHB, 0, 3);
+            GridPane.setConstraints(generateNewGame, 0, 4);
+            GridPane.setConstraints(generateNewGameWithSolution, 0, 5);
+            gridPane.setHgap(10);
+            gridPane.setVgap(10);
+            generateNewGame.setMinWidth(140);
+            gridPane.setMinWidth(generateNewGame.getMinWidth());
+            gridPane.getChildren().addAll(title, openGame, openSolution, generateNewGame, generateNewGameWithSolution, widthHB, heightHB, islandsHB);
+
+            final Pane rootGroup = new VBox(12);
+            rootGroup.getChildren().addAll(gridPane);
+           // rootGroup.getChildren().addAll(title);
+            rootGroup.setPadding(new Insets(12, 12, 12, 12));
+
+
+            openSolution.setOnAction(
+                    new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(final ActionEvent e) {
+                            File file = fileChooser.showOpenDialog(stage);
+                            if (file != null) {
+                                MenuController.openSolution(file);
+                            }
+                        }
+                    });
+            openGame.setOnAction(
                     new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(final ActionEvent e) {
@@ -40,20 +95,31 @@ public class MenuView implements ViewElement {
                         }
                     });
 
-            final GridPane gridPane = new GridPane();
-            Text text2 = new Text("HASHI");
+            generateNewGame.setOnAction(
+                    new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(final ActionEvent e) {
+                            int w = widthTextField.getCharacters().toString().equals("") ? 6 : Integer.parseInt(widthTextField.getCharacters().toString());
+                            int h = heightTextField.getCharacters().toString().equals("") ? 6 :Integer.parseInt(heightTextField.getCharacters().toString());
+                            int i = islandsTextField.getCharacters().toString().equals("") ? 6 :Integer.parseInt(islandsTextField.getCharacters().toString());
 
-            GridPane.setConstraints(openButton, 0, 0);
-            gridPane.setHgap(6);
-            gridPane.setVgap(6);
-            gridPane.getChildren().addAll(openButton);
+                            File file =   PuzzleGeneratorService.generatePuzzle( w, h, i);
+                            MenuController.openGame(file);
+                        }
+                    });
+            generateNewGameWithSolution.setOnAction(
+                    new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(final ActionEvent e) {
+                            int w = widthTextField.getCharacters().toString().equals("") ? 6 : Integer.parseInt(widthTextField.getCharacters().toString());
+                            int h = heightTextField.getCharacters().toString().equals("") ? 6 :Integer.parseInt(heightTextField.getCharacters().toString());
+                            int i = islandsTextField.getCharacters().toString().equals("") ? 6 :Integer.parseInt(islandsTextField.getCharacters().toString());
+                            File file = PuzzleGeneratorService.generatePuzzle(w, h, i);
+                            MenuController.openSolution(file);
+                        }
+                    });
 
-            final Pane rootGroup = new VBox(12);
-            rootGroup.getChildren().addAll(gridPane);
-            rootGroup.getChildren().addAll(text2);
-            rootGroup.setPadding(new Insets(12, 12, 12, 12));
-
-            stage.setScene(new Scene(rootGroup, 200, 200));
+            stage.setScene(new Scene(rootGroup, 400, 250));
         }
         public Stage getMenuStage(){
             return stage;
