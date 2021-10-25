@@ -1,5 +1,11 @@
 package view;
 
+import controllers.MenuController;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.stage.WindowEvent;
 import models.Board;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -22,6 +28,8 @@ public class BoardView implements ViewElement {
         this.width = board.getWidth() * FIELD_WIDTH;
         this.board = board;
 
+
+
         root = new Group();
         for (Island island : board.getIslands()) {
             IslandElement islandElement = new IslandElement(island);
@@ -43,6 +51,15 @@ public class BoardView implements ViewElement {
         boardStage.setScene(new Scene(root, this.width, this.height));
         boardStage.setResizable(false);
         boardStage.setTitle("Hashi");
+
+        boardStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent e) {
+                MenuController.showMenuStage();
+              //  Platform.exit();
+              //  System.exit(0);
+            }
+        });
     }
 
     public void refreshBridges() {

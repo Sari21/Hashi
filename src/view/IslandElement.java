@@ -59,6 +59,12 @@ public class IslandElement implements ViewElement{
             this.circle.setFill(Color.BISQUE);
         }
     }
+    public void addStroke(){
+        this.circle.setStroke(Color.BURLYWOOD);
+    }
+    public void  removeStroke(){
+        this.circle.setStroke(null);
+    }
 
     public Circle getCircle() {
         return circle;

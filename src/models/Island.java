@@ -9,8 +9,7 @@ public class Island implements CsvPrintable {
     private Coordinates position;
     private Bridge upBridges, downBridges, rightBridges, leftBridges;
 
-    public Island(int value, Coordinates position, int id) {
-        this.value = value;
+    public Island(Coordinates position, int id) {
         this.position = position;
         this.id = id;
     }

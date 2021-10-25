@@ -2,9 +2,68 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634547579075.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634548327346.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634548602051.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634548799288.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634548952207.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634549646752.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634549978259.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634550563562.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634551464652.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634551486489.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634551903250.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634551952544.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634552154435.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634552183376.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634577776836.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634578061267.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634578083156.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634578343832.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634578390052.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634578493490.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634578531431.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634578554483.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634578567992.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634578578642.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634578592749.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634578970139.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634579333092.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634581625091.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634625651187.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634625665874.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634633033762.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634633088926.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634633130360.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634633139598.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634633144418.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634633854050.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634634144300.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634634157363.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634634161572.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634634164832.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634634168989.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634634173084.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634634240873.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634634360562.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634634658230.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634634792142.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/hashiBoards/1634642259332.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/services/interfaces/IFileService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/services/interfaces/IPuzzleGeneratorService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/solver/Mip1.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/solver/Solver.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hashi.iml" beforeDir="false" afterPath="$PROJECT_DIR$/hashi.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controllers/BoardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/BoardController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/MenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/MenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/Bridge.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Bridge.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/FileService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/FileService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/PuzzleGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/PuzzleGeneratorService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/BoardView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/BoardView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/view/IslandElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/IslandElement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/MenuView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/MenuView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,7 +132,9 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectId" id="1yiYtXnDgYJvGbHxAmvOw7b4xkU" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectReloadState">
     <option name="STATE" value="0" />
   </component>
@@ -85,6 +146,7 @@
     <option name="showMembers" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="GoToFile.includeJavaFiles" value="false" />
@@ -95,9 +157,14 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="dynamic.classpath" value="false" />
+    <property name="last_opened_file_path" value="C:/Program Files/win64/lib/gurobi.jar!/" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="recentsLimit" value="5" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Mip1">
     <configuration default="true" type="Applet" factoryName="Applet">
       <module name="" />
       <option name="MAIN_CLASS_NAME" />
@@ -139,6 +206,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Mip1" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="solver.Mip1" />
+      <module name="hashi" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="solver.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <method v="2">
@@ -176,6 +257,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Mip1" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -196,7 +282,11 @@
       <workItem from="1634112175323" duration="4723000" />
       <workItem from="1634133245006" duration="6367000" />
       <workItem from="1634199283740" duration="17505000" />
-      <workItem from="1634281856917" duration="6739000" />
+      <workItem from="1634281856917" duration="14932000" />
+      <workItem from="1634544576892" duration="11287000" />
+      <workItem from="1634624788187" duration="6089000" />
+      <workItem from="1635085251575" duration="3100000" />
+      <workItem from="1635153108461" duration="2226000" />
     </task>
     <servers />
   </component>
@@ -205,53 +295,62 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="574" y="96" key="#com.intellij.ide.util.MemberChooser" timestamp="1634288814125">
+    <state x="574" y="96" key="#com.intellij.ide.util.MemberChooser" timestamp="1634291915073">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="574" y="96" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1634288814125" />
-    <state x="478" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1634201057728">
+    <state x="574" y="96" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1634291915073" />
+    <state x="353" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1634290002830">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="478" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1536.824@0.0.1536.824" timestamp="1634201057728" />
-    <state width="457" height="466" key="DebuggerActiveHint" timestamp="1634286983461">
+    <state x="353" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1536.824@0.0.1536.824" timestamp="1634290002830" />
+    <state width="457" height="466" key="DebuggerActiveHint" timestamp="1634578410533">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="457" height="466" key="DebuggerActiveHint/0.0.1536.824@0.0.1536.824" timestamp="1634286983461" />
-    <state width="1493" height="246" key="GridCell.Tab.0.bottom" timestamp="1634289116643">
+    <state width="457" height="466" key="DebuggerActiveHint/0.0.1536.824@0.0.1536.824" timestamp="1634578410533" />
+    <state x="127" y="177" key="FileChooserDialogImpl" timestamp="1635153253371">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="246" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1634289116643" />
-    <state width="1493" height="246" key="GridCell.Tab.0.center" timestamp="1634289116643">
+    <state x="127" y="177" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1635153253371" />
+    <state width="1493" height="154" key="GridCell.Tab.0.bottom" timestamp="1635153069793">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="246" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1634289116643" />
-    <state width="1493" height="246" key="GridCell.Tab.0.left" timestamp="1634289116643">
+    <state width="1493" height="154" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1635153069793" />
+    <state width="1493" height="154" key="GridCell.Tab.0.center" timestamp="1635153069793">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="246" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1634289116643" />
-    <state width="1493" height="246" key="GridCell.Tab.0.right" timestamp="1634289116643">
+    <state width="1493" height="154" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1635153069793" />
+    <state width="1493" height="154" key="GridCell.Tab.0.left" timestamp="1635153069793">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="246" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1634289116643" />
-    <state width="1493" height="246" key="GridCell.Tab.1.bottom" timestamp="1634289126010">
+    <state width="1493" height="154" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1635153069793" />
+    <state width="1493" height="154" key="GridCell.Tab.0.right" timestamp="1635153069793">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="246" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1634289126010" />
-    <state width="1493" height="246" key="GridCell.Tab.1.center" timestamp="1634289126009">
+    <state width="1493" height="154" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1635153069793" />
+    <state width="1493" height="154" key="GridCell.Tab.1.bottom" timestamp="1635153069794">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="246" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1634289126009" />
-    <state width="1493" height="246" key="GridCell.Tab.1.left" timestamp="1634289126009">
+    <state width="1493" height="154" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1635153069794" />
+    <state width="1493" height="154" key="GridCell.Tab.1.center" timestamp="1635153069794">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="246" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1634289126009" />
-    <state width="1493" height="246" key="GridCell.Tab.1.right" timestamp="1634289126009">
+    <state width="1493" height="154" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1635153069794" />
+    <state width="1493" height="154" key="GridCell.Tab.1.left" timestamp="1635153069793">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="246" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1634289126009" />
+    <state width="1493" height="154" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1635153069793" />
+    <state width="1493" height="154" key="GridCell.Tab.1.right" timestamp="1635153069794">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="154" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1635153069794" />
+    <state x="54" y="0" width="1050" height="824" key="SettingsEditor" timestamp="1635153263909">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="54" y="0" width="1050" height="824" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1635153263909" />
     <state x="465" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1633441183097">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -261,15 +360,9 @@
     </state>
     <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1634219817096" />
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/controllers/BoardController.java</url>
-          <line>48</line>
-          <option name="timeStamp" value="18" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/hashi$Main.ic" NAME="Main Coverage Results" MODIFIED="1634578526715" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>main.*</FILTER>
+    </SUITE>
   </component>
 </project>
