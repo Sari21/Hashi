@@ -24,7 +24,7 @@ public class BoardView implements ViewElement {
     private Stage boardStage;
 
     public BoardView(Board board) {
-        this.height = board.getHeight() * FIELD_WIDTH;
+        this.height = board.getHeight() * FIELD_WIDTH + 50;
         this.width = board.getWidth() * FIELD_WIDTH;
         this.board = board;
 

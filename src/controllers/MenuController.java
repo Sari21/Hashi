@@ -3,6 +3,7 @@ package controllers;
 import models.Board;
 import services.FileService;
 import services.interfaces.IFileService;
+import solver.Solver;
 import view.MenuView;
 
 import java.io.File;
@@ -16,6 +17,12 @@ public class MenuController {
         Board board = fileService.ReadGame(file);
         closeMenuStage();
         BoardController.openGame(board);
+    }
+    public static void solveGame(File file){
+        Board board = fileService.ReadGame(file);
+        closeMenuStage();
+        Board board2 = Solver.solve(board);
+        BoardController.openGame(board2);
     }
     public static void openSolution(File file){
         Board board = fileService.ReadSolution(file);

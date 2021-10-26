@@ -13,6 +13,9 @@ public class Island implements CsvPrintable {
         this.position = position;
         this.id = id;
     }
+    public Island(Coordinates position, int id, int value) {
+        this.value = value;
+    }
     public Island(){
     this.position = new Coordinates(0, 0);
     }
