@@ -139,15 +139,6 @@ public class PuzzleGeneratorService {
         return board.getIslands().get(random.nextInt(board.getIslands().size()));
     }
 
-    private static boolean checkIfFieldIsFree(Coordinates newField) {
-        for (Coordinates field : board.getFields()) {
-            if (field.getX() == newField.getX() && field.getY() == newField.getY()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     private static boolean checkIfFieldIsFree(int x, int y) {
         for (Coordinates field : board.getFields()) {
             if (field.getX() == x && field.getY() == y) {

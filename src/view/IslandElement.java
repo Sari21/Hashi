@@ -33,13 +33,6 @@ public class IslandElement implements ViewElement{
         number.setFont(Font.font ("Verdana", 20));
         number.setX(island.getPosition().getX() * FIELD_WIDTH - 45);
         number.setY(island.getPosition().getY() * FIELD_WIDTH - 35);
-
-//        circle.setOnMouseClicked((EventHandler<? super MouseEvent>) new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent event) {
-//                    circle.setFill(Color.DIMGREY);
-//                }
-//            });
     }
 
     public boolean isMarked() {
