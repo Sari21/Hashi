@@ -11,7 +11,7 @@ import java.io.File;
 public class MenuController {
 
     private static MenuView menuView = new MenuView();
-    private static IFileService fileService = new FileService();;
+    private static IFileService fileService = new FileService();
 
     public static void openGame(File file){
         Board board = fileService.ReadGame(file);
