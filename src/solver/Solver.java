@@ -1,18 +1,8 @@
 package solver;
 
-import controllers.BoardController;
-import controllers.MenuController;
 import gurobi.*;
 import models.Board;
 import models.Bridge;
-import models.Pair;
-
-import java.beans.Expression;
-import java.sql.SQLOutput;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 public class Solver {
     public static Board solve(Board board) {
@@ -38,6 +28,7 @@ public class Solver {
 //                }
             // Set<Pair> neighbours = new HashSet<>();
             // lehetséges szomszédok
+            board.sortIslands();
             int[][] neighbours = new int[n][n];
             for (int j = 0; j < n; j++) {
                 for (int i = 0; i <= j; i++) {

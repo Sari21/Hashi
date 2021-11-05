@@ -2,9 +2,7 @@ package models;
 
 import interfaces.CsvPrintable;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class Board implements CsvPrintable {
     private int width, height;
@@ -85,5 +83,8 @@ public class Board implements CsvPrintable {
 
     public void setFields(Set<Coordinates> fields) {
         this.fields = fields;
+    }
+    public void sortIslands(){
+        Collections.sort(islands);
     }
 }

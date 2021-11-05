@@ -1,0 +1,105 @@
+package solver.converters;
+
+import gurobi.*;
+import models.Board;
+import models.Bridge;
+import models.Coordinates;
+import solver.models.BridgePairs;
+import solver.models.SolverModel;
+
+public class BoardAndSolverModelConverter {
+    public static SolverModel convertBoardToSolverModel(Board board) {
+        SolverModel model = new SolverModel();
+
+        // n -> szigetek száma
+        model.setN(board.getIslands().size());
+        board.sortIslands();
+
+        //szomszédok
+        model.setNeighbours(new int[model.getN()][model.getN()]);
+        for (int i = 0; i <= model.getN(); i++) {
+            for (int j = i + 1; j < model.getN(); j++) {
+                if (i != j) {
+                    if (board.getIslands().get(i).getPosition().getX() == board.getIslands().get(j).getPosition().getX()
+                            || (board.getIslands().get(i).getPosition().getY() == board.getIslands().get(j).getPosition().getY()))
+                    {
+                        model.getNeighbours()[i][j] = 1;
+                    } else
+                        model.getNeighbours()[i][j] = 0;
+                } else
+                    model.getNeighbours()[i][j] = 0;
+            }
+        }
+
+        for (int i = 0; i < model.getN(); i++) {
+            System.out.println(board.getIslands().get(i).getValue() + " (" + board.getIslands().get(i).getPosition().getX() + "," + board.getIslands().get(i).getPosition().getY() + ")");
+        }
+
+        //kiírás
+        for (int i = 0; i < model.getN(); i++) {
+            for (int j = 0; j < model.getN(); j++) {
+//                    System.out.println(Y[i][j].get(GRB.StringAttr.VarName)
+//                            + " " +Y[i][j].get(GRB.DoubleAttr.X));
+                System.out.print(" " + model.getNeighbours()[i][j]);
+            }
+            System.out.println("");
+
+        }
+
+        //hidak száma szigetenként
+        model.setD(new int[model.getN()]);
+        for (int i = 1; i < model.getN(); i++) {
+            model.getD()[i] = board.getIslands().get(i).getValue();
+        }
+
+        //metsző élek
+        for (int i = 0; i < model.getN(); i++) {
+            for (int j = i + 1; j < model.getN(); j++) {
+                for (int k = j + 1; i < model.getN(); i++) {
+                    for (int l = k + 1; j < model.getN(); j++) {
+                        if (model.getNeighbours()[i][j] == 1 && model.getNeighbours()[k][l] == 1) {
+                            if (areBridgesIntersect(board.getIslands().get(i).getPosition(), board.getIslands().get(j).getPosition(),
+                                    board.getIslands().get(k).getPosition(), board.getIslands().get(l).getPosition())) {
+                                model.getIntersectingBridges().add(new BridgePairs(i, j, k, l));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return model;
+
+    }
+
+    public static Board convertSolvedGameToBoard(SolverModel solverModel, GRBVar[][] X, Board board) throws GRBException {
+        for (int i = 0; i < solverModel.getN(); i++) {
+            for (int j = 0; j < solverModel.getN(); j++) {
+                if (X[i][j].get(GRB.DoubleAttr.X) == 1.0) {
+                    Bridge bridge = new Bridge(board.getIslands().get(i), board.getIslands().get(j));
+                    board.addBridge(bridge);
+                } else if (X[i][j].get(GRB.DoubleAttr.X) == 2.0) {
+                    Bridge bridge = new Bridge(board.getIslands().get(i), board.getIslands().get(j));
+                    bridge.setDouble(true);
+                    board.addBridge(bridge);
+                }
+            }
+        }
+        return board;
+    }
+
+    private static boolean areBridgesIntersect(Coordinates A, Coordinates B, Coordinates C, Coordinates D) {
+        // Line AB represented as a1x + b1y = c1
+        double a1 = B.getY() - A.getY();
+        double b1 = A.getX() - B.getX();
+        double c1 = a1 * (A.getX()) + b1 * (A.getY());
+
+        // Line CD represented as a2x + b2y = c2
+        double a2 = D.getY() - C.getY();
+        double b2 = C.getX() - D.getX();
+        double c2 = a2 * (C.getX()) + b2 * (C.getY());
+
+        double determinant = a1 * b2 - a2 * b1;
+
+        return determinant != 0;
+    }
+}
