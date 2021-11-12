@@ -1,5 +1,6 @@
 package controllers;
 
+import gurobi.GRBException;
 import models.Board;
 import services.FileService;
 import services.interfaces.IFileService;
@@ -11,14 +12,14 @@ import java.io.File;
 public class MenuController {
 
     private static MenuView menuView = new MenuView();
-    private static IFileService fileService = new FileService();;
+    private static IFileService fileService = new FileService();
 
     public static void openGame(File file){
         Board board = fileService.ReadGame(file);
         closeMenuStage();
         BoardController.openGame(board);
     }
-    public static void solveGame(File file){
+    public static void solveGame(File file) throws GRBException {
         Board board = fileService.ReadGame(file);
         closeMenuStage();
         Board board2 = Solver.solve(board);

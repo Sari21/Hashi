@@ -10,7 +10,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 
-public class IslandElement implements ViewElement{
+public class IslandElement implements ViewElement {
+    private final Text id;
     private Circle circle;
     private Text number;
     private Coordinates coordinates;
@@ -18,7 +19,7 @@ public class IslandElement implements ViewElement{
     private static final int RADIUS = 35;
     private boolean isMarked = false;
 
-    public IslandElement(Island island){
+    public IslandElement(Island island) {
         this.island = island;
         this.coordinates = island.getPosition();
 
@@ -30,9 +31,15 @@ public class IslandElement implements ViewElement{
 
         number = new Text();
         number.setText(String.valueOf(island.getValue()));
-        number.setFont(Font.font ("Verdana", 20));
+        number.setFont(Font.font("Verdana", 20));
         number.setX(island.getPosition().getX() * FIELD_WIDTH - 45);
         number.setY(island.getPosition().getY() * FIELD_WIDTH - 35);
+        id = new Text();
+        id.setText(String.valueOf(island.getId()));
+        id.setFont(Font.font("Verdana", 20));
+        id.setX(island.getPosition().getX() * FIELD_WIDTH - 45);
+        id.setY(island.getPosition().getY() * FIELD_WIDTH - 50);
+
 
 //        circle.setOnMouseClicked((EventHandler<? super MouseEvent>) new EventHandler<MouseEvent>() {
 //            @Override
@@ -40,6 +47,10 @@ public class IslandElement implements ViewElement{
 //                    circle.setFill(Color.DIMGREY);
 //                }
 //            });
+    }
+
+    public Text getId() {
+        return id;
     }
 
     public boolean isMarked() {
@@ -52,17 +63,18 @@ public class IslandElement implements ViewElement{
 
     public void mark() {
         isMarked = !isMarked;
-        if(isMarked){
-        this.circle.setFill(Color.GRAY);
-        }
-        else{
+        if (isMarked) {
+            this.circle.setFill(Color.GRAY);
+        } else {
             this.circle.setFill(Color.BISQUE);
         }
     }
-    public void addStroke(){
+
+    public void addStroke() {
         this.circle.setStroke(Color.BURLYWOOD);
     }
-    public void  removeStroke(){
+
+    public void removeStroke() {
         this.circle.setStroke(null);
     }
 

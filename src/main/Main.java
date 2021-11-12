@@ -3,10 +3,6 @@ package main;
 import controllers.MenuController;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import models.Board;
-import models.Coordinates;
-import models.Island;
-import solver.Solver;
 import view.BoardView;
 
 

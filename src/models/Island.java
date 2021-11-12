@@ -3,7 +3,7 @@ package models;
 
 import interfaces.CsvPrintable;
 
-public class Island implements CsvPrintable {
+public class Island implements CsvPrintable, Comparable<Island>{
     private int id;
     private int value = 0;
     private Coordinates position;
@@ -83,5 +83,15 @@ public class Island implements CsvPrintable {
                 .append(this.value).append(CSV_SEPARATOR)
                 .append(position.printCsv());
         return printedIsland.toString();
+    }
+
+    @Override
+    public int compareTo(Island o) {
+        if(o.getPosition().getX() != this.getPosition().getX()){
+            return Integer.compare(this.getPosition().getX(), o.getPosition().getX());
+        }
+        else{
+            return Integer.compare(this.getPosition().getY(), o.getPosition().getY());
+        }
     }
 }
