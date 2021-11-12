@@ -1,5 +1,6 @@
 package solver.models;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,16 +9,15 @@ public class SolverModel {
     private int [][] G;
     private int [] d;
     private int n;
+    private ArrayList<BridgePairs> intersectingBridges = new ArrayList<>();
 
-    public Set<BridgePairs> getIntersectingBridges() {
+    public ArrayList<BridgePairs> getIntersectingBridges() {
         return intersectingBridges;
     }
 
-    public void setIntersectingBridges(Set<BridgePairs> intersectingBridges) {
+    public void setIntersectingBridges(ArrayList<BridgePairs> intersectingBridges) {
         this.intersectingBridges = intersectingBridges;
     }
-
-    private Set<BridgePairs> intersectingBridges = new HashSet<>();
 
     public int[][] getNeighbours() {
         return neighbours;

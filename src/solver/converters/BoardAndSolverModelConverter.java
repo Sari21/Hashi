@@ -4,6 +4,7 @@ import gurobi.*;
 import models.Board;
 import models.Bridge;
 import models.Coordinates;
+import models.Island;
 import solver.models.BridgePairs;
 import solver.models.SolverModel;
 
@@ -14,15 +15,17 @@ public class BoardAndSolverModelConverter {
         // n -> szigetek száma
         model.setN(board.getIslands().size());
         board.sortIslands();
+        for (Island i : board.getIslands()) {
+            System.out.println("(" + i.getPosition().getX() + "," + i.getPosition().getY() + ")");
+        }
 
         //szomszédok
         model.setNeighbours(new int[model.getN()][model.getN()]);
         for (int i = 0; i <= model.getN(); i++) {
             for (int j = i + 1; j < model.getN(); j++) {
                 if (i != j) {
-                    if (board.getIslands().get(i).getPosition().getX() == board.getIslands().get(j).getPosition().getX()
-                            || (board.getIslands().get(i).getPosition().getY() == board.getIslands().get(j).getPosition().getY()))
-                    {
+                    if ((board.getIslands().get(i).getPosition().getX() == board.getIslands().get(j).getPosition().getX())
+                            || (board.getIslands().get(i).getPosition().getY() == board.getIslands().get(j).getPosition().getY())) {
                         model.getNeighbours()[i][j] = 1;
                     } else
                         model.getNeighbours()[i][j] = 0;
@@ -53,10 +56,11 @@ public class BoardAndSolverModelConverter {
         }
 
         //metsző élek
+        System.out.println(model.getN());
         for (int i = 0; i < model.getN(); i++) {
             for (int j = i + 1; j < model.getN(); j++) {
-                for (int k = j + 1; i < model.getN(); i++) {
-                    for (int l = k + 1; j < model.getN(); j++) {
+                for (int k = 0; k < model.getN(); k++) {
+                    for (int l = k + 1; l < model.getN(); l++) {
                         if (model.getNeighbours()[i][j] == 1 && model.getNeighbours()[k][l] == 1) {
                             if (areBridgesIntersect(board.getIslands().get(i).getPosition(), board.getIslands().get(j).getPosition(),
                                     board.getIslands().get(k).getPosition(), board.getIslands().get(l).getPosition())) {
@@ -89,7 +93,7 @@ public class BoardAndSolverModelConverter {
 
     private static boolean areBridgesIntersect(Coordinates A, Coordinates B, Coordinates C, Coordinates D) {
         // Line AB represented as a1x + b1y = c1
-        double a1 = B.getY() - A.getY();
+     /*   double a1 = B.getY() - A.getY();
         double b1 = A.getX() - B.getX();
         double c1 = a1 * (A.getX()) + b1 * (A.getY());
 
@@ -100,6 +104,28 @@ public class BoardAndSolverModelConverter {
 
         double determinant = a1 * b2 - a2 * b1;
 
-        return determinant != 0;
+        return determinant == 0;*/
+        if (A.getX() == B.getX()) {
+            if (C.getX() == D.getX() && A.getX() == C.getX()) {
+                if ((A.getY() < C.getY() && C.getY() < B.getY()) || (A.getY() < D.getY() && D.getY() < B.getY()))
+                    return true;
+            } else if (C.getY() == D.getY()) {
+                if (C.getX() < A.getX() && A.getX() < D.getX() && A.getY() < C.getY() && C.getY() < B.getY())
+                    return true;
+            }
+        } else if (A.getY() == B.getY()) {
+            if (C.getX() == D.getX()) {
+                if (C.getY() < A.getY() && A.getY() < D.getY() && A.getX() < C.getX() && C.getX() < B.getX())
+                    return true;
+            } else if (C.getY() == D.getY() && C.getY() == A.getY()) {
+                if ((A.getX() < C.getX() && C.getX() < B.getX()) || (A.getX() < D.getX() && D.getX() < B.getX()))
+                    return true;
+            }
+
+        }
+
+
+        return false;
+
     }
 }

@@ -2,10 +2,12 @@ package solver;
 
 import gurobi.*;
 import models.Board;
-import models.Bridge;
+import solver.converters.BoardAndSolverModelConverter;
+import solver.models.BridgePairs;
+import solver.models.SolverModel;
 
 public class Solver {
-    public static Board solve(Board board) {
+    public static Board solve(Board board) throws GRBException {
         try {
 
             //TODO index / id?
@@ -17,64 +19,24 @@ public class Solver {
 
             // Create empty model
             GRBModel model = new GRBModel(env);
-            // n -> szigetek száma
-            int n = board.getIslands().size();
-//
-//            GRBVar[] islands = new GRBVar[n];
-//            for (int i = 0; i < n; i++) {
-//                    String st = "I_" + String.valueOf(i);
-//                islands[i] = model.addVar(0.0, 2.0, , GRB.INTEGER, st);
-//                    System.out.println(islands[i]);
-//                }
-            // Set<Pair> neighbours = new HashSet<>();
-            // lehetséges szomszédok
-            board.sortIslands();
-            int[][] neighbours = new int[n][n];
-            for (int j = 0; j < n; j++) {
-                for (int i = 0; i <= j; i++) {
-                    if (i != j) {
-                        if ((board.getIslands().get(i).getPosition().getX() == board.getIslands().get(j).getPosition().getX() &&
-                                board.getIslands().get(j).getPosition().getY() - board.getIslands().get(i).getPosition().getY() > 1)
-                                || (board.getIslands().get(i).getPosition().getY() == board.getIslands().get(j).getPosition().getY())
-                                && board.getIslands().get(j).getPosition().getX() - board.getIslands().get(i).getPosition().getX() > 1) {
-                            neighbours[i][j] = 1;
-                        } else
-                            neighbours[i][j] = 0;
-                    } else
-                        neighbours[i][j] = 0;
-                }
-            }
 
+            SolverModel solverModel = BoardAndSolverModelConverter.convertBoardToSolverModel(board);
 
-            for (int i = 0; i < n; i++) {
-                System.out.println(board.getIslands().get(i).getValue() + " (" + board.getIslands().get(i).getPosition().getX() + "," + board.getIslands().get(i).getPosition().getY() + ")");
-            }
-
-            //kiírás
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < n; j++) {
-//                    System.out.println(Y[i][j].get(GRB.StringAttr.VarName)
-//                            + " " +Y[i][j].get(GRB.DoubleAttr.X));
-                    System.out.print(" " + neighbours[i][j]);
-                }
-                System.out.println("");
-
-            }
 
             //xij integer - hidak száma i és j között
-            GRBVar[][] X = new GRBVar[n][n];
+            GRBVar[][] X = new GRBVar[solverModel.getN()][solverModel.getN()];
 
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < n; j++) {
+            for (int i = 0; i < solverModel.getN(); i++) {
+                for (int j = 0; j < solverModel.getN(); j++) {
                     String st = "X_" + String.valueOf(i) + "_" + String.valueOf(j);
                     X[i][j] = model.addVar(0.0, 2.0, 0.0, GRB.INTEGER, st);
                 }
             }
 //            yij bináris változó  - i és j össze van-e kötve
-            GRBVar[][] Y = new GRBVar[n][n];
-
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < n; j++) {
+            GRBVar[][] Y = new GRBVar[solverModel.getN()][solverModel.getN()];
+//
+            for (int i = 0; i < solverModel.getN(); i++) {
+                for (int j = 0; j < solverModel.getN(); j++) {
                     String st = "Y_" + String.valueOf(i) + "_" + String.valueOf(j);
                     Y[i][j] = model.addVar(0.0, 1.0, 0.0, GRB.BINARY, st);
                 }
@@ -84,51 +46,82 @@ public class Solver {
             // hidak száma szigetenként (1)
             GRBLinExpr expr;
             // nem használt fele a mátrixnak 0
-            for (int i = 0; i < n; i++) {
+            for (int i = 0; i < solverModel.getN(); i++) {
                 expr = new GRBLinExpr();
-                for (int j = i + 1; j < n; j++) {
+                for (int j = 0; j < i; j++) {
                     expr.addTerm(1.0, X[i][j]);
                 }
 
                 model.addConstr(expr, GRB.EQUAL, 0.0, "c0");
             }
             // hidak száma
-            for (int i = 0; i < n; i++) {
+//            for (int i = 0; i < solverModel.getN(); i++) {
+//                expr = new GRBLinExpr();
+//                for (int j = 0; j <= i; j++) {
+////                    if (neighbours.contains(new Pair(i, j)))
+////                    if(neighbours[i][j] == 1)
+//                    expr.addTerm(1.0, X[i][j]);
+//                }
+//                for (int j = i; j < solverModel.getN(); j++) {
+////                    if (neighbours.contains(new Pair(i, j)))
+////                    if(neighbours[j][i] == 1)
+//                    expr.addTerm(1.0, X[j][i]);
+//                }
+            //TODO ide jön a d
+
+//          todo ez jó
+            for (int k = 0; k < solverModel.getN(); k++) {
                 expr = new GRBLinExpr();
-                for (int j = 0; j <= i; j++) {
-//                    if (neighbours.contains(new Pair(i, j)))
-//                    if(neighbours[i][j] == 1)
-                    expr.addTerm(1.0, X[i][j]);
+
+                for (int i = 0; i < k; i++) {
+                    expr.addTerm(1.0, X[i][k]);
                 }
-                for (int j = i; j < n; j++) {
-//                    if (neighbours.contains(new Pair(i, j)))
-//                    if(neighbours[j][i] == 1)
-                    expr.addTerm(1.0, X[j][i]);
+                for (int j = k; j < solverModel.getN(); j++) {
+                    expr.addTerm(1.0, X[k][j]);
                 }
-                //TODO ide jön a d
-                model.addConstr(expr, GRB.EQUAL, board.getIslands().get(i).getValue(), "c0");
+                model.addConstr(expr, GRB.EQUAL, board.getIslands().get(k).getValue(), "c0");
+
             }
 
 
-            //nincsenek hurokélek
-            for (int i = 0; i < n; i++) {
+            //nincsenek hurokélek todo pipa
+            for (int i = 0; i < solverModel.getN(); i++) {
                 expr = new GRBLinExpr();
                 expr.addTerm(1.0, X[i][i]);
                 model.addConstr(expr, GRB.EQUAL, 0.0, "c0");
             }
 
-            // TODO (2)
-            for (int i = 0; i < n; i++) {
-                for (int j = i + 1; j < n; j++) {
+            // (2) todo pipa
+            for (int i = 0; i < solverModel.getN(); i++) {
+                for (int j = i + 1; j < solverModel.getN(); j++) {
                     GRBLinExpr exprY = new GRBLinExpr();
+                    GRBLinExpr expr2Y = new GRBLinExpr();
                     GRBLinExpr exprX = new GRBLinExpr();
                     exprX.addTerm(1.0, X[i][j]);
                     exprY.addTerm(1.0, Y[i][j]);
                     model.addConstr(exprY, GRB.LESS_EQUAL, exprX, "c0");
-                    exprY = new GRBLinExpr();
-                    exprY.addTerm(2.0, Y[i][j]);
-                    model.addConstr(exprY, GRB.LESS_EQUAL, exprX, "c0");
+                    expr2Y.addTerm(2.0, Y[i][j]);
+                    model.addConstr(exprX, GRB.LESS_EQUAL, expr2Y, "c0");
+                }
+            }
 
+//            // (3) keresztező élek
+            for (int i = 0; i < solverModel.getIntersectingBridges().size(); i++) {
+                int startIdx1 = solverModel.getIntersectingBridges().get(i).getStartIdx1();
+                int startIdx2 = solverModel.getIntersectingBridges().get(i).getStartIdx2();
+                int endIdx1 = solverModel.getIntersectingBridges().get(i).getEndIdx1();
+                int endIdx2 = solverModel.getIntersectingBridges().get(i).getEndIdx2();
+                GRBLinExpr expr1 = new GRBLinExpr();
+                expr1.addTerm(1.0, Y[startIdx1][endIdx1]);
+                expr1.addTerm(1.0, Y[startIdx2][endIdx2]);
+//                    GRBVar var = model.addVar(0.0, 1.0, 0.0, GRB.BINARY, "x");
+                model.addConstr(expr1, GRB.LESS_EQUAL, 1.0, "int");
+                System.out.println(startIdx1 + " " + endIdx1 + " " + startIdx2 + " " + endIdx2);
+            }
+            //szomszédok todo pipa
+            for (int i = 0; i < solverModel.getN(); i++) {
+                for (int j = i; j < solverModel.getN(); j++) {
+                    model.addConstr(Y[i][j], GRB.LESS_EQUAL, solverModel.getNeighbours()[i][j], "int");
                 }
 
             }
@@ -136,29 +129,24 @@ public class Solver {
             model.optimize();
 
 //            hidak hozzáadása a táblához
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < n; j++) {
-//                    System.out.print(X[i][j].get(GRB.StringAttr.VarName)
-//                            + " " +X[i][j].get(GRB.DoubleAttr.X));
-//                    System.out.print(" " + X[i][j].get(GRB.DoubleAttr.X));
 
-                    if (X[i][j].get(GRB.DoubleAttr.X) == 1.0) {
-                        Bridge bridge = new Bridge(board.getIslands().get(i), board.getIslands().get(j));
-                        board.addBridge(bridge);
-                    } else if (X[i][j].get(GRB.DoubleAttr.X) == 2.0) {
-                        Bridge bridge = new Bridge(board.getIslands().get(i), board.getIslands().get(j));
-                        bridge.setDouble(true);
-                        board.addBridge(bridge);
-                    }
-                }
-            }
+            board = BoardAndSolverModelConverter.convertSolvedGameToBoard(solverModel, X, board);
 
+//            for (int i = 0; i < solverModel.getN(); i++) {
+//                for (int j = 0; j < solverModel.getN(); j++) {
+////                    System.out.println(Y[i][j].get(GRB.StringAttr.VarName)
+////                            + " " +Y[i][j].get(GRB.DoubleAttr.X));
+//                    System.out.print(" " + Y[i][j].get(GRB.DoubleAttr.X));
+//                }
+//                System.out.println("");
+//
+//            }
 
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < n; j++) {
+            for (int i = 0; i < solverModel.getN(); i++) {
+                for (int j = 0; j < solverModel.getN(); j++) {
 //                    System.out.println(Y[i][j].get(GRB.StringAttr.VarName)
 //                            + " " +Y[i][j].get(GRB.DoubleAttr.X));
-                    System.out.print(" " + Y[i][j].get(GRB.DoubleAttr.X));
+                    System.out.print(" " + X[i][j].get(GRB.DoubleAttr.X));
                 }
                 System.out.println("");
 
@@ -166,7 +154,8 @@ public class Solver {
             model.dispose();
             env.dispose();
 
-        } catch (GRBException ex) {
+        } catch (
+                GRBException ex) {
             ex.printStackTrace();
         }
 

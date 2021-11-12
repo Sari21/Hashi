@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 
 import controllers.MenuController;
+import gurobi.GRBException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -103,7 +104,11 @@ public class MenuView implements ViewElement {
                         public void handle(final ActionEvent e) {
                             File file = fileChooser.showOpenDialog(stage);
                             if (file != null) {
-                                MenuController.solveGame(file);
+                                try {
+                                    MenuController.solveGame(file);
+                                } catch (GRBException ex) {
+                                    ex.printStackTrace();
+                                }
                             }
                         }
                     });
