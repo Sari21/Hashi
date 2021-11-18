@@ -1,10 +1,9 @@
-package solver;
+package solver.mathematical;
 
 import gurobi.*;
 import models.Board;
-import solver.converters.BoardAndSolverModelConverter;
-import solver.models.BridgePairs;
-import solver.models.SolverModel;
+import solver.mathematical.converters.BoardAndSolverModelConverter;
+import solver.mathematical.models.SolverModel;
 
 public class Solver {
     public static Board solve(Board board) throws GRBException {
@@ -125,7 +124,14 @@ public class Solver {
                 }
 
             }
-
+            GRBLinExpr sumY = new GRBLinExpr();
+            //feszítőfa - összefüggő gráf
+            for(int i = 0; i < solverModel.getN(); i++){
+                for(int j = i; j < solverModel.getN(); j++){
+                    sumY.addTerm(1.0, Y[i][j]);
+                }
+            }
+            model.addConstr(sumY, GRB.GREATER_EQUAL, solverModel.getN() - 1, "spanning tree");
             model.optimize();
 
 //            hidak hozzáadása a táblához
@@ -142,15 +148,15 @@ public class Solver {
 //
 //            }
 
-            for (int i = 0; i < solverModel.getN(); i++) {
-                for (int j = 0; j < solverModel.getN(); j++) {
-//                    System.out.println(Y[i][j].get(GRB.StringAttr.VarName)
-//                            + " " +Y[i][j].get(GRB.DoubleAttr.X));
-                    System.out.print(" " + X[i][j].get(GRB.DoubleAttr.X));
-                }
-                System.out.println("");
-
-            }
+//            for (int i = 0; i < solverModel.getN(); i++) {
+//                for (int j = 0; j < solverModel.getN(); j++) {
+////                    System.out.println(Y[i][j].get(GRB.StringAttr.VarName)
+////                            + " " +Y[i][j].get(GRB.DoubleAttr.X));
+//                    System.out.print(" " + X[i][j].get(GRB.DoubleAttr.X));
+//                }
+//                System.out.println("");
+//
+//            }
             model.dispose();
             env.dispose();
 

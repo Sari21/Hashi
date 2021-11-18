@@ -4,7 +4,7 @@ import gurobi.GRBException;
 import models.Board;
 import services.FileService;
 import services.interfaces.IFileService;
-import solver.Solver;
+import solver.mathematical.Solver;
 import view.MenuView;
 
 import java.io.File;

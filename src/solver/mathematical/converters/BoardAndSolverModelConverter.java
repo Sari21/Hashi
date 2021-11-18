@@ -1,12 +1,12 @@
-package solver.converters;
+package solver.mathematical.converters;
 
 import gurobi.*;
 import models.Board;
 import models.Bridge;
 import models.Coordinates;
 import models.Island;
-import solver.models.BridgePairs;
-import solver.models.SolverModel;
+import solver.mathematical.models.BridgePairs;
+import solver.mathematical.models.SolverModel;
 
 public class BoardAndSolverModelConverter {
     public static SolverModel convertBoardToSolverModel(Board board) {

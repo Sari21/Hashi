@@ -1,4 +1,4 @@
-package solver.models;
+package solver.mathematical.models;
 
 public class BridgePairs {
     //szigetek indexe

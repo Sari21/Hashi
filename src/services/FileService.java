@@ -15,7 +15,7 @@ import java.util.Scanner;
 public class  FileService implements IFileService {
     @Override
     public File printBoardToCsv(Board board){
-            String path = "src\\resources\\hashiBoards\\";
+            String path = "resources\\hashiBoards\\";
             Date date = new Date();
             String fileName = date.getTime() + ".txt";
         try {
