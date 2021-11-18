@@ -1,8 +1,6 @@
-package solver.models;
+package solver.mathematical.models;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 public class SolverModel {
     private int [][] neighbours;
