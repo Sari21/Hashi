@@ -92,19 +92,7 @@ public class BoardAndSolverModelConverter {
     }
 
     private static boolean areBridgesIntersect(Coordinates A, Coordinates B, Coordinates C, Coordinates D) {
-        // Line AB represented as a1x + b1y = c1
-     /*   double a1 = B.getY() - A.getY();
-        double b1 = A.getX() - B.getX();
-        double c1 = a1 * (A.getX()) + b1 * (A.getY());
 
-        // Line CD represented as a2x + b2y = c2
-        double a2 = D.getY() - C.getY();
-        double b2 = C.getX() - D.getX();
-        double c2 = a2 * (C.getX()) + b2 * (C.getY());
-
-        double determinant = a1 * b2 - a2 * b1;
-
-        return determinant == 0;*/
         if (A.getX() == B.getX()) {
             if (C.getX() == D.getX() && A.getX() == C.getX()) {
                 if ((A.getY() < C.getY() && C.getY() < B.getY()) || (A.getY() < D.getY() && D.getY() < B.getY()))

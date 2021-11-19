@@ -10,6 +10,10 @@ public class Bridge implements CsvPrintable {
     private boolean isDouble = false;
     private boolean isVertical = true;
 
+    public Bridge getBridge(){
+        return this;
+    }
+
     public Bridge(Island firstIsland, Island secondIsland, boolean isDouble) {
         if (firstIsland.getPosition().getX() < secondIsland.getPosition().getX() || firstIsland.getPosition().getY() < secondIsland.getPosition().getY()) {
             this.startIsland = firstIsland;
