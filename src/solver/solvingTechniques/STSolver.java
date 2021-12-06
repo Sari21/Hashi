@@ -1,6 +1,7 @@
 package solver.solvingTechniques;
 
 import models.Board;
+import models.Coordinates;
 import solver.solvingTechniques.models.STBoard;
 import solver.solvingTechniques.models.STBridge;
 import solver.solvingTechniques.models.STIsland;
@@ -13,10 +14,16 @@ public class STSolver {
         stBoard = STBoardConverter.convertBoardToSTBoard(board);
         justEnoughNeighbour();
         oneUnsolvedNeighbour();
-//        islandsWithASingleNeighbor();
-//        threeInTheCornerFiveOnTheSideAndSevenInTheMiddle();
-//        fourOnTheSide();
-//        sixInTheMiddle();
+        islandsWithASingleNeighbor();
+        threeInTheCornerFiveOnTheSideAndSevenInTheMiddle();
+        fourOnTheSide();
+        sixInTheMiddle();
+        justEnoughNeighbour();
+        oneUnsolvedNeighbour();
+        islandsWithASingleNeighbor();
+        threeInTheCornerFiveOnTheSideAndSevenInTheMiddle();
+        fourOnTheSide();
+        sixInTheMiddle();
 //        return STBoardConverter.convertSTBoardNeighboursToBoard(stBoard);
         return STBoardConverter.convertSTBoardToBoard(stBoard);
 
@@ -26,7 +33,6 @@ public class STSolver {
     private static void islandsWithASingleNeighbor() {
         for (STIsland island : stBoard.getUnfinishedIslands()) {
             if (island.numberOfNeighbours() == 1) {
-                STBridge bridge;
                 if (island.getDownNeighbour() != null) {
                     addBridges(island, island.getDownNeighbour(), island.getValue() == 2, true, false);
 
@@ -37,7 +43,6 @@ public class STSolver {
                 } else if (island.getLeftNeighbour() != null) {
                     addBridges(island.getLeftNeighbour(), island, island.getValue() == 2, false, false);
                 }
-                island.checkNumberOfBridges();
             }
         }
     }
@@ -117,7 +122,7 @@ public class STSolver {
         boolean isDouble = false;
         for (STIsland island : stBoard.getUnfinishedIslands()) {
             if (island.numberOfNeighbours() == 4 && island.getValue() == 6 && island.numberOfNeighboursWithValueOne() == 1) {
-                isDouble = island.neighbourWithValueOne().isFinished();
+                //isDouble = island.neighbourWithValueOne().isFinished();
                 if (island.getDownNeighbour().getValue() != 1) {
                     addBridges(island, island.getDownNeighbour(), isDouble, true, isDouble);
                 }
@@ -176,41 +181,74 @@ public class STSolver {
     }
 
     private static void addBridges(STIsland startIsland, STIsland endIsland, boolean isDouble, boolean isVertical, boolean canBeDouble) {
-
-        if (isVertical) {
-            if (startIsland.getDownBridges() != null) {
-                if (canBeDouble) {
-                    startIsland.getDownBridges().setDouble(true);
+        if (!areBridgesIntersect(startIsland.getPosition(), endIsland.getPosition())) {
+            if (isVertical) {
+                if (startIsland.getDownBridges() != null) {
+                    if (canBeDouble) {
+                        startIsland.getDownBridges().setDouble(true);
+                    }
+                } else {
+                    STBridge bridge = new STBridge();
+                    bridge.setStartIsland(startIsland);
+                    bridge.setEndIsland(endIsland);
+                    bridge.setDouble(isDouble);
+                    bridge.setVertical(true);
+                    startIsland.setDownBridges(bridge);
+                    endIsland.setUpBridges(bridge);
+                    stBoard.addBridge(bridge);
                 }
             } else {
-                STBridge bridge = new STBridge();
-                bridge.setStartIsland(startIsland);
-                bridge.setEndIsland(endIsland);
-                bridge.setDouble(isDouble);
-                bridge.setVertical(true);
-                startIsland.setDownBridges(bridge);
-                endIsland.setUpBridges(bridge);
-                stBoard.addBridge(bridge);
+                if (startIsland.getRightBridges() != null) {
+                    if (canBeDouble) {
+                        startIsland.getRightBridges().setDouble(true);
+                    }
+                } else {
+                    STBridge bridge = new STBridge();
+                    bridge.setStartIsland(startIsland);
+                    bridge.setEndIsland(endIsland);
+                    bridge.setDouble(isDouble);
+                    bridge.setVertical(false);
+                    startIsland.setRightBridges(bridge);
+                    endIsland.setLeftBridges(bridge);
+                    stBoard.addBridge(bridge);
+                }
             }
-        } else {
-            if (startIsland.getRightBridges() != null) {
-                if (canBeDouble) {
-                    startIsland.getRightBridges().setDouble(true);
-                }
-            } else {
-                STBridge bridge = new STBridge();
-                bridge.setStartIsland(startIsland);
-                bridge.setEndIsland(endIsland);
-                bridge.setDouble(isDouble);
-                bridge.setVertical(false);
-                startIsland.setRightBridges(bridge);
-                endIsland.setLeftBridges(bridge);
-                stBoard.addBridge(bridge);
-
+            if (startIsland.checkNumberOfBridges()) {
+//                stBoard.getFinishedIslands().add(startIsland);
+//                stBoard.getUnfinishedIslands().remove(startIsland);
+            }
+            if (endIsland.checkNumberOfBridges()) {
+//                stBoard.getFinishedIslands().add(endIsland);
+//                stBoard.getUnfinishedIslands().remove(endIsland);
             }
 
         }
-        startIsland.checkNumberOfBridges();
-        endIsland.checkNumberOfBridges();
+    }
+
+    private static boolean areBridgesIntersect(Coordinates A, Coordinates B) {
+        Coordinates C, D;
+        for (STBridge bridge : stBoard.getBridges()) {
+            C = bridge.getStartIsland().getPosition();
+            D = bridge.getEndIsland().getPosition();
+
+            if (A.getX() == B.getX()) {
+                if (C.getX() == D.getX() && A.getX() == C.getX()) {
+                    if ((A.getY() < C.getY() && C.getY() < B.getY()) || (A.getY() < D.getY() && D.getY() < B.getY()))
+                        return true;
+                } else if (C.getY() == D.getY()) {
+                    if (C.getX() < A.getX() && A.getX() < D.getX() && A.getY() < C.getY() && C.getY() < B.getY())
+                        return true;
+                }
+            } else if (A.getY() == B.getY()) {
+                if (C.getX() == D.getX()) {
+                    if (C.getY() < A.getY() && A.getY() < D.getY() && A.getX() < C.getX() && C.getX() < B.getX())
+                        return true;
+                } else if (C.getY() == D.getY() && C.getY() == A.getY()) {
+                    if ((A.getX() < C.getX() && C.getX() < B.getX()) || (A.getX() < D.getX() && D.getX() < B.getX()))
+                        return true;
+                }
+            }
+        }
+        return false;
     }
 }

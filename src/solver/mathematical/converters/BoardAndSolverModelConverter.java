@@ -72,7 +72,6 @@ public class BoardAndSolverModelConverter {
             }
         }
         return model;
-
     }
 
     public static Board convertSolvedGameToBoard(SolverModel solverModel, GRBVar[][] X, Board board) throws GRBException {
@@ -92,7 +91,6 @@ public class BoardAndSolverModelConverter {
     }
 
     private static boolean areBridgesIntersect(Coordinates A, Coordinates B, Coordinates C, Coordinates D) {
-
         if (A.getX() == B.getX()) {
             if (C.getX() == D.getX() && A.getX() == C.getX()) {
                 if ((A.getY() < C.getY() && C.getY() < B.getY()) || (A.getY() < D.getY() && D.getY() < B.getY()))
@@ -109,11 +107,7 @@ public class BoardAndSolverModelConverter {
                 if ((A.getX() < C.getX() && C.getX() < B.getX()) || (A.getX() < D.getX() && D.getX() < B.getX()))
                     return true;
             }
-
         }
-
-
         return false;
-
     }
 }

@@ -52,8 +52,9 @@ public class STIsland extends Island {
         return n;
     }
 
-    public void checkNumberOfBridges(){
+    public boolean checkNumberOfBridges(){
         this.isFinished = this.numberOfBridges() == this.getValue();
+        return this.isFinished;
     }
     public int numberOfNeighboursWithValueOne() {
         int n = 0;
