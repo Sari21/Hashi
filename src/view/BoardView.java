@@ -28,16 +28,7 @@ public class BoardView implements ViewElement {
         this.width = board.getWidth() * FIELD_WIDTH;
         this.board = board;
 
-
-
         root = new Group();
-        for (Island island : board.getIslands()) {
-            IslandElement islandElement = new IslandElement(island);
-            islandElements.add(islandElement);
-            root.getChildren().addAll(islandElement.getCircle());
-            root.getChildren().addAll(islandElement.getNumber());
-
-        }
         for (Bridge bridge : board.getBridges()) {
             BridgeElement bridgeView = new BridgeElement(bridge);
             bridgeElements.add(bridgeView);
@@ -46,7 +37,12 @@ public class BoardView implements ViewElement {
                 root.getChildren().addAll(bridgeView.getDoubleLine());
             }
         }
-
+        for (Island island : board.getIslands()) {
+            IslandElement islandElement = new IslandElement(island);
+            islandElements.add(islandElement);
+            root.getChildren().addAll(islandElement.getCircle());
+            root.getChildren().addAll(islandElement.getNumber());
+        }
         boardStage = new Stage();
         boardStage.setScene(new Scene(root, this.width, this.height));
         boardStage.setResizable(false);

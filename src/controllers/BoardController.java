@@ -2,7 +2,6 @@ package controllers;
 
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 import models.Board;
 import models.Bridge;
 import view.BoardView;
@@ -106,7 +105,6 @@ public class BoardController {
             bridgeElement.getLine().setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(javafx.scene.input.MouseEvent e) {
-                        System.out.println("katt");
                         if (!bridgeElement.getBridge().isDouble()) {
                             board.getBridges().remove(bridgeElement.getBridge());
                         } else {

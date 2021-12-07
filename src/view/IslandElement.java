@@ -64,7 +64,7 @@ public class IslandElement implements ViewElement {
     public void mark() {
         isMarked = !isMarked;
         if (isMarked) {
-            this.circle.setFill(Color.GRAY);
+            this.circle.setFill(Color.LIGHTGREEN);
         } else {
             this.circle.setFill(Color.BISQUE);
         }

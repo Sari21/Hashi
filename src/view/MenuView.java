@@ -54,7 +54,8 @@ public class MenuView implements ViewElement {
             Button generateNewGame = new Button("Generate new game");
             Button generateNewGameWithSolution = new Button("Generate new game with solution");
             Button openGame = new Button ("Open game");
-            Button solveGame = new Button ("Solve game");
+            Button solveGameLP = new Button ("Solve game LP");
+            Button solveGameST = new Button ("Solve game ST");
 
             GridPane.setConstraints(title, 0, 0);
             GridPane.setConstraints(openGame, 1, 1);
@@ -64,13 +65,14 @@ public class MenuView implements ViewElement {
             GridPane.setConstraints(islandsHB, 0, 3);
             GridPane.setConstraints(generateNewGame, 0, 4);
             GridPane.setConstraints(generateNewGameWithSolution, 0, 5);
-            GridPane.setConstraints(solveGame, 1, 3);
+            GridPane.setConstraints(solveGameLP, 1, 3);
+            GridPane.setConstraints(solveGameST, 1, 4);
             gridPane.setHgap(10);
             gridPane.setVgap(10);
             generateNewGame.setMinWidth(140);
             gridPane.setMinWidth(generateNewGame.getMinWidth());
             gridPane.getChildren().addAll(title, openGame, openSolution, generateNewGame, generateNewGameWithSolution,
-                    widthHB, heightHB, islandsHB, solveGame);
+                    widthHB, heightHB, islandsHB, solveGameLP, solveGameST);
 
             final Pane rootGroup = new VBox(12);
             rootGroup.getChildren().addAll(gridPane);
@@ -98,7 +100,7 @@ public class MenuView implements ViewElement {
                             }
                         }
                     });
-            solveGame.setOnAction(
+            solveGameLP.setOnAction(
                     new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(final ActionEvent e) {
@@ -106,6 +108,20 @@ public class MenuView implements ViewElement {
                             if (file != null) {
                                 try {
                                     MenuController.solveGame(file);
+                                } catch (GRBException ex) {
+                                    ex.printStackTrace();
+                                }
+                            }
+                        }
+                    });
+            solveGameST.setOnAction(
+                    new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(final ActionEvent e) {
+                            File file = fileChooser.showOpenDialog(stage);
+                            if (file != null) {
+                                try {
+                                    MenuController.solveGameWithSolvingTechniques(file);
                                 } catch (GRBException ex) {
                                     ex.printStackTrace();
                                 }

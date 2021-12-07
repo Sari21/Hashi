@@ -8,9 +8,6 @@ import solver.mathematical.models.SolverModel;
 public class Solver {
     public static Board solve(Board board) throws GRBException {
         try {
-
-            //TODO index / id?
-
             // Create empty environment, set options, and start
             GRBEnv env = new GRBEnv(true);
             env.set("logFile", "mip1.log");
@@ -18,10 +15,7 @@ public class Solver {
 
             // Create empty model
             GRBModel model = new GRBModel(env);
-
             SolverModel solverModel = BoardAndSolverModelConverter.convertBoardToSolverModel(board);
-
-
             //xij integer - hidak száma i és j között
             GRBVar[][] X = new GRBVar[solverModel.getN()][solverModel.getN()];
 
@@ -41,7 +35,6 @@ public class Solver {
                 }
             }
 
-
             // hidak száma szigetenként (1)
             GRBLinExpr expr;
             // nem használt fele a mátrixnak 0
@@ -53,22 +46,7 @@ public class Solver {
 
                 model.addConstr(expr, GRB.EQUAL, 0.0, "c0");
             }
-            // hidak száma
-//            for (int i = 0; i < solverModel.getN(); i++) {
-//                expr = new GRBLinExpr();
-//                for (int j = 0; j <= i; j++) {
-////                    if (neighbours.contains(new Pair(i, j)))
-////                    if(neighbours[i][j] == 1)
-//                    expr.addTerm(1.0, X[i][j]);
-//                }
-//                for (int j = i; j < solverModel.getN(); j++) {
-////                    if (neighbours.contains(new Pair(i, j)))
-////                    if(neighbours[j][i] == 1)
-//                    expr.addTerm(1.0, X[j][i]);
-//                }
-            //TODO ide jön a d
 
-//          todo ez jó
             for (int k = 0; k < solverModel.getN(); k++) {
                 expr = new GRBLinExpr();
 
@@ -81,7 +59,6 @@ public class Solver {
                 model.addConstr(expr, GRB.EQUAL, board.getIslands().get(k).getValue(), "c0");
 
             }
-
 
             //nincsenek hurokélek todo pipa
             for (int i = 0; i < solverModel.getN(); i++) {
@@ -122,12 +99,11 @@ public class Solver {
                 for (int j = i; j < solverModel.getN(); j++) {
                     model.addConstr(Y[i][j], GRB.LESS_EQUAL, solverModel.getNeighbours()[i][j], "int");
                 }
-
             }
             GRBLinExpr sumY = new GRBLinExpr();
             //feszítőfa - összefüggő gráf
-            for(int i = 0; i < solverModel.getN(); i++){
-                for(int j = i; j < solverModel.getN(); j++){
+            for (int i = 0; i < solverModel.getN(); i++) {
+                for (int j = i; j < solverModel.getN(); j++) {
                     sumY.addTerm(1.0, Y[i][j]);
                 }
             }
@@ -135,36 +111,13 @@ public class Solver {
             model.optimize();
 
 //            hidak hozzáadása a táblához
-
             board = BoardAndSolverModelConverter.convertSolvedGameToBoard(solverModel, X, board);
-
-//            for (int i = 0; i < solverModel.getN(); i++) {
-//                for (int j = 0; j < solverModel.getN(); j++) {
-////                    System.out.println(Y[i][j].get(GRB.StringAttr.VarName)
-////                            + " " +Y[i][j].get(GRB.DoubleAttr.X));
-//                    System.out.print(" " + Y[i][j].get(GRB.DoubleAttr.X));
-//                }
-//                System.out.println("");
-//
-//            }
-
-//            for (int i = 0; i < solverModel.getN(); i++) {
-//                for (int j = 0; j < solverModel.getN(); j++) {
-////                    System.out.println(Y[i][j].get(GRB.StringAttr.VarName)
-////                            + " " +Y[i][j].get(GRB.DoubleAttr.X));
-//                    System.out.print(" " + X[i][j].get(GRB.DoubleAttr.X));
-//                }
-//                System.out.println("");
-//
-//            }
             model.dispose();
             env.dispose();
-
         } catch (
                 GRBException ex) {
             ex.printStackTrace();
         }
-
         return board;
     }
 
