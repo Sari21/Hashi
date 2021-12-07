@@ -110,6 +110,18 @@ public class STIsland extends Island {
             n++;
         return n;
     }
+    public int numberOfNeighboursWithValueTwo() {
+        int n = 0;
+        if (upNeighbour != null && upNeighbour.getValue() == 2)
+            n++;
+        if (downNeighbour != null && downNeighbour.getValue() == 2)
+            n++;
+        if (rightNeighbour != null && rightNeighbour.getValue() == 2)
+            n++;
+        if (leftNeighbour != null && leftNeighbour.getValue() == 2)
+            n++;
+        return n;
+    }
 
     public STIsland neighbourWithValueOne() {
         int n = 0;

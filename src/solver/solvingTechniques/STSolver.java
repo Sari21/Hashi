@@ -94,7 +94,7 @@ public class STSolver {
             }
         }
 
-        points = points + (stBoard.getUnfinishedIslands().size() * 30);
+        points = points + (stBoard.getUnfinishedIslands().size() * 40);
         int numberOfBridges = stBoard.getUnfinishedIslands().size() + stBoard.getFinishedIslands().size();
         double level = (double) points / (double) numberOfBridges;
         points = 0;
@@ -291,6 +291,33 @@ public class STSolver {
         }
         return isFinishedChanged;
     }
+
+    public static boolean isolationOfATwoIslandSegment(STIsland island){
+        boolean isFinishedChanged = false;
+
+        if(island.getValue() == 1 && island.numberOfNeighboursWithValueOne() >= 1
+        || island.getValue() == 2 && island.numberOfNeighboursWithValueTwo() >= 1) {
+            int value = island.getValue();
+            if (island.getDownNeighbour() != null && island.getDownNeighbour().getValue() != value) {
+                if (addBridges(island, island.getDownNeighbour(), false, true, false))
+                    isFinishedChanged = true;
+            }
+            if (island.getUpNeighbour() != null && island.getUpNeighbour().getValue() != value) {
+                if (addBridges(island.getUpNeighbour(), island, false, true, false))
+                    isFinishedChanged = true;
+            }
+            if (island.getRightNeighbour() != null && island.getRightNeighbour().getValue() != value) {
+                if (addBridges(island, island.getRightNeighbour(), false, false, false))
+                    isFinishedChanged = true;
+            }
+            if (island.getLeftNeighbour() != null && island.getLeftNeighbour().getValue() != value) {
+                if (addBridges(island.getLeftNeighbour(), island, false, false, false))
+                    isFinishedChanged = true;
+            }
+        }
+        return isFinishedChanged;
+    }
+
 
     private static boolean addBridges(STIsland startIsland, STIsland endIsland, boolean isDouble, boolean isVertical, boolean canBeDouble) {
         if (!areBridgesIntersect(startIsland, endIsland)) {

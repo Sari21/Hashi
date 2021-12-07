@@ -2,15 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/1638828281930.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/1638835203266.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/solver/mathematical/Solver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/solver/mathematical/Solver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/solver/solvingTechniques/STBoardConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/solver/solvingTechniques/STBoardConverter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/solver/solvingTechniques/STSolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/solver/solvingTechniques/STSolver.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/solver/solvingTechniques/models/STIsland.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/solver/solvingTechniques/models/STIsland.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/BoardView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/BoardView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/IslandElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/IslandElement.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -235,7 +229,7 @@
       <workItem from="1635085251575" duration="3100000" />
       <workItem from="1635153108461" duration="14686000" />
       <workItem from="1638716600958" duration="1801000" />
-      <workItem from="1638777793630" duration="35825000" />
+      <workItem from="1638777793630" duration="36986000" />
     </task>
     <servers />
   </component>
@@ -322,7 +316,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/solver/solvingTechniques/STSolver.java</url>
-          <line>338</line>
+          <line>365</line>
           <option name="timeStamp" value="34" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
