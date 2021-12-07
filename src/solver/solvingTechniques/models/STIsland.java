@@ -123,17 +123,17 @@ public class STIsland extends Island {
         return n;
     }
 
-    public STIsland neighbourWithValueOne() {
+    public int numberOfNeighboursWithRemainingValueOne() {
         int n = 0;
-        if (upNeighbour != null && upNeighbour.getValue() == 1)
-            return upNeighbour;
-        if (downNeighbour != null && downNeighbour.getValue() == 1)
-            return downNeighbour;
-        if (rightNeighbour != null && rightNeighbour.getValue() == 1)
-            return rightNeighbour;
-        if (leftNeighbour != null && leftNeighbour.getValue() == 1)
-            return leftNeighbour;
-        return null;
+        if (upNeighbour != null && upNeighbour.getRemainingValue() == 1)
+            n++;
+        if (downNeighbour != null && downNeighbour.getRemainingValue() == 1)
+            n++;
+        if (rightNeighbour != null && rightNeighbour.getRemainingValue() == 1)
+            n++;
+        if (leftNeighbour != null && leftNeighbour.getRemainingValue() == 1)
+            n++;
+        return n;
     }
 
     public int numberOfUnfinishedNeighbours() {

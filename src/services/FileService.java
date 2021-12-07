@@ -4,6 +4,7 @@ import models.Board;
 import models.Bridge;
 import models.Island;
 import services.interfaces.IFileService;
+import solver.solvingTechniques.Levels;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,10 +15,10 @@ import java.util.Scanner;
 
 public class  FileService implements IFileService {
     @Override
-    public File printBoardToCsv(Board board){
+    public File saveNewBoard(Board board, Levels level){
             String path = "resources\\hashiBoards\\";
             Date date = new Date();
-            String fileName = date.getTime() + ".txt";
+            String fileName = board.getWidth() + "_" + board.getHeight() + "_" + level.toString() + "_" + date.getTime() + ".txt";
         try {
             File myObj = new File(path + fileName);
             if (myObj.createNewFile()) {

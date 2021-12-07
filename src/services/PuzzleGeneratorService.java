@@ -5,11 +5,11 @@ import models.Bridge;
 import models.Coordinates;
 import models.Island;
 import services.interfaces.IFileService;
+import solver.solvingTechniques.Levels;
+import solver.solvingTechniques.STSolver;
 
 import java.io.File;
-import java.util.HashSet;
 import java.util.Random;
-import java.util.Set;
 
 public class PuzzleGeneratorService {
     private static Board board;
@@ -131,7 +131,8 @@ public class PuzzleGeneratorService {
                     break;
             }
         }
-        return fileService.printBoardToCsv(board);
+        Levels level = STSolver.calculateGameLevel(board);
+        return fileService.saveNewBoard(board, level);
     }
 
     private static Island chooseARandomIsland() {
