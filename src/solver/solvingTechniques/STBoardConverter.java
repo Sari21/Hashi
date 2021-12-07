@@ -17,7 +17,9 @@ public class STBoardConverter {
         board.sortIslands();
         for (Island island : board.getIslands()) {
             STIsland stIsland = new STIsland();
+            stIsland.setId(island.getId());
             stIsland.setValue(island.getValue());
+            stIsland.setRemainingValue(island.getValue());
             stIsland.setPosition(island.getPosition());
             stBoard.addIsland(stIsland);
         }
@@ -65,6 +67,9 @@ public class STBoardConverter {
         board.setBridges(bridges);
         ArrayList<Island> islands = new ArrayList<>();
         for (STIsland stIsland : stBoard.getUnfinishedIslands()) {
+            islands.add(stIsland.getIsland());
+        }
+        for (STIsland stIsland : stBoard.getFinishedIslands()) {
             islands.add(stIsland.getIsland());
         }
         board.setIslands(islands);

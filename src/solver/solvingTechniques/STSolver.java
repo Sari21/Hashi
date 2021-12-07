@@ -8,180 +8,292 @@ import solver.solvingTechniques.models.STIsland;
 
 public class STSolver {
     private static STBoard stBoard;
+    private static int points = 0;
 
     public static Board solve(Board board) {
         board.sortIslands();
         stBoard = STBoardConverter.convertBoardToSTBoard(board);
-        justEnoughNeighbour();
-        oneUnsolvedNeighbour();
-        islandsWithASingleNeighbor();
-        threeInTheCornerFiveOnTheSideAndSevenInTheMiddle();
-        fourOnTheSide();
-        sixInTheMiddle();
-        justEnoughNeighbour();
-        oneUnsolvedNeighbour();
-        islandsWithASingleNeighbor();
-        threeInTheCornerFiveOnTheSideAndSevenInTheMiddle();
-        fourOnTheSide();
-        sixInTheMiddle();
+
+        int i = 0;
+        int idx = 0;
+        boolean changed = false;
+        while (i < stBoard.getUnfinishedIslands().size()) {
+            for (i = idx; i < stBoard.getUnfinishedIslands().size(); i++) {
+                changed = threeInTheCornerFiveOnTheSideAndSevenInTheMiddle(stBoard.getUnfinishedIslands().get(i));
+                if (changed) {
+                    idx = i;
+                    break;
+                }
+            }
+        }
+        while (i < stBoard.getUnfinishedIslands().size()) {
+            for (i = idx; i < stBoard.getUnfinishedIslands().size(); i++) {
+                changed = justEnoughDoubleNeighbours(stBoard.getUnfinishedIslands().get(i));
+                if (changed) {
+                    idx = i;
+                    break;
+                }
+            }
+        }
+        i = 0;
+        idx = 0;
+
+        i = 0;
+        idx = 0;
+        while (i < stBoard.getUnfinishedIslands().size()) {
+            for (i = idx; i < stBoard.getUnfinishedIslands().size(); i++) {
+                changed = fourOnTheSide(stBoard.getUnfinishedIslands().get(i));
+                if (changed) {
+                    idx = i;
+                    break;
+                }
+            }
+        }
+        i = 0;
+        idx = 0;
+        while (i < stBoard.getUnfinishedIslands().size()) {
+            for (i = idx; i < stBoard.getUnfinishedIslands().size(); i++) {
+                changed = sixInTheMiddle(stBoard.getUnfinishedIslands().get(i));
+                if (changed) {
+                    idx = i;
+                    break;
+                }
+            }
+        }
+        i = 0;
+        idx = 0;
+        while (i < stBoard.getUnfinishedIslands().size()) {
+            for (i = idx; i < stBoard.getUnfinishedIslands().size(); i++) {
+                changed = oneUnsolvedNeighbour(stBoard.getUnfinishedIslands().get(i));
+                if (changed) {
+                    idx = i;
+                    break;
+                }
+            }
+        }
+        i = 0;
+        idx = 0;
+        while (i < stBoard.getUnfinishedIslands().size()) {
+            for (i = idx; i < stBoard.getUnfinishedIslands().size(); i++) {
+                changed = islandRemainingValueEqualsToUnfinishedNeighboursRemainingValue(stBoard.getUnfinishedIslands().get(i));
+                if (changed) {
+                    idx = i;
+                    break;
+                }
+            }
+        }
+        i = 0;
+        idx = 0;
+        while (i < stBoard.getUnfinishedIslands().size()) {
+            for (i = idx; i < stBoard.getUnfinishedIslands().size(); i++) {
+                changed = oneUnsolvedNeighbour(stBoard.getUnfinishedIslands().get(i));
+                if (changed) {
+                    idx = i;
+                    break;
+                }
+            }
+        }
+
+        points = points + (stBoard.getUnfinishedIslands().size() * 30);
+        int numberOfBridges = stBoard.getUnfinishedIslands().size() + stBoard.getFinishedIslands().size();
+        double level = (double) points / (double) numberOfBridges;
+        points = 0;
+        System.out.println(level);
 //        return STBoardConverter.convertSTBoardNeighboursToBoard(stBoard);
         return STBoardConverter.convertSTBoardToBoard(stBoard);
 
     }
 
-    //1. Islands with a single neighbor: todo: ezt lefedi a oneUnfinishedNeighbour
-    private static void islandsWithASingleNeighbor() {
-        for (STIsland island : stBoard.getUnfinishedIslands()) {
-            if (island.numberOfNeighbours() == 1) {
-                if (island.getDownNeighbour() != null) {
-                    addBridges(island, island.getDownNeighbour(), island.getValue() == 2, true, false);
 
-                } else if (island.getUpNeighbour() != null) {
-                    addBridges(island.getUpNeighbour(), island, island.getValue() == 2, true, false);
-                } else if (island.getRightNeighbour() != null) {
-                    addBridges(island, island.getRightNeighbour(), island.getValue() == 2, false, false);
-                } else if (island.getLeftNeighbour() != null) {
-                    addBridges(island.getLeftNeighbour(), island, island.getValue() == 2, false, false);
-                }
+    //1. Islands with a single neighbor:
+    private static boolean islandRemainingValueEqualsToUnfinishedNeighboursRemainingValue(STIsland island) {
+        boolean isFinishedChanged = false;
+        if (island.getRemainingValueOfUnfinishedNeighbours() == island.getRemainingValue()) {
+            if (island.getDownNeighbour() != null && !island.getDownNeighbour().isFinished()) {
+                if (addBridges(island, island.getDownNeighbour(), island.getDownNeighbour().getRemainingValue() == 2, true, true))
+                    isFinishedChanged = true;
             }
+            if (island.getUpNeighbour() != null && !island.getUpNeighbour().isFinished()) {
+                if (addBridges(island.getUpNeighbour(), island, island.getUpNeighbour().getRemainingValue() == 2, true, true))
+                    isFinishedChanged = true;
+            }
+            if (island.getRightNeighbour() != null && !island.getRightNeighbour().isFinished()) {
+                if (addBridges(island, island.getRightNeighbour(), island.getRightNeighbour().getRemainingValue() == 2, false, true))
+                    isFinishedChanged = true;
+            }
+            if (island.getLeftNeighbour() != null && !island.getLeftNeighbour().isFinished()) {
+                if (addBridges(island.getLeftNeighbour(), island, island.getLeftNeighbour().getRemainingValue() == 2, false, true))
+                    isFinishedChanged = true;
+            }
+            points += 25;
         }
+        return isFinishedChanged;
     }
 
-    private static void threeInTheCornerFiveOnTheSideAndSevenInTheMiddle() {
-        for (STIsland island : stBoard.getUnfinishedIslands()) {
-            if ((island.numberOfNeighbours() == 2 && island.getValue() == 3)
-                    || (island.numberOfNeighbours() == 3 && island.getValue() == 5)
-                    || (island.numberOfNeighbours() == 4 && island.getValue() == 7)) {
+    //todo: pipa
+    private static boolean threeInTheCornerFiveOnTheSideAndSevenInTheMiddle(STIsland island) {
+        boolean isFinishedChanged = false;
+        if ((island.getNumberOfNeighbours() == 2 && island.getValue() == 3)
+                || (island.getNumberOfNeighbours() == 3 && island.getValue() == 5)
+                || (island.getNumberOfNeighbours() == 4 && island.getValue() == 7)) {
 //                3. Special cases of 3 in the corner, 5 on the side and 7 in the middle
-                if (island.numberOfNeighboursWithValueOne() == 1) {
-                    boolean isDouble = false;
-                    if (island.getDownNeighbour() != null) {
-                        isDouble = island.getDownNeighbour().getValue() != 1;
-                        addBridges(island, island.getDownNeighbour(), isDouble, true, isDouble);
-                    }
-                    if (island.getUpNeighbour() != null) {
-                        isDouble = island.getUpNeighbour().getValue() != 1;
-                        addBridges(island.getUpNeighbour(), island, isDouble, true, isDouble);
-                    }
-                    if (island.getRightNeighbour() != null) {
-                        isDouble = island.getRightNeighbour().getValue() != 1;
-                        addBridges(island, island.getRightNeighbour(), isDouble, false, isDouble);
-                    }
-                    if (island.getLeftNeighbour() != null) {
-                        isDouble = island.getLeftNeighbour().getValue() != 1;
-                        addBridges(island.getLeftNeighbour(), island, isDouble, false, isDouble);
-                    }
+            if (island.numberOfNeighboursWithValueOne() == 1) {
+                boolean isDouble = false;
+                if (island.getDownNeighbour() != null && !island.getDownNeighbour().isFinished()) {
+                    isDouble = island.getDownNeighbour().getValue() != 1;
+                    if (addBridges(island, island.getDownNeighbour(), isDouble, true, isDouble))
+                        isFinishedChanged = true;
                 }
-//                2. Islands with 3 in the corner, 5 on the side and 7 in the middle:
-                else {
-                    if (island.getDownNeighbour() != null) {
-                        addBridges(island, island.getDownNeighbour(), false, true, false);
-                    }
-                    if (island.getUpNeighbour() != null) {
-                        addBridges(island.getUpNeighbour(), island, false, true, false);
-                    }
-                    if (island.getRightNeighbour() != null) {
-                        addBridges(island, island.getRightNeighbour(), false, false, false);
-                    }
-                    if (island.getLeftNeighbour() != null) {
-                        addBridges(island.getLeftNeighbour(), island, false, false, false);
-                    }
+                if (island.getUpNeighbour() != null && !island.getUpNeighbour().isFinished()) {
+                    isDouble = island.getUpNeighbour().getValue() != 1;
+                    if (addBridges(island.getUpNeighbour(), island, isDouble, true, isDouble))
+                        isFinishedChanged = true;
+                }
+                if (island.getRightNeighbour() != null && !island.getRightNeighbour().isFinished()) {
+                    isDouble = island.getRightNeighbour().getValue() != 1;
+                    if (addBridges(island, island.getRightNeighbour(), isDouble, false, isDouble))
+                        isFinishedChanged = true;
+                }
+                if (island.getLeftNeighbour() != null && !island.getLeftNeighbour().isFinished()) {
+                    isDouble = island.getLeftNeighbour().getValue() != 1;
+                    if (addBridges(island.getLeftNeighbour(), island, isDouble, false, isDouble))
+                        isFinishedChanged = true;
                 }
             }
+//                2. Islands with 3 in the corner, 5 on the side and 7 in the middle:
+            else {
+                if (island.getDownNeighbour() != null && !island.getDownNeighbour().isFinished()) {
+                    if (addBridges(island, island.getDownNeighbour(), false, true, false))
+                        isFinishedChanged = true;
+                }
+                if (island.getUpNeighbour() != null && !island.getUpNeighbour().isFinished()) {
+                    if (addBridges(island.getUpNeighbour(), island, false, true, false))
+                        isFinishedChanged = true;
+                }
+                if (island.getRightNeighbour() != null && !island.getRightNeighbour().isFinished()) {
+                    if (addBridges(island, island.getRightNeighbour(), false, false, false))
+                        isFinishedChanged = true;
+                }
+                if (island.getLeftNeighbour() != null && !island.getLeftNeighbour().isFinished()) {
+                    if (addBridges(island.getLeftNeighbour(), island, false, false, false))
+                        isFinishedChanged = true;
+                }
+            }
+            points += 15;
         }
+        return isFinishedChanged;
     }
 
     //4. Special case of 4 on the side:
-    private static void fourOnTheSide() {
+    private static boolean fourOnTheSide(STIsland island) {
         boolean isDouble;
-        for (STIsland island : stBoard.getUnfinishedIslands()) {
-            if (island.numberOfNeighbours() == 3 && island.getValue() == 4 && island.numberOfNeighboursWithValueOne() == 2) {
-                if (island.getDownNeighbour() != null) {
-                    isDouble = island.getDownNeighbour().getValue() != 1;
-                    addBridges(island, island.getDownNeighbour(), isDouble, true, isDouble);
-                }
-                if (island.getUpNeighbour() != null) {
-                    isDouble = island.getUpNeighbour().getValue() != 1;
-                    addBridges(island.getUpNeighbour(), island, isDouble, true, isDouble);
-                }
-                if (island.getRightNeighbour() != null) {
-                    isDouble = island.getRightNeighbour().getValue() != 1;
-                    addBridges(island, island.getRightNeighbour(), isDouble, false, isDouble);
-                }
-                if (island.getLeftNeighbour() != null) {
-                    isDouble = island.getLeftNeighbour().getValue() != 1;
-                    addBridges(island.getLeftNeighbour(), island, isDouble, false, isDouble);
-                }
+        boolean isFinishedChanged = false;
 
+        if (island.getValue() == 4 && island.getNumberOfNeighbours() == 3 && island.numberOfNeighboursWithValueOne() == 2) {
+            if (island.getDownNeighbour() != null) {
+                isDouble = island.getDownNeighbour().getValue() != 1;
+                if (addBridges(island, island.getDownNeighbour(), isDouble, true, isDouble))
+                    isFinishedChanged = true;
             }
+            if (island.getUpNeighbour() != null) {
+                isDouble = island.getUpNeighbour().getValue() != 1;
+                if (addBridges(island.getUpNeighbour(), island, isDouble, true, isDouble))
+                    isFinishedChanged = true;
+            }
+            if (island.getRightNeighbour() != null) {
+                isDouble = island.getRightNeighbour().getValue() != 1;
+                if (addBridges(island, island.getRightNeighbour(), isDouble, false, isDouble))
+                    isFinishedChanged = true;
+            }
+            if (island.getLeftNeighbour() != null) {
+                isDouble = island.getLeftNeighbour().getValue() != 1;
+                if (addBridges(island.getLeftNeighbour(), island, isDouble, false, isDouble))
+                    isFinishedChanged = true;
+            }
+            points += 30;
         }
+
+        return isFinishedChanged;
     }
 
     //5. Special case of 6 in the middle:
-    private static void sixInTheMiddle() {
+    private static boolean sixInTheMiddle(STIsland island) {
         boolean isDouble = false;
-        for (STIsland island : stBoard.getUnfinishedIslands()) {
-            if (island.numberOfNeighbours() == 4 && island.getValue() == 6 && island.numberOfNeighboursWithValueOne() == 1) {
-                //isDouble = island.neighbourWithValueOne().isFinished();
-                if (island.getDownNeighbour().getValue() != 1) {
-                    addBridges(island, island.getDownNeighbour(), isDouble, true, isDouble);
-                }
-                if (island.getUpNeighbour().getValue() != 1) {
-                    addBridges(island.getUpNeighbour(), island, isDouble, true, isDouble);
-                }
-                if (island.getRightNeighbour().getValue() != 1) {
-                    addBridges(island, island.getRightNeighbour(), isDouble, false, isDouble);
-                }
-                if (island.getLeftNeighbour().getValue() != 1) {
-                    addBridges(island.getLeftNeighbour(), island, isDouble, false, isDouble);
-                }
-
+        boolean isFinishedChanged = false;
+        if (island.getNumberOfNeighbours() == 4 && island.getValue() == 6 && island.numberOfNeighboursWithValueOne() == 1) {
+            //isDouble = island.neighbourWithValueOne().isFinished();
+            if (island.getDownNeighbour().getValue() != 1) {
+                if (addBridges(island, island.getDownNeighbour(), isDouble, true, isDouble))
+                    isFinishedChanged = true;
             }
+            if (island.getUpNeighbour().getValue() != 1) {
+                if (addBridges(island.getUpNeighbour(), island, isDouble, true, isDouble))
+                    isFinishedChanged = true;
+            }
+            if (island.getRightNeighbour().getValue() != 1) {
+                if (addBridges(island, island.getRightNeighbour(), isDouble, false, isDouble))
+                    isFinishedChanged = true;
+            }
+            if (island.getLeftNeighbour().getValue() != 1) {
+                if (addBridges(island.getLeftNeighbour(), island, isDouble, false, isDouble))
+                    isFinishedChanged = true;
+            }
+            points += 20;
         }
+        return isFinishedChanged;
     }
 
-    private static void justEnoughNeighbour() {
-        for (STIsland island : stBoard.getUnfinishedIslands()) {
-            if (island.getValue() == island.numberOfNeighbours() * 2) {
-                if (island.getDownNeighbour() != null) {
-                    addBridges(island, island.getDownNeighbour(), true, true, true);
-                }
-                if (island.getUpNeighbour() != null) {
-                    addBridges(island.getUpNeighbour(), island, true, true, true);
-                }
-                if (island.getRightNeighbour() != null) {
-                    addBridges(island, island.getRightNeighbour(), true, false, true);
-                }
-                if (island.getLeftNeighbour() != null) {
-                    addBridges(island.getLeftNeighbour(), island, true, false, true);
-                }
+    private static boolean justEnoughDoubleNeighbours(STIsland island) {
+        boolean isFinishedChanged = false;
+        if (island.getRemainingValue() == island.getNumberOfNeighbours() * 2) {
+            if (island.getDownNeighbour() != null) {
+                if (addBridges(island, island.getDownNeighbour(), true, true, true))
+                    isFinishedChanged = true;
             }
+            if (island.getUpNeighbour() != null) {
+                if (addBridges(island.getUpNeighbour(), island, true, true, true))
+                    isFinishedChanged = true;
+            }
+            if (island.getRightNeighbour() != null) {
+                if (addBridges(island, island.getRightNeighbour(), true, false, true))
+                    isFinishedChanged = true;
+            }
+            if (island.getLeftNeighbour() != null) {
+                if (addBridges(island.getLeftNeighbour(), island, true, false, true))
+                    isFinishedChanged = true;
+            }
+            points += 10;
         }
-
+        return isFinishedChanged;
     }
 
-    private static void oneUnsolvedNeighbour() {
-        for (STIsland island : stBoard.getUnfinishedIslands()) {
-            if (island.numberOfUnfinishedNeighbours() == 1) {
-                boolean isDouble = island.getValue() - island.numberOfBridges() == 2;
-                if (island.getDownNeighbour() != null) {
-                    addBridges(island, island.getDownNeighbour(), isDouble, true, true);
-                }
-                if (island.getUpNeighbour() != null) {
-                    addBridges(island.getUpNeighbour(), island, isDouble, true, true);
-                }
-                if (island.getRightNeighbour() != null) {
-                    addBridges(island, island.getRightNeighbour(), isDouble, false, true);
-                }
-                if (island.getLeftNeighbour() != null) {
-                    addBridges(island.getLeftNeighbour(), island, isDouble, false, true);
-                }
+    private static boolean oneUnsolvedNeighbour(STIsland island) {
+        boolean isFinishedChanged = false;
+        if (island.numberOfUnfinishedNeighbours() == 1) {
+            boolean isDouble = island.getRemainingValue() == 2;
+            if (island.getDownNeighbour() != null && !island.getDownNeighbour().isFinished()) {
+                if (addBridges(island, island.getDownNeighbour(), isDouble, true, true))
+                    isFinishedChanged = true;
             }
+            if (island.getUpNeighbour() != null && !island.getUpNeighbour().isFinished()) {
+                if (addBridges(island.getUpNeighbour(), island, isDouble, true, true))
+                    isFinishedChanged = true;
+            }
+            if (island.getRightNeighbour() != null && !island.getRightNeighbour().isFinished()) {
+                if (addBridges(island, island.getRightNeighbour(), isDouble, false, true))
+                    isFinishedChanged = true;
+            }
+            if (island.getLeftNeighbour() != null && !island.getLeftNeighbour().isFinished()) {
+                if (addBridges(island.getLeftNeighbour(), island, isDouble, false, true))
+                    isFinishedChanged = true;
+            }
+            points += 20;
         }
+        return isFinishedChanged;
     }
 
-    private static void addBridges(STIsland startIsland, STIsland endIsland, boolean isDouble, boolean isVertical, boolean canBeDouble) {
-        if (!areBridgesIntersect(startIsland.getPosition(), endIsland.getPosition())) {
+    private static boolean addBridges(STIsland startIsland, STIsland endIsland, boolean isDouble, boolean isVertical, boolean canBeDouble) {
+        if (!areBridgesIntersect(startIsland, endIsland)) {
             if (isVertical) {
                 if (startIsland.getDownBridges() != null) {
                     if (canBeDouble) {
@@ -213,20 +325,33 @@ public class STSolver {
                     stBoard.addBridge(bridge);
                 }
             }
-            if (startIsland.checkNumberOfBridges()) {
-//                stBoard.getFinishedIslands().add(startIsland);
-//                stBoard.getUnfinishedIslands().remove(startIsland);
+            if (startIsland.checkRemainingValue() == 0) {
+                startIsland.setFinished(true);
+                stBoard.getFinishedIslands().add(startIsland);
+                stBoard.getUnfinishedIslands().remove(startIsland);
             }
-            if (endIsland.checkNumberOfBridges()) {
-//                stBoard.getFinishedIslands().add(endIsland);
-//                stBoard.getUnfinishedIslands().remove(endIsland);
+            if (endIsland.checkRemainingValue() == 0) {
+                endIsland.setFinished(true);
+                stBoard.getFinishedIslands().add(endIsland);
+                stBoard.getUnfinishedIslands().remove(endIsland);
+            }
+        } else {
+            if (isVertical) {
+                startIsland.setDownNeighbour(null);
+                endIsland.setUpNeighbour(null);
+            } else {
+                startIsland.setRightBridges(null);
+                endIsland.setLeftBridges(null);
             }
 
         }
+        return startIsland.isFinished() || endIsland.isFinished();
     }
 
-    private static boolean areBridgesIntersect(Coordinates A, Coordinates B) {
-        Coordinates C, D;
+    private static boolean areBridgesIntersect(STIsland startIsland, STIsland endIsland) {
+        Coordinates A, B, C, D;
+        A = startIsland.getPosition();
+        B = endIsland.getPosition();
         for (STBridge bridge : stBoard.getBridges()) {
             C = bridge.getStartIsland().getPosition();
             D = bridge.getEndIsland().getPosition();

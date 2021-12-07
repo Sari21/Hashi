@@ -1,0 +1,15 @@
+board
+6;6
+islands
+1;1;1;5
+2;5;3;5
+3;4;3;3
+4;1;1;3
+5;1;5;3
+6;2;5;5
+bridges
+1;2;simple;horizontal
+3;2;double;vertical
+4;3;simple;horizontal
+3;5;simple;horizontal
+2;6;double;horizontal
