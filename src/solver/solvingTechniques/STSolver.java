@@ -14,6 +14,13 @@ public class STSolver {
     private static STBoard stBoard;
     private static int points = 0;
 
+    enum Direction {
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT
+    }
+
     public static Levels calculateGameLevel(Board board) {
         solve(board);
         if (points < 10)
@@ -28,7 +35,7 @@ public class STSolver {
         board.sortIslands();
         stBoard = STBoardConverter.convertBoardToSTBoard(board);
         long startTime = System.currentTimeMillis(); //fetch starting time
-        while ((stBoard.getUnfinishedIslands().size() > 0) && ((System.currentTimeMillis() - startTime) < 3000)) {
+        while ((stBoard.getUnfinishedIslands().size() > 0) && ((System.currentTimeMillis() - startTime) < 2500)) {
             callSolverFunction();
         }
         //points = points + (stBoard.getUnfinishedIslands().size() * 40);
@@ -41,9 +48,22 @@ public class STSolver {
 
     }
 
+//    private static boolean isFinished(STIsland island, Direction direction) {
+//        if (direction == Direction.UP) {
+//
+//        }
+//        if (direction == Direction.DOWN) {
+//            return island.getDownNeighbour() != null && !island.getDownNeighbour().isFinished();
+//        }
+//        if (direction == Direction.RIGHT) {
+//
+//        }
+//        if (direction == Direction.LEFT) {
+//
+//        }
+//    }
 
     //1. Islands with a single neighbor:
-
     private static boolean islandRemainingValueEqualsToUnfinishedNeighboursRemainingValue(STIsland island) {
         boolean isFinishedChanged = false;
         int n = 0;
@@ -72,7 +92,8 @@ public class STSolver {
         }
         return isFinishedChanged;
     }
- private static boolean islandRemainingValueEqualsToUnfinishedNeighboursRemainingBridges(STIsland island) {
+
+    private static boolean islandRemainingValueEqualsToUnfinishedNeighboursRemainingBridges(STIsland island) {
         boolean isFinishedChanged = false;
         int n = 0;
         if (island.getNumberOfRemainingBridgesOfUnfinishedNeighbours() == island.getRemainingValue()) {
@@ -109,7 +130,7 @@ public class STSolver {
                 || (island.getNumberOfUnfinishedNeighbours() == 3 && island.getRemainingValue() == 5)
                 || (island.getNumberOfUnfinishedNeighbours() == 4 && island.getRemainingValue() == 7)) {
 //                3. Special cases of 3 in the corner, 5 on the side and 7 in the middle
-            if (island.numberOfNeighboursWithValueOne() == 1) {
+            if (island.numberOfUnfinishedNeighboursWithValueOne() == 1) {
                 boolean isDouble = false;
                 if (island.getDownNeighbour() != null && !island.getDownNeighbour().isFinished()) {
                     isDouble = island.getDownNeighbour().getValue() != 1;
@@ -169,7 +190,7 @@ public class STSolver {
         boolean isDouble;
         boolean isFinishedChanged = false;
 
-        if (island.getValue() == 4 && island.getNumberOfNeighbours() == 3 && island.numberOfNeighboursWithValueOne() == 2) {
+        if (island.getValue() == 4 && island.getNumberOfNeighbours() == 3 && island.numberOfUnfinishedNeighboursWithValueOne() == 2) {
             if (island.getDownNeighbour() != null) {
                 isDouble = island.getDownNeighbour().getValue() != 1;
                 if (addBridges(island, island.getDownNeighbour(), isDouble, isDouble))
@@ -201,7 +222,7 @@ public class STSolver {
     private static boolean sixInTheMiddle(STIsland island) {
         boolean isDouble = false;
         boolean isFinishedChanged = false;
-        if (island.getNumberOfNeighbours() == 4 && island.getValue() == 6 && island.numberOfNeighboursWithValueOne() == 1) {
+        if (island.getNumberOfNeighbours() == 4 && island.getValue() == 6 && island.numberOfUnfinishedNeighboursWithValueOne() == 1) {
             //isDouble = island.neighbourWithValueOne().isFinished();
             if (island.getDownNeighbour().getValue() != 1) {
                 if (addBridges(island, island.getDownNeighbour(), isDouble, isDouble))
@@ -257,13 +278,13 @@ public class STSolver {
 
     private static boolean oneUnsolvedNeighbour(STIsland island) {
         boolean isFinishedChanged = false;
-        if (island.numberOfUnfinishedNeighbours() == 1) {
+        if (island.numberOfUnfinishedNeighboursWithFreeBridges() == 1) {
             boolean isDouble = island.getRemainingValue() == 2;
-            if (island.getDownNeighbour() != null && !island.getDownNeighbour().isFinished()) {
+            if (island.getDownNeighbour() != null && !island.getDownNeighbour().isFinished() && island.getRemainingDownBridges() > 0) {
                 if (addBridges(island, island.getDownNeighbour(), isDouble, true))
                     isFinishedChanged = true;
             }
-            if (island.getUpNeighbour() != null && !island.getUpNeighbour().isFinished()) {
+            if (island.getUpNeighbour() != null && !island.getUpNeighbour().isFinished() && island.getRemainingUpBridges() > 0) {
                 if (addBridges(island.getUpNeighbour(), island, isDouble, true))
                     isFinishedChanged = true;
             }
@@ -284,7 +305,7 @@ public class STSolver {
     private static boolean isolationOfATwoIslandSegment(STIsland island) {
         boolean isFinishedChanged = false;
 
-        if (island.getValue() == 1 && island.numberOfNeighboursWithValueOne() >= 1
+        if (island.getValue() == 1 && island.numberOfUnfinishedNeighboursWithValueOne() >= 1
                 || island.getValue() == 2 && island.numberOfNeighboursWithValueTwo() >= 1) {
             int value = island.getValue();
             if (island.getDownNeighbour() != null && island.getDownNeighbour().getValue() != value) {
@@ -359,7 +380,7 @@ public class STSolver {
 
     private static boolean isolationWhenASegmentConnectsToAnIsland(STIsland island) {
         boolean isFinishedChanged = false;
-        if ((island.getRemainingValue() == 1) && (island.numberOfUnfinishedNeighbours() - island.numberOfNeighboursWithValue(1) == 1)) {
+        if ((island.getRemainingValue() == 1) && (island.numberOfUnfinishedNeighboursWithFreeBridges() - island.numberOfNeighboursWithValue(1) == 1)) {
             HashSet<STIsland> segment = getSegment(island, new HashSet<>());
             int remainingValue = 0;
             for (STIsland i : segment) {
@@ -389,7 +410,7 @@ public class STSolver {
             for (STIsland i : islandSegment) {
                 remainingValue += i.getRemainingValue();
             }
-            if(remainingValue != island.getRemainingValue()){
+            if (remainingValue != island.getRemainingValue()) {
                 return false;
             }
             HashSet<STIsland> firstNeighbourSegment = new HashSet<>();
@@ -431,14 +452,14 @@ public class STSolver {
             for (STIsland i : secondNeighbourSegment) {
                 secondRemainingValue += i.getRemainingValue();
             }
-            if(remainingValue == secondRemainingValue){
+            if (remainingValue == secondRemainingValue) {
                 isFinishedChanged = addBridges(island, firstNeighbour, false, false);
             }
-            if(remainingValue == firstRemainingValue){
+            if (remainingValue == firstRemainingValue) {
                 isFinishedChanged = addBridges(island, secondNeighbour, false, false);
             }
         }
-            return isFinishedChanged;
+        return isFinishedChanged;
     }
 
     private static void checkIntersectingBridges() {
@@ -573,112 +594,67 @@ public class STSolver {
 
 
     private static void callSolverFunction() {
-        int i = 0;
-        int idx = 0;
         boolean changed = false;
 
         checkIntersectingBridges();
-
-        while (i < stBoard.getUnfinishedIslands().size()) {
-            for (i = idx; i < stBoard.getUnfinishedIslands().size(); i++) {
-                changed = leftoverTechniques(stBoard.getUnfinishedIslands().get(i));
-                if (changed) {
-                    System.out.println("leftoverTechniques");
-                    return;
-                }
+        for (int i = 0; i < stBoard.getUnfinishedIslands().size(); i++) {
+            changed = leftoverTechniques(stBoard.getUnfinishedIslands().get(i));
+            if (changed) {
+                System.out.println("leftoverTechniques");
+                return;
             }
         }
-
-        checkIntersectingBridges();
-        i = 0;
-        idx = 0;
-        while (i < stBoard.getUnfinishedIslands().size()) {
-            for (i = idx; i < stBoard.getUnfinishedIslands().size(); i++) {
-                changed = justEnoughDoubleNeighbours(stBoard.getUnfinishedIslands().get(i));
-                if (changed) {
-                    System.out.println("justEnoughDoubleNeighbours");
-                    return;
-                }
+        for (int i = 0; i < stBoard.getUnfinishedIslands().size(); i++) {
+            changed = justEnoughDoubleNeighbours(stBoard.getUnfinishedIslands().get(i));
+            if (changed) {
+                System.out.println("justEnoughDoubleNeighbours");
+                return;
             }
         }
-//        checkIntersectingBridges();
-        i = 0;
-        idx = 0;
-        while (i < stBoard.getUnfinishedIslands().size()) {
-            for (i = idx; i < stBoard.getUnfinishedIslands().size(); i++) {
-                changed = oneUnsolvedNeighbour(stBoard.getUnfinishedIslands().get(i));
-                if (changed) {
-                    System.out.println("oneUnsolvedNeighbour");
-                    return;
-                }
+        for (int i = 0; i < stBoard.getUnfinishedIslands().size(); i++) {
+            changed = oneUnsolvedNeighbour(stBoard.getUnfinishedIslands().get(i));
+            if (changed) {
+                System.out.println("oneUnsolvedNeighbour");
+                return;
             }
         }
-
-//        checkIntersectingBridges();
-        i = 0;
-        idx = 0;
-        while (i < stBoard.getUnfinishedIslands().size()) {
-            for (i = idx; i < stBoard.getUnfinishedIslands().size(); i++) {
-                changed = islandRemainingValueEqualsToUnfinishedNeighboursRemainingValue(stBoard.getUnfinishedIslands().get(i));
-                if (changed) {
-                    System.out.println("islandRemainingValueEqualsToUnfinishedNeighboursRemainingValue");
-                    return;
-                }
+        for (int i = 0; i < stBoard.getUnfinishedIslands().size(); i++) {
+            changed = islandRemainingValueEqualsToUnfinishedNeighboursRemainingValue(stBoard.getUnfinishedIslands().get(i));
+            if (changed) {
+                System.out.println("islandRemainingValueEqualsToUnfinishedNeighboursRemainingValue");
+                return;
             }
         }
-//        checkIntersectingBridges();
-
-        i = 0;
-        idx = 0;
-        while (i < stBoard.getUnfinishedIslands().size()) {
-            for (i = idx; i < stBoard.getUnfinishedIslands().size(); i++) {
-                changed = fourOnTheSide(stBoard.getUnfinishedIslands().get(i));
-                if (changed) {
-                    System.out.println("fourOnTheSide");
-                    return;
-                }
+        for (int i = 0; i < stBoard.getUnfinishedIslands().size(); i++) {
+            changed = fourOnTheSide(stBoard.getUnfinishedIslands().get(i));
+            if (changed) {
+                System.out.println("fourOnTheSide");
+                return;
             }
         }
-//        checkIntersectingBridges();
-
-        i = 0;
-        idx = 0;
-        while (i < stBoard.getUnfinishedIslands().size()) {
-            for (i = idx; i < stBoard.getUnfinishedIslands().size(); i++) {
-                changed = sixInTheMiddle(stBoard.getUnfinishedIslands().get(i));
-                if (changed) {
-                    System.out.println("sixInTheMiddle");
-                    return;
-                }
+        for (int i = 0; i < stBoard.getUnfinishedIslands().size(); i++) {
+            changed = sixInTheMiddle(stBoard.getUnfinishedIslands().get(i));
+            if (changed) {
+                System.out.println("sixInTheMiddle");
+                return;
             }
         }
-//        checkIntersectingBridges();
-
-        i = 0;
-        idx = 0;
-        while (i < stBoard.getUnfinishedIslands().size()) {
-            for (i = idx; i < stBoard.getUnfinishedIslands().size(); i++) {
-                changed = threeInTheCornerFiveOnTheSideAndSevenInTheMiddle(stBoard.getUnfinishedIslands().get(i));
-                if (changed) {
-                    idx = i;
-                    System.out.println("threeInTheCornerFiveOnTheSideAndSevenInTheMiddle");
-                    return;
-                }
+        for (int i = 0; i < stBoard.getUnfinishedIslands().size(); i++) {
+            changed = threeInTheCornerFiveOnTheSideAndSevenInTheMiddle(stBoard.getUnfinishedIslands().get(i));
+            if (changed) {
+                System.out.println("threeInTheCornerFiveOnTheSideAndSevenInTheMiddle");
+                return;
             }
         }
-        i = 0;
-        idx = 0;
-        while (i < stBoard.getUnfinishedIslands().size()) {
-            for (i = idx; i < stBoard.getUnfinishedIslands().size(); i++) {
-                changed = islandRemainingValueEqualsToUnfinishedNeighboursRemainingBridges(stBoard.getUnfinishedIslands().get(i));
-                if (changed) {
-                    idx = i;
-                    System.out.println("islandRemainingValueEqualsToUnfinishedNeighboursRemainingBridges");
-                    return;
-                }
+        for (int i = 0; i < stBoard.getUnfinishedIslands().size(); i++) {
+            changed = islandRemainingValueEqualsToUnfinishedNeighboursRemainingBridges(stBoard.getUnfinishedIslands().get(i));
+            if (changed) {
+                System.out.println("islandRemainingValueEqualsToUnfinishedNeighboursRemainingBridges");
+                return;
             }
         }
-//        checkIntersectingBridges();
+//
+//
 //        i = 0;
 //        idx = 0;
 //        while (i < stBoard.getUnfinishedIslands().size()) {
@@ -691,44 +667,26 @@ public class STSolver {
 //                }
 //            }
 //        }
-        checkIntersectingBridges();
-        i = 0;
-        idx = 0;
-        while (i < stBoard.getUnfinishedIslands().size()) {
-            for (i = idx; i < stBoard.getUnfinishedIslands().size(); i++) {
-                changed = isolationOfASegment(stBoard.getUnfinishedIslands().get(i));
-                if (changed) {
-                    idx = i;
-                    System.out.println("isolationOfASegment");
-                    return;
-                }
+        for (int i = 0; i < stBoard.getUnfinishedIslands().size(); i++) {
+            changed = isolationOfASegment(stBoard.getUnfinishedIslands().get(i));
+            if (changed) {
+                System.out.println("isolationOfASegment");
+                return;
             }
         }
-////        checkIntersectingBridges();
-        i = 0;
-        idx = 0;
-        while (i < stBoard.getUnfinishedIslands().size()) {
-            for (i = idx; i < stBoard.getUnfinishedIslands().size(); i++) {
-                changed = isolationWhenASegmentConnectsToAnIsland(stBoard.getUnfinishedIslands().get(i));
-                if (changed) {
-                    idx = i;
-                    System.out.println("isolationWhenASegmentConnectsToAnIsland");
-                    return;
-                }
+        for (int i = 0; i < stBoard.getUnfinishedIslands().size(); i++) {
+            changed = isolationWhenASegmentConnectsToAnIsland(stBoard.getUnfinishedIslands().get(i));
+            if (changed) {
+                System.out.println("isolationWhenASegmentConnectsToAnIsland");
+                return;
             }
         }
-        i = 0;
-        idx = 0;
-        while (i < stBoard.getUnfinishedIslands().size()) {
-            for (i = idx; i < stBoard.getUnfinishedIslands().size(); i++) {
-                changed = isolationWhenASegmentConnectsToAnotherSegment(stBoard.getUnfinishedIslands().get(i));
-                if (changed) {
-                    idx = i;
-                    System.out.println("isolationWhenASegmentConnectsToAnotherSegment");
-                    return;
-                }
+        for (int i = 0; i < stBoard.getUnfinishedIslands().size(); i++) {
+            changed = isolationWhenASegmentConnectsToAnotherSegment(stBoard.getUnfinishedIslands().get(i));
+            if (changed) {
+                System.out.println("isolationWhenASegmentConnectsToAnotherSegment");
+                return;
             }
         }
-//        checkIntersectingBridges();
     }
 }

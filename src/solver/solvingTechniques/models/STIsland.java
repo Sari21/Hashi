@@ -111,15 +111,15 @@ public class STIsland extends Island {
 //        return this.isFinished;
 //    }
 
-    public int numberOfNeighboursWithValueOne() {
+    public int numberOfUnfinishedNeighboursWithValueOne() {
         int n = 0;
-        if (upNeighbour != null && upNeighbour.getValue() == 1)
+        if (upNeighbour != null && !upNeighbour.isFinished() && upNeighbour.getValue() == 1)
             n++;
-        if (downNeighbour != null && downNeighbour.getValue() == 1)
+        if (downNeighbour != null && !downNeighbour.isFinished() && downNeighbour.getValue() == 1)
             n++;
-        if (rightNeighbour != null && rightNeighbour.getValue() == 1)
+        if (rightNeighbour != null && !rightNeighbour.isFinished() && rightNeighbour.getValue() == 1)
             n++;
-        if (leftNeighbour != null && leftNeighbour.getValue() == 1)
+        if (leftNeighbour != null && !leftNeighbour.isFinished() && leftNeighbour.getValue() == 1)
             n++;
         return n;
     }
@@ -202,15 +202,15 @@ public class STIsland extends Island {
         return neighboursWithoutBridges;
     }
 
-    public int numberOfUnfinishedNeighbours() {
+    public int numberOfUnfinishedNeighboursWithFreeBridges() {
         int n = 0;
-        if (upNeighbour != null && !upNeighbour.isFinished)
+        if ((upNeighbour != null && !upNeighbour.isFinished) && (upBridges == null || !upBridges.isDouble()))
             n++;
-        if (downNeighbour != null && !downNeighbour.isFinished)
+        if ((downNeighbour != null && !downNeighbour.isFinished) && (downBridges == null || !downBridges.isDouble()))
             n++;
-        if (rightNeighbour != null && !rightNeighbour.isFinished)
+        if ((rightNeighbour != null && !rightNeighbour.isFinished) && (rightBridges == null || !rightBridges.isDouble()))
             n++;
-        if (leftNeighbour != null && !leftNeighbour.isFinished)
+        if ((leftNeighbour != null && !leftNeighbour.isFinished) && (leftBridges == null || !leftBridges.isDouble()))
             n++;
         return n;
     }
