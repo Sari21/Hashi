@@ -2,7 +2,7 @@ package solver.mathematical.models;
 
 import java.util.ArrayList;
 
-public class SolverModel {
+public class LPModel {
     private int [][] neighbours;
     private int [][] G;
     private int [] d;

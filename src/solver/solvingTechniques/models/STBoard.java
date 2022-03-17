@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class STBoard {
     private int width, height;
+    private String filename;
     
     private ArrayList<STIsland> unfinishedIslands = new ArrayList<>();
     private ArrayList<STIsland> finishedIslands = new ArrayList<>();
@@ -71,4 +72,11 @@ public class STBoard {
         this.finishedIslands = finishedIslands;
     }
 
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
 }

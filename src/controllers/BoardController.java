@@ -1,27 +1,33 @@
 package controllers;
 
+import gurobi.GRBException;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import models.Board;
 import models.Bridge;
+import services.FileService;
+import services.interfaces.IFileService;
+import solver.mathematical.LPSolver;
 import view.BoardView;
 import view.BridgeElement;
 import view.IslandElement;
+
 
 public class BoardController {
     private static Board board;
     private static BoardView boardView;
     private static IslandElement startIsland, endIsland;
+    private static IFileService fileService = new FileService();
 
     private static void setBoardStage() {
-        boardView = new BoardView(board);
+        boardView = new BoardView(board, true);
         setEventHandlersForIslands();
         setEventHandlersForBridges();
     }
 
     public static void openGame(Board board) {
         setBoard(board);
-        boardView = new BoardView();
+        boardView = new BoardView(true);
         setBoardStage();
         showBoardStage();
     }
@@ -44,20 +50,17 @@ public class BoardController {
                         if (startIsland == null) {
                             startIsland = islandElement;
                             islandElement.addStroke();
-                        }
-                        else if(endIsland == null && startIsland == islandElement){
+                        } else if (endIsland == null && startIsland == islandElement) {
                             startIsland.removeStroke();
                             endIsland = null;
                             startIsland = null;
-                        }
-                        else if(endIsland == null &&
+                        } else if (endIsland == null &&
                                 (Math.abs(startIsland.getIsland().getPosition().getX() - islandElement.getIsland().getPosition().getX()) == 1
-                                || Math.abs(startIsland.getIsland().getPosition().getY() - islandElement.getIsland().getPosition().getY()) == 1)){
+                                        || Math.abs(startIsland.getIsland().getPosition().getY() - islandElement.getIsland().getPosition().getY()) == 1)) {
                             startIsland.removeStroke();
                             endIsland = null;
                             startIsland = null;
-                        }
-                        else if (endIsland == null && startIsland != islandElement) {
+                        } else if (endIsland == null && startIsland != islandElement) {
                             endIsland = islandElement;
                             if ((startIsland.getIsland().getPosition().getX() == endIsland.getIsland().getPosition().getX() ||
                                     startIsland.getIsland().getPosition().getY() == endIsland.getIsland().getPosition().getY())) {
@@ -91,8 +94,7 @@ public class BoardController {
                                 startIsland = null;
                             }
                         }
-                    }
-                    else if(e.getButton().name().equals("SECONDARY")) {
+                    } else if (e.getButton().name().equals("SECONDARY")) {
                         islandElement.mark();
                     }
                 }
@@ -105,30 +107,36 @@ public class BoardController {
             bridgeElement.getLine().setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(javafx.scene.input.MouseEvent e) {
-                        if (!bridgeElement.getBridge().isDouble()) {
-                            board.getBridges().remove(bridgeElement.getBridge());
-                        } else {
-                            bridgeElement.getBridge().setDouble(false);
-                        }
-                        boardView.refreshBridges();
-                        setEventHandlersForBridges();
-                        startIsland = null;
-                        endIsland = null;
+                    if (!bridgeElement.getBridge().isDouble()) {
+                        board.getBridges().remove(bridgeElement.getBridge());
+                    } else {
+                        bridgeElement.getBridge().setDouble(false);
                     }
-
+                    boardView.refreshBridges();
+                    setEventHandlersForBridges();
+                    startIsland = null;
+                    endIsland = null;
+                }
             });
             bridgeElement.getDoubleLine().setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(javafx.scene.input.MouseEvent e) {
-                        bridgeElement.getBridge().setDouble(false);
-                        boardView.refreshBridges();
-                        setEventHandlersForBridges();
-                        startIsland = null;
-                        endIsland = null;
-                    }
-
+                    bridgeElement.getBridge().setDouble(false);
+                    boardView.refreshBridges();
+                    setEventHandlersForBridges();
+                    startIsland = null;
+                    endIsland = null;
+                }
             });
         }
+    }
+
+    public static boolean checkSolution(Board board) throws GRBException {
+        Board solution = fileService.readSolution(board);
+        if(solution == null){
+            solution = LPSolver.solve(board);
+        }
+        return board.equals(solution);
     }
 
     public static Board getBoard() {

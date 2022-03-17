@@ -3,10 +3,13 @@ package solver.solvingTechniques.models;
 import models.Bridge;
 import models.Island;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class STIsland extends Island {
     private STBridge upBridges, downBridges, rightBridges, leftBridges;
     private STIsland upNeighbour, downNeighbour, rightNeighbour, leftNeighbour;
-    private boolean hasUpNeighbour = true, hasDownNeighbour = true, hasRightNeighbour = true, hasLeftNeighbour = true;
+    //  private boolean hasUpNeighbour = true, hasDownNeighbour = true, hasRightNeighbour = true, hasLeftNeighbour = true;
     private boolean isFinished = false;
     private int remainingValue;
 
@@ -63,6 +66,16 @@ public class STIsland extends Island {
         return n;
     }
 
+    public int getNumberOfRemainingBridgesOfUnfinishedNeighbours() {
+        int remVal = 0;
+            remVal += getRemainingUpBridges();
+            remVal += getRemainingDownBridges();
+            remVal += getRemainingLeftBridges();
+            remVal += getRemainingRightBridges();
+
+        return remVal;
+    }
+
 
     public int getNumberOfBridges() {
         int n = 0;
@@ -110,6 +123,7 @@ public class STIsland extends Island {
             n++;
         return n;
     }
+
     public int numberOfNeighboursWithValueTwo() {
         int n = 0;
         if (upNeighbour != null && upNeighbour.getValue() == 2)
@@ -134,6 +148,58 @@ public class STIsland extends Island {
         if (leftNeighbour != null && leftNeighbour.getRemainingValue() == 1)
             n++;
         return n;
+    }
+
+    public int numberOfNeighboursWithValue(int value) {
+        int n = 0;
+        if (upNeighbour != null && upNeighbour.getValue() == value)
+            n++;
+        if (downNeighbour != null && downNeighbour.getValue() == value)
+            n++;
+        if (rightNeighbour != null && rightNeighbour.getValue() == value)
+            n++;
+        if (leftNeighbour != null && leftNeighbour.getValue() == value)
+            n++;
+        return n;
+    }
+
+    public List<STIsland> getNeighboursWithValue(int value) {
+        ArrayList<STIsland> islands = new ArrayList<>();
+        if (upNeighbour != null && upNeighbour.getValue() == value)
+            islands.add(upNeighbour);
+        if (downNeighbour != null && downNeighbour.getValue() == value)
+            islands.add(downNeighbour);
+        if (rightNeighbour != null && rightNeighbour.getValue() == value)
+            islands.add(rightNeighbour);
+        if (leftNeighbour != null && leftNeighbour.getValue() == value)
+            islands.add(leftNeighbour);
+        return islands;
+    }
+
+    public int getNumberOfNeighboursWithoutBridges() {
+        int n = 0;
+        if (upNeighbour != null && upNeighbour.getNumberOfBridges() == 0)
+            n++;
+        if (downNeighbour != null && downNeighbour.getNumberOfBridges() == 0)
+            n++;
+        if (rightNeighbour != null && rightNeighbour.getNumberOfBridges() == 0)
+            n++;
+        if (leftNeighbour != null && leftNeighbour.getNumberOfBridges() == 0)
+            n++;
+        return n;
+    }
+
+    public ArrayList<STIsland> getNeighboursWithoutBridges() {
+        ArrayList<STIsland> neighboursWithoutBridges = new ArrayList<>();
+        if (upNeighbour != null && upNeighbour.getNumberOfBridges() == 0)
+            neighboursWithoutBridges.add(upNeighbour);
+        if (downNeighbour != null && downNeighbour.getNumberOfBridges() == 0)
+            neighboursWithoutBridges.add(downNeighbour);
+        if (rightNeighbour != null && rightNeighbour.getNumberOfBridges() == 0)
+            neighboursWithoutBridges.add(rightNeighbour);
+        if (leftNeighbour != null && leftNeighbour.getNumberOfBridges() == 0)
+            neighboursWithoutBridges.add(leftNeighbour);
+        return neighboursWithoutBridges;
     }
 
     public int numberOfUnfinishedNeighbours() {
@@ -226,37 +292,37 @@ public class STIsland extends Island {
         isFinished = finished;
     }
 
-    public boolean isHasUpNeighbour() {
-        return hasUpNeighbour;
-    }
-
-    public void setHasUpNeighbour(boolean hasUpNeighbour) {
-        this.hasUpNeighbour = hasUpNeighbour;
-    }
-
-    public boolean isHasDownNeighbour() {
-        return hasDownNeighbour;
-    }
-
-    public void setHasDownNeighbour(boolean hasDownNeighbour) {
-        this.hasDownNeighbour = hasDownNeighbour;
-    }
-
-    public boolean isHasRightNeighbour() {
-        return hasRightNeighbour;
-    }
-
-    public void setHasRightNeighbour(boolean hasRightNeighbour) {
-        this.hasRightNeighbour = hasRightNeighbour;
-    }
-
-    public boolean isHasLeftNeighbour() {
-        return hasLeftNeighbour;
-    }
-
-    public void setHasLeftNeighbour(boolean hasLeftNeighbour) {
-        this.hasLeftNeighbour = hasLeftNeighbour;
-    }
+//    public boolean isHasUpNeighbour() {
+//        return hasUpNeighbour;
+//    }
+//
+//    public void setHasUpNeighbour(boolean hasUpNeighbour) {
+//        this.hasUpNeighbour = hasUpNeighbour;
+//    }
+//
+//    public boolean isHasDownNeighbour() {
+//        return hasDownNeighbour;
+//    }
+//
+//    public void setHasDownNeighbour(boolean hasDownNeighbour) {
+//        this.hasDownNeighbour = hasDownNeighbour;
+//    }
+//
+//    public boolean isHasRightNeighbour() {
+//        return hasRightNeighbour;
+//    }
+//
+//    public void setHasRightNeighbour(boolean hasRightNeighbour) {
+//        this.hasRightNeighbour = hasRightNeighbour;
+//    }
+//
+//    public boolean isHasLeftNeighbour() {
+//        return hasLeftNeighbour;
+//    }
+//
+//    public void setHasLeftNeighbour(boolean hasLeftNeighbour) {
+//        this.hasLeftNeighbour = hasLeftNeighbour;
+//    }
 
     public int getRemainingValue() {
         return remainingValue;
@@ -264,5 +330,62 @@ public class STIsland extends Island {
 
     public void setRemainingValue(int remainingValue) {
         this.remainingValue = remainingValue;
+    }
+
+    public int getRemainingDownBridges() {
+        int remVal = 0;
+        if (downNeighbour != null && !downNeighbour.isFinished()) {
+            remVal = Math.min(remainingValue, 2);
+            if (downBridges != null) {
+                remVal--;
+                if (downBridges.isDouble()) {
+                    remVal--;
+                }
+            }
+        }
+        return remVal;
+    }
+
+    public int getRemainingUpBridges() {
+        int remVal = 0;
+        if (upNeighbour != null && !upNeighbour.isFinished()) {
+            remVal = Math.min(remainingValue, 2);
+            if (upBridges != null) {
+                remVal--;
+                if (upBridges.isDouble()) {
+                    remVal--;
+                }
+            }
+        }
+        return remVal;
+    }
+
+    public int getRemainingLeftBridges() {
+        int remVal = 0;
+        if (leftNeighbour != null && !leftNeighbour.isFinished()) {
+            remVal = Math.min(remainingValue, 2);
+            if (leftBridges != null) {
+                remVal--;
+                if (leftBridges.isDouble()) {
+                    remVal--;
+                }
+            }
+        }
+        return remVal;
+    }
+
+    public int getRemainingRightBridges() {
+        int remVal = 0;
+        if (rightNeighbour != null && !rightNeighbour.isFinished()) {
+            remVal = Math.min(remainingValue, 2);
+            if (rightBridges != null) {
+                remVal--;
+                if (rightBridges.isDouble()) {
+                    remVal--;
+                }
+            }
+
+        }
+        return remVal;
     }
 }

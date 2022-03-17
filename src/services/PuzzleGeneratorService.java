@@ -5,16 +5,16 @@ import models.Bridge;
 import models.Coordinates;
 import models.Island;
 import services.interfaces.IFileService;
+import services.interfaces.IPuzzleGeneratorService;
 import solver.solvingTechniques.Levels;
 import solver.solvingTechniques.STSolver;
 
 import java.io.File;
 import java.util.Random;
 
-public class PuzzleGeneratorService {
+public class PuzzleGeneratorService implements IPuzzleGeneratorService {
     private static Board board;
     private static IFileService fileService = new FileService();
-
 
     public static File generatePuzzle(int width, int height, int numberOfIslands) {
         board = new Board(width, height);

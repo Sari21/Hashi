@@ -14,6 +14,7 @@ public class STBoardConverter {
 
     public static STBoard convertBoardToSTBoard(Board board) {
         stBoard = new STBoard(board.getWidth(), board.getHeight());
+        stBoard.setFilename(board.getFileName());
         board.sortIslands();
         for (Island island : board.getIslands()) {
             STIsland stIsland = new STIsland();
@@ -30,25 +31,25 @@ public class STBoardConverter {
                     STIsland secondIsland = stBoard.getUnfinishedIslands().get(j);
 
                     if (firstIsland.getPosition().getX() == secondIsland.getPosition().getX()
-                            && firstIsland.getDownNeighbour() == null && firstIsland.isHasDownNeighbour()
-                            && secondIsland.getUpNeighbour() == null && secondIsland.isHasUpNeighbour())  {
+                            && firstIsland.getDownNeighbour() == null // && firstIsland.isHasDownNeighbour()
+                            && secondIsland.getUpNeighbour() == null){ // && secondIsland.isHasUpNeighbour())  {
                         if (secondIsland.getPosition().getY() - firstIsland.getPosition().getY() > 1) {
                             firstIsland.setDownNeighbour(secondIsland);
                             secondIsland.setUpNeighbour(firstIsland);
                         } else {
-                            firstIsland.setHasDownNeighbour(false);
-                            secondIsland.setHasUpNeighbour(false);
+//                            firstIsland.setHasDownNeighbour(false);
+//                            secondIsland.setHasUpNeighbour(false);
                         }
                     } else if (firstIsland.getPosition().getY() == secondIsland.getPosition().getY()
-                            && firstIsland.getRightNeighbour() == null && firstIsland.isHasRightNeighbour()
-                            && secondIsland.getLeftNeighbour() == null && secondIsland.isHasLeftNeighbour()
+                            && firstIsland.getRightNeighbour() == null //&& firstIsland.isHasRightNeighbour()
+                            && secondIsland.getLeftNeighbour() == null //&& secondIsland.isHasLeftNeighbour()
                     ) {
                         if (secondIsland.getPosition().getX() - firstIsland.getPosition().getX() > 1) {
                             firstIsland.setRightNeighbour(secondIsland);
                             secondIsland.setLeftNeighbour(firstIsland);
                         } else {
-                            firstIsland.setHasRightNeighbour(false);
-                            secondIsland.setHasLeftNeighbour(false);
+//                            firstIsland.setHasRightNeighbour(false);
+//                            secondIsland.setHasLeftNeighbour(false);
                         }
                     }
                 }
@@ -60,6 +61,7 @@ public class STBoardConverter {
 
     public static Board convertSTBoardToBoard(STBoard stBoard) {
         Board board = new Board(stBoard.getWidth(), stBoard.getHeight());
+        board.setFileName(stBoard.getFilename());
         ArrayList<Bridge> bridges = new ArrayList<>();
         for (STBridge stBridge : stBoard.getBridges()) {
             bridges.add(stBridge.getBridge());

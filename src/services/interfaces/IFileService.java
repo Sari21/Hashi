@@ -6,8 +6,9 @@ import solver.solvingTechniques.Levels;
 import java.io.File;
 
 public interface IFileService {
+    String PATH = "resources\\hashiBoards\\";
     File saveNewBoard(Board board, Levels level);
-    Board ReadSolution(File file);
-    Board ReadGame(File file);
-
+    Board readSolution(File file);
+    Board readSolution(Board board);
+    Board readGame(File file);
     }

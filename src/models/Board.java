@@ -9,6 +9,7 @@ public class Board implements CsvPrintable {
     private ArrayList<Island> islands = new ArrayList<>();
     private ArrayList<Bridge> bridges = new ArrayList<>();
     private Set<Coordinates> fields = new HashSet<>();
+    private String fileName;
 
     public Board(int width, int height) {
         this.width = width;
@@ -86,5 +87,29 @@ public class Board implements CsvPrintable {
     }
     public void sortIslands(){
         Collections.sort(islands);
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Board board = (Board) o;
+        Collections.sort(board.getBridges());
+        Collections.sort(this.bridges);
+
+        return bridges.equals(board.bridges);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(islands, bridges, fileName);
     }
 }

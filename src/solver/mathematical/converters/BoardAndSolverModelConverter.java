@@ -6,11 +6,11 @@ import models.Bridge;
 import models.Coordinates;
 import models.Island;
 import solver.mathematical.models.BridgePairs;
-import solver.mathematical.models.SolverModel;
+import solver.mathematical.models.LPModel;
 
 public class BoardAndSolverModelConverter {
-    public static SolverModel convertBoardToSolverModel(Board board) {
-        SolverModel model = new SolverModel();
+    public static LPModel convertBoardToSolverModel(Board board) {
+        LPModel model = new LPModel();
 
         // n -> szigetek száma
         model.setN(board.getIslands().size());
@@ -74,7 +74,7 @@ public class BoardAndSolverModelConverter {
         return model;
     }
 
-    public static Board convertSolvedGameToBoard(SolverModel solverModel, GRBVar[][] X, Board board) throws GRBException {
+    public static Board convertSolvedGameToBoard(LPModel solverModel, GRBVar[][] X, Board board) throws GRBException {
         for (int i = 0; i < solverModel.getN(); i++) {
             for (int j = 0; j < solverModel.getN(); j++) {
                 if (X[i][j].get(GRB.DoubleAttr.X) == 1.0) {

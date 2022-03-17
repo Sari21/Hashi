@@ -2,8 +2,6 @@ package view;
 
 import models.Coordinates;
 import models.Island;
-import javafx.event.EventHandler;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
@@ -14,14 +12,14 @@ public class IslandElement implements ViewElement {
     private final Text id;
     private Circle circle;
     private Text number;
-    private Coordinates coordinates;
+    private Coordinates position;
     private Island island;
     private static final int RADIUS = 35;
     private boolean isMarked = false;
 
     public IslandElement(Island island) {
         this.island = island;
-        this.coordinates = island.getPosition();
+        this.position = island.getPosition();
 
         circle = new Circle();
         circle.setCenterX(island.getPosition().getX() * FIELD_WIDTH - 40);
@@ -39,14 +37,6 @@ public class IslandElement implements ViewElement {
         id.setFont(Font.font("Verdana", 20));
         id.setX(island.getPosition().getX() * FIELD_WIDTH - 45);
         id.setY(island.getPosition().getY() * FIELD_WIDTH - 50);
-
-
-//        circle.setOnMouseClicked((EventHandler<? super MouseEvent>) new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent event) {
-//                    circle.setFill(Color.DIMGREY);
-//                }
-//            });
     }
 
     public Text getId() {
@@ -86,12 +76,12 @@ public class IslandElement implements ViewElement {
         this.circle = circle;
     }
 
-    public Coordinates getCoordinates() {
-        return coordinates;
+    public Coordinates getPosition() {
+        return position;
     }
 
-    public void setCoordinates(Coordinates coordinates) {
-        this.coordinates = coordinates;
+    public void setPosition(Coordinates position) {
+        this.position = position;
     }
 
     public Island getIsland() {
