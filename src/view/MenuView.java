@@ -4,6 +4,8 @@ package view;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import controllers.MenuController;
 import gurobi.GRBException;
@@ -76,6 +78,7 @@ public class MenuView implements ViewElement {
         Button openGame = new Button("Open game");
         Button solveGameLP = new Button("Solve game LP");
         Button solveGameST = new Button("Solve game ST");
+        Button solveMultipleGamesST = new Button("Solve multiple games ST");
 
         GridPane.setConstraints(title, 0, 0);
         GridPane.setConstraints(openGame, 1, 1);
@@ -87,12 +90,13 @@ public class MenuView implements ViewElement {
         GridPane.setConstraints(generateNewGameWithSolution, 0, 5);
         GridPane.setConstraints(solveGameLP, 1, 3);
         GridPane.setConstraints(solveGameST, 1, 4);
+        GridPane.setConstraints(solveMultipleGamesST, 1, 5);
         gridPane.setHgap(10);
         gridPane.setVgap(10);
         generateNewGame.setMinWidth(140);
         gridPane.setMinWidth(generateNewGame.getMinWidth());
         gridPane.getChildren().addAll(title, openGame, openSolution, generateNewGame, generateNewGameWithSolution,
-                widthHB, heightHB, islandsHB, solveGameLP, solveGameST);
+                widthHB, heightHB, islandsHB, solveGameLP, solveGameST, solveMultipleGamesST);
 
         final Pane rootGroup = new VBox(12);
         rootGroup.getChildren().addAll(gridPane);
@@ -145,7 +149,22 @@ public class MenuView implements ViewElement {
                         if (file != null) {
                             try {
                                 MenuController.solveGameWithSolvingTechniques(file);
-                            } catch (GRBException ex) {
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                    }
+                });
+        solveMultipleGamesST.setOnAction(
+                new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(final ActionEvent e) {
+                        List<File> files = new ArrayList<>();
+                        files = fileChooser.showOpenMultipleDialog(stage);
+                        if (!files.isEmpty()) {
+                            try {
+                                MenuController.solveMultipleGameWithSolvingTechniques(files);
+                            } catch (Exception ex) {
                                 ex.printStackTrace();
                             }
                         }

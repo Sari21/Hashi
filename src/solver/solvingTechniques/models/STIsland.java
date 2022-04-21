@@ -9,7 +9,6 @@ import java.util.List;
 public class STIsland extends Island {
     private STBridge upBridges, downBridges, rightBridges, leftBridges;
     private STIsland upNeighbour, downNeighbour, rightNeighbour, leftNeighbour;
-    //  private boolean hasUpNeighbour = true, hasDownNeighbour = true, hasRightNeighbour = true, hasLeftNeighbour = true;
     private boolean isFinished = false;
     private int remainingValue;
 
@@ -68,14 +67,13 @@ public class STIsland extends Island {
 
     public int getNumberOfRemainingBridgesOfUnfinishedNeighbours() {
         int remVal = 0;
-            remVal += getRemainingUpBridges();
-            remVal += getRemainingDownBridges();
-            remVal += getRemainingLeftBridges();
-            remVal += getRemainingRightBridges();
+        remVal += getRemainingBridges(Direction.DOWN);
+        remVal += getRemainingBridges(Direction.UP);
+        remVal += getRemainingBridges(Direction.LEFT);
+        remVal += getRemainingBridges(Direction.RIGHT);
 
         return remVal;
     }
-
 
     public int getNumberOfBridges() {
         int n = 0;
@@ -106,11 +104,6 @@ public class STIsland extends Island {
         return n;
     }
 
-//    public boolean checkNumberOfBridges() {
-//        this.isFinished = this.getNumberOfBridges() == this.getValue();
-//        return this.isFinished;
-//    }
-
     public int numberOfUnfinishedNeighboursWithValueOne() {
         int n = 0;
         if (upNeighbour != null && !upNeighbour.isFinished() && upNeighbour.getValue() == 1)
@@ -124,15 +117,15 @@ public class STIsland extends Island {
         return n;
     }
 
-    public int numberOfNeighboursWithValueTwo() {
+    public int numberOfUnfinishedNeighboursWithValue(int value) {
         int n = 0;
-        if (upNeighbour != null && upNeighbour.getValue() == 2)
+        if (upNeighbour != null && !upNeighbour.isFinished() &&upNeighbour.getValue() == value)
             n++;
-        if (downNeighbour != null && downNeighbour.getValue() == 2)
+        if (downNeighbour != null && !downNeighbour.isFinished() && downNeighbour.getValue() == value)
             n++;
-        if (rightNeighbour != null && rightNeighbour.getValue() == 2)
+        if (rightNeighbour != null && !rightNeighbour.isFinished() && rightNeighbour.getValue() == value)
             n++;
-        if (leftNeighbour != null && leftNeighbour.getValue() == 2)
+        if (leftNeighbour != null && !leftNeighbour.isFinished() && leftNeighbour.getValue() == value)
             n++;
         return n;
     }
@@ -292,38 +285,6 @@ public class STIsland extends Island {
         isFinished = finished;
     }
 
-//    public boolean isHasUpNeighbour() {
-//        return hasUpNeighbour;
-//    }
-//
-//    public void setHasUpNeighbour(boolean hasUpNeighbour) {
-//        this.hasUpNeighbour = hasUpNeighbour;
-//    }
-//
-//    public boolean isHasDownNeighbour() {
-//        return hasDownNeighbour;
-//    }
-//
-//    public void setHasDownNeighbour(boolean hasDownNeighbour) {
-//        this.hasDownNeighbour = hasDownNeighbour;
-//    }
-//
-//    public boolean isHasRightNeighbour() {
-//        return hasRightNeighbour;
-//    }
-//
-//    public void setHasRightNeighbour(boolean hasRightNeighbour) {
-//        this.hasRightNeighbour = hasRightNeighbour;
-//    }
-//
-//    public boolean isHasLeftNeighbour() {
-//        return hasLeftNeighbour;
-//    }
-//
-//    public void setHasLeftNeighbour(boolean hasLeftNeighbour) {
-//        this.hasLeftNeighbour = hasLeftNeighbour;
-//    }
-
     public int getRemainingValue() {
         return remainingValue;
     }
@@ -332,60 +293,39 @@ public class STIsland extends Island {
         this.remainingValue = remainingValue;
     }
 
-    public int getRemainingDownBridges() {
+    public int getRemainingBridges(Direction direction) {
+        STIsland neighbour;
+        STBridge bridge;
+        if (direction == Direction.DOWN) {
+            neighbour = downNeighbour;
+            bridge = downBridges;
+        } else if (direction == Direction.UP) {
+            neighbour = upNeighbour;
+            bridge = upBridges;
+        } else if (direction == Direction.LEFT) {
+            neighbour = leftNeighbour;
+            bridge = leftBridges;
+        } else {
+            neighbour = rightNeighbour;
+            bridge = rightBridges;
+        }
         int remVal = 0;
-        if (downNeighbour != null && !downNeighbour.isFinished()) {
+        if (neighbour != null && !neighbour.isFinished()) {
             remVal = Math.min(remainingValue, 2);
-            if (downBridges != null) {
-                remVal--;
-                if (downBridges.isDouble()) {
-                    remVal--;
+            if (bridge != null) {
+                if (bridge.isDouble()) {
+                    return 0;
+                }
+                if (remVal > 0) {
+                    return 1;
                 }
             }
         }
         return remVal;
     }
 
-    public int getRemainingUpBridges() {
-        int remVal = 0;
-        if (upNeighbour != null && !upNeighbour.isFinished()) {
-            remVal = Math.min(remainingValue, 2);
-            if (upBridges != null) {
-                remVal--;
-                if (upBridges.isDouble()) {
-                    remVal--;
-                }
-            }
-        }
-        return remVal;
-    }
-
-    public int getRemainingLeftBridges() {
-        int remVal = 0;
-        if (leftNeighbour != null && !leftNeighbour.isFinished()) {
-            remVal = Math.min(remainingValue, 2);
-            if (leftBridges != null) {
-                remVal--;
-                if (leftBridges.isDouble()) {
-                    remVal--;
-                }
-            }
-        }
-        return remVal;
-    }
-
-    public int getRemainingRightBridges() {
-        int remVal = 0;
-        if (rightNeighbour != null && !rightNeighbour.isFinished()) {
-            remVal = Math.min(remainingValue, 2);
-            if (rightBridges != null) {
-                remVal--;
-                if (rightBridges.isDouble()) {
-                    remVal--;
-                }
-            }
-
-        }
-        return remVal;
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

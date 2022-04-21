@@ -9,6 +9,7 @@ import solver.solvingTechniques.STSolver;
 import view.MenuView;
 
 import java.io.File;
+import java.util.List;
 
 public class MenuController {
 
@@ -36,6 +37,15 @@ public class MenuController {
         Board board = fileService.readSolution(file);
         closeMenuStage();
         BoardController.openGame(board);
+    }
+    public static void solveMultipleGameWithSolvingTechniques(List<File> files){
+        closeMenuStage();
+        for(File file : files){
+            Board board = fileService.readGame(file);
+            STSolver.solve(board);
+        }
+        showMenuStage();
+        System.out.println("done");
     }
 
     public static void showMenuStage(){

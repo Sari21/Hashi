@@ -6,10 +6,7 @@ import models.Island;
 import services.interfaces.IFileService;
 import solver.solvingTechniques.Levels;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -47,9 +44,26 @@ public class FileService implements IFileService {
         }
     }
 
+    public void writeDifficulty(String filename, String textToWrite) {
+
+        Writer output;
+        try {
+            output = new BufferedWriter(new FileWriter(filename, true));
+            output.append(textToWrite);
+            output.append("\n");
+            output.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
     @Override
     public Board readSolution(File file) {
         Board board = new Board();
+        String data = "";
+
         try {
             //File myObj = new File(path + fileName);
             Scanner myReader = new Scanner(file);
@@ -57,23 +71,24 @@ public class FileService implements IFileService {
                 return null;
             }
             String[] splittedLine;
+            data = myReader.nextLine();
+            splittedLine = data.split(",");
+            board.setWidth(Integer.parseInt(splittedLine[0]));
+            board.setHeight(Integer.parseInt(splittedLine[1]));
+            board.setFileName(file.getName());
+            data = myReader.nextLine();
+
+            this.setLevel(data, board);
+
+            myReader.nextLine();
+
             while (myReader.hasNextLine()) {
-                String data = myReader.nextLine();
-                if (data.equals("islands")) {
-                    break;
-                }
-                splittedLine = data.split(";");
-                board.setWidth(Integer.parseInt(splittedLine[0]));
-                board.setHeight(Integer.parseInt(splittedLine[1]));
-                board.setFileName(file.getName());
-            }
-            while (myReader.hasNextLine()) {
-                String data = myReader.nextLine();
+                data = myReader.nextLine();
                 if (data.equals("bridges")) {
                     break;
                 }
                 Island island = new Island();
-                splittedLine = data.split(";");
+                splittedLine = data.split(",");
                 island.setId(Integer.parseInt(splittedLine[0]));
                 island.setValue(Integer.parseInt(splittedLine[1]));
                 island.getPosition().setX(Integer.parseInt(splittedLine[2]));
@@ -81,7 +96,7 @@ public class FileService implements IFileService {
                 board.addIsland(island);
             }
             while (myReader.hasNextLine()) {
-                splittedLine = myReader.nextLine().split(";");
+                splittedLine = myReader.nextLine().split(",");
                 Bridge bridge = new Bridge();
                 String[] finalSplittedLine = splittedLine;
                 Island startIsland = board.getIslands().stream().filter(isl -> isl.getId() == Integer.parseInt(finalSplittedLine[0])).findFirst().orElse(null);
@@ -108,48 +123,47 @@ public class FileService implements IFileService {
     @Override
     public Board readGame(File file) {
         Board board = new Board();
+        String data = "";
         try {
             Scanner myReader = new Scanner(file);
             if (myReader.hasNextLine() && myReader.nextLine().equals("board")) {
-
                 String[] splittedLine;
+                data = myReader.nextLine();
+                splittedLine = data.split(",");
+                board.setWidth(Integer.parseInt(splittedLine[0]));
+                board.setHeight(Integer.parseInt(splittedLine[1]));
+                board.setFileName(file.getName());
+                data = myReader.nextLine();
+
+                this.setLevel(data, board);
+
+                myReader.nextLine();
                 while (myReader.hasNextLine()) {
-                    String data = myReader.nextLine();
-                    if (data.equals("islands")) {
-                        break;
-                    }
-                    splittedLine = data.split(";");
-                    board.setWidth(Integer.parseInt(splittedLine[0]));
-                    board.setHeight(Integer.parseInt(splittedLine[1]));
-                    board.setFileName(file.getName());
-                }
-                while (myReader.hasNextLine()) {
-                    String data = myReader.nextLine();
+                    data = myReader.nextLine();
                     if (data.equals("bridges")) {
                         break;
                     }
                     Island island = new Island();
-                    splittedLine = data.split(";");
+                    splittedLine = data.split(",");
                     island.setId(Integer.parseInt(splittedLine[0]));
                     island.setValue(Integer.parseInt(splittedLine[1]));
                     island.getPosition().setX(Integer.parseInt(splittedLine[2]));
                     island.getPosition().setY(Integer.parseInt(splittedLine[3]));
                     board.addIsland(island);
                 }
-            } else if (myReader.hasNextLine() ) {
-                String data = myReader.nextLine();
+            } else if (myReader.hasNextLine()) {
                 String[] splittedLine;
+                data = myReader.nextLine();
                 splittedLine = data.split(",");
                 board.setWidth(Integer.parseInt(splittedLine[0]));
                 board.setHeight(Integer.parseInt(splittedLine[1]));
                 board.setFileName(file.getName());
+                data = myReader.nextLine();
 
-                while (myReader.hasNextLine()) {
-                    data = myReader.nextLine();
-                    if (data.equals("islands")) {
-                        break;
-                    }
-                }
+                this.setLevel(data, board);
+
+                myReader.nextLine();
+
                 int j = 0;
                 int id = 0;
                 while (myReader.hasNextLine()) {
@@ -177,6 +191,20 @@ public class FileService implements IFileService {
             e.printStackTrace();
         }
         return board;
+    }
+    private void setLevel(String data, Board board){
+        data = data.toLowerCase();
+        switch (data) {
+            case "easy":
+                board.setLevel(Levels.EASY);
+                break;
+            case "medium":
+                board.setLevel(Levels.MEDIUM);
+                break;
+            case "hard":
+                board.setLevel(Levels.HARD);
+                break;
+        }
     }
 
 }

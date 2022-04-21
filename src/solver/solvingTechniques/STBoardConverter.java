@@ -15,6 +15,7 @@ public class STBoardConverter {
     public static STBoard convertBoardToSTBoard(Board board) {
         stBoard = new STBoard(board.getWidth(), board.getHeight());
         stBoard.setFilename(board.getFileName());
+        stBoard.setLevel(board.getLevel());
         board.sortIslands();
         for (Island island : board.getIslands()) {
             STIsland stIsland = new STIsland();
@@ -62,6 +63,7 @@ public class STBoardConverter {
     public static Board convertSTBoardToBoard(STBoard stBoard) {
         Board board = new Board(stBoard.getWidth(), stBoard.getHeight());
         board.setFileName(stBoard.getFilename());
+        board.setLevel(stBoard.getLevel());
         ArrayList<Bridge> bridges = new ArrayList<>();
         for (STBridge stBridge : stBoard.getBridges()) {
             bridges.add(stBridge.getBridge());

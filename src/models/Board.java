@@ -1,6 +1,7 @@
 package models;
 
 import interfaces.CsvPrintable;
+import solver.solvingTechniques.Levels;
 
 import java.util.*;
 
@@ -10,6 +11,8 @@ public class Board implements CsvPrintable {
     private ArrayList<Bridge> bridges = new ArrayList<>();
     private Set<Coordinates> fields = new HashSet<>();
     private String fileName;
+    private Levels level;
+
 
     public Board(int width, int height) {
         this.width = width;
@@ -111,5 +114,18 @@ public class Board implements CsvPrintable {
     @Override
     public int hashCode() {
         return Objects.hash(islands, bridges, fileName);
+    }
+
+    public Levels getLevel() {
+        return level;
+    }
+
+    public void setLevel(Levels level) {
+        this.level = level;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

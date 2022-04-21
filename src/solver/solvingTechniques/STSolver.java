@@ -1,17 +1,25 @@
 package solver.solvingTechniques;
 
 import models.Board;
+import models.Bridge;
 import models.Coordinates;
+import models.Island;
+import services.FileService;
 import solver.solvingTechniques.models.STBoard;
 import solver.solvingTechniques.models.STBridge;
 import solver.solvingTechniques.models.STIsland;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Random;
+
+import static interfaces.CsvPrintable.CSV_SEPARATOR;
+import static solver.solvingTechniques.models.Direction.*;
 
 
 public class STSolver {
     private static STBoard stBoard;
+    private static STBoard stBoardBeforeRandom;
     private static int points = 0;
 
     enum Direction {
@@ -21,29 +29,79 @@ public class STSolver {
         RIGHT
     }
 
+    private static int leftoverTechniques, justEnoughDoubleNeighbours, oneUnsolvedNeighbour, islandRemainingValueEqualsToUnfinishedNeighboursRemainingValue, fourOnTheSide = 0;
+    private static int sixInTheMiddle, threeInTheCornerFiveOnTheSideAndSevenInTheMiddle, islandRemainingValueEqualsToUnfinishedNeighboursRemainingBridges, isolationOfATwoIslandSegment = 0;
+    private static int isolationOfASegment, isolationWhenASegmentConnectsToAnIsland, isolationWhenASegmentConnectsToAnotherSegment, addRandomBridge = 0;
+
     public static Levels calculateGameLevel(Board board) {
         solve(board);
         if (points < 10)
             return Levels.EASY;
         else if (points < 15)
-            return Levels.NORMAL;
+            return Levels.MEDIUM;
         else
-            return Levels.DIFFICULT;
+            return Levels.HARD;
     }
 
     public static Board solve(Board board) {
+        leftoverTechniques = 0;
+        justEnoughDoubleNeighbours = 0;
+        oneUnsolvedNeighbour = 0;
+        islandRemainingValueEqualsToUnfinishedNeighboursRemainingValue = 0;
+        fourOnTheSide = 0;
+        sixInTheMiddle = 0;
+        threeInTheCornerFiveOnTheSideAndSevenInTheMiddle = 0;
+        islandRemainingValueEqualsToUnfinishedNeighboursRemainingBridges = 0;
+        isolationOfATwoIslandSegment = 0;
+        isolationOfASegment = 0;
+        isolationWhenASegmentConnectsToAnIsland = 0;
+        isolationWhenASegmentConnectsToAnotherSegment = 0;
+        addRandomBridge = 0;
+        for (Island i : board.getIslands()) {
+            System.out.println(i.getId() + " " + i.getValue() + " " + i.getPosition());
+        }
         board.sortIslands();
         stBoard = STBoardConverter.convertBoardToSTBoard(board);
         long startTime = System.currentTimeMillis(); //fetch starting time
-        while ((stBoard.getUnfinishedIslands().size() > 0) && ((System.currentTimeMillis() - startTime) < 2500)) {
-            callSolverFunction();
+        while ((stBoard.getUnfinishedIslands().size() > 0) && ((System.currentTimeMillis() - startTime) < 3000)) {
+            callSolverFunctions();
+            if (stBoardBeforeRandom != null && !stBoard.checkFinishedIslands()) {
+                stBoard = stBoardBeforeRandom;
+            }
+
         }
-        //points = points + (stBoard.getUnfinishedIslands().size() * 40);
-//        int numberOfBridges = stBoard.getUnfinishedIslands().size() + stBoard.getFinishedIslands().size();
-//        double level = (double) points / (double) numberOfBridges;
-//        points = 0;
-//        System.out.println(level);
+        points = points + (stBoard.getUnfinishedIslands().size() * 50);
+        int numberOfIslands = stBoard.getUnfinishedIslands().size() + stBoard.getFinishedIslands().size();
+        double level = (double) points / (double) numberOfIslands;
+        System.out.println(points);
+        points = 0;
+        System.out.println(level);
 //        return STBoardConverter.convertSTBoardNeighboursToBoard(stBoard);
+        ArrayList<STIsland> remainingIslands = stBoard.getUnfinishedIslands();
+        int remainingValue = 0;
+        for (STIsland i : remainingIslands) {
+            remainingValue += i.getRemainingValue();
+        }
+        FileService fileService = new FileService();
+        StringBuilder results = new StringBuilder().append(stBoard.getFilename()).append(CSV_SEPARATOR)
+                .append(board.getWidth() * board.getHeight()).append(CSV_SEPARATOR)
+                .append(leftoverTechniques).append(CSV_SEPARATOR)
+                .append(justEnoughDoubleNeighbours).append(CSV_SEPARATOR)
+                .append(oneUnsolvedNeighbour).append(CSV_SEPARATOR)
+                .append(islandRemainingValueEqualsToUnfinishedNeighboursRemainingValue).append(CSV_SEPARATOR)
+                .append(fourOnTheSide).append(CSV_SEPARATOR)
+                .append(sixInTheMiddle).append(CSV_SEPARATOR)
+                .append(threeInTheCornerFiveOnTheSideAndSevenInTheMiddle).append(CSV_SEPARATOR)
+                .append(islandRemainingValueEqualsToUnfinishedNeighboursRemainingBridges).append(CSV_SEPARATOR)
+                .append(isolationOfATwoIslandSegment).append(CSV_SEPARATOR)
+                .append(isolationOfASegment).append(CSV_SEPARATOR)
+                .append(isolationWhenASegmentConnectsToAnIsland).append(CSV_SEPARATOR)
+                .append(isolationWhenASegmentConnectsToAnotherSegment).append(CSV_SEPARATOR)
+                .append(addRandomBridge).append(CSV_SEPARATOR)
+                .append(remainingIslands.size()).append(CSV_SEPARATOR)
+                .append(remainingValue).append(CSV_SEPARATOR)
+                .append(stBoard.getLevel()).append(CSV_SEPARATOR);
+        fileService.writeDifficulty("difficulty.csv", results.toString());
         return STBoardConverter.convertSTBoardToBoard(stBoard);
 
     }
@@ -71,24 +129,23 @@ public class STSolver {
             if (island.getDownNeighbour() != null && !island.getDownNeighbour().isFinished()) {
                 if (addBridges(island, island.getDownNeighbour(), island.getDownNeighbour().getRemainingValue() == 2, true))
                     isFinishedChanged = true;
-                n++;
+                islandRemainingValueEqualsToUnfinishedNeighboursRemainingValue++;
             }
             if (island.getUpNeighbour() != null && !island.getUpNeighbour().isFinished()) {
                 if (addBridges(island.getUpNeighbour(), island, island.getUpNeighbour().getRemainingValue() == 2, true))
                     isFinishedChanged = true;
-                n++;
+                islandRemainingValueEqualsToUnfinishedNeighboursRemainingValue++;
             }
             if (island.getRightNeighbour() != null && !island.getRightNeighbour().isFinished()) {
                 if (addBridges(island, island.getRightNeighbour(), island.getRightNeighbour().getRemainingValue() == 2, true))
                     isFinishedChanged = true;
-                n++;
+                islandRemainingValueEqualsToUnfinishedNeighboursRemainingValue++;
             }
             if (island.getLeftNeighbour() != null && !island.getLeftNeighbour().isFinished()) {
                 if (addBridges(island.getLeftNeighbour(), island, island.getLeftNeighbour().getRemainingValue() == 2, true))
                     isFinishedChanged = true;
-                n++;
+                islandRemainingValueEqualsToUnfinishedNeighboursRemainingValue++;
             }
-            points += 25 * n;
         }
         return isFinishedChanged;
     }
@@ -97,32 +154,30 @@ public class STSolver {
         boolean isFinishedChanged = false;
         int n = 0;
         if (island.getNumberOfRemainingBridgesOfUnfinishedNeighbours() == island.getRemainingValue()) {
-            if (island.getDownNeighbour() != null && island.getRemainingDownBridges() != 0) {
-                if (addBridges(island, island.getDownNeighbour(), island.getRemainingDownBridges() == 2, true))
+            if (island.getDownNeighbour() != null && island.getRemainingBridges(DOWN) != 0) {
+                if (addBridges(island, island.getDownNeighbour(), island.getRemainingBridges(DOWN) == 2, true))
                     isFinishedChanged = true;
-                n++;
+                islandRemainingValueEqualsToUnfinishedNeighboursRemainingBridges++;
             }
-            if (island.getUpNeighbour() != null && island.getRemainingUpBridges() != 0) {
-                if (addBridges(island.getUpNeighbour(), island, island.getRemainingUpBridges() == 2, true))
+            if (island.getUpNeighbour() != null && island.getRemainingBridges(UP) != 0) {
+                if (addBridges(island.getUpNeighbour(), island, island.getRemainingBridges(UP) == 2, true))
                     isFinishedChanged = true;
-                n++;
+                islandRemainingValueEqualsToUnfinishedNeighboursRemainingBridges++;
             }
-            if (island.getRightNeighbour() != null && island.getRemainingRightBridges() != 0) {
-                if (addBridges(island, island.getRightNeighbour(), island.getRemainingRightBridges() == 2, true))
+            if (island.getRightNeighbour() != null && island.getRemainingBridges(RIGHT) != 0) {
+                if (addBridges(island, island.getRightNeighbour(), island.getRemainingBridges(RIGHT) == 2, true))
                     isFinishedChanged = true;
-                n++;
+                islandRemainingValueEqualsToUnfinishedNeighboursRemainingBridges++;
             }
-            if (island.getLeftNeighbour() != null && island.getRemainingLeftBridges() != 0) {
-                if (addBridges(island.getLeftNeighbour(), island, island.getRemainingLeftBridges() == 2, true))
+            if (island.getLeftNeighbour() != null && island.getRemainingBridges(LEFT) != 0) {
+                if (addBridges(island.getLeftNeighbour(), island, island.getRemainingBridges(LEFT) == 2, true))
                     isFinishedChanged = true;
-                n++;
+                islandRemainingValueEqualsToUnfinishedNeighboursRemainingBridges++;
             }
-            points += 25 * n;
         }
         return isFinishedChanged;
     }
 
-    //todo: pipa
     private static boolean threeInTheCornerFiveOnTheSideAndSevenInTheMiddle(STIsland island) {
         boolean isFinishedChanged = false;
         int n = 0;
@@ -136,25 +191,25 @@ public class STSolver {
                     isDouble = island.getDownNeighbour().getValue() != 1;
                     if (addBridges(island, island.getDownNeighbour(), isDouble, isDouble))
                         isFinishedChanged = true;
-                    n++;
+                    threeInTheCornerFiveOnTheSideAndSevenInTheMiddle++;
                 }
                 if (island.getUpNeighbour() != null && !island.getUpNeighbour().isFinished()) {
                     isDouble = island.getUpNeighbour().getValue() != 1;
                     if (addBridges(island.getUpNeighbour(), island, isDouble, isDouble))
                         isFinishedChanged = true;
-                    n++;
+                    threeInTheCornerFiveOnTheSideAndSevenInTheMiddle++;
                 }
                 if (island.getRightNeighbour() != null && !island.getRightNeighbour().isFinished()) {
                     isDouble = island.getRightNeighbour().getValue() != 1;
                     if (addBridges(island, island.getRightNeighbour(), isDouble, isDouble))
                         isFinishedChanged = true;
-                    n++;
+                    threeInTheCornerFiveOnTheSideAndSevenInTheMiddle++;
                 }
                 if (island.getLeftNeighbour() != null && !island.getLeftNeighbour().isFinished()) {
                     isDouble = island.getLeftNeighbour().getValue() != 1;
                     if (addBridges(island.getLeftNeighbour(), island, isDouble, isDouble))
                         isFinishedChanged = true;
-                    n++;
+                    threeInTheCornerFiveOnTheSideAndSevenInTheMiddle++;
                 }
             }
 //                2. Islands with 3 in the corner, 5 on the side and 7 in the middle:
@@ -162,25 +217,24 @@ public class STSolver {
                 if (island.getDownNeighbour() != null && !island.getDownNeighbour().isFinished()) {
                     if (addBridges(island, island.getDownNeighbour(), false, false))
                         isFinishedChanged = true;
-                    n++;
+                    threeInTheCornerFiveOnTheSideAndSevenInTheMiddle++;
                 }
                 if (island.getUpNeighbour() != null && !island.getUpNeighbour().isFinished()) {
                     if (addBridges(island.getUpNeighbour(), island, false, false))
                         isFinishedChanged = true;
-                    n++;
+                    threeInTheCornerFiveOnTheSideAndSevenInTheMiddle++;
                 }
                 if (island.getRightNeighbour() != null && !island.getRightNeighbour().isFinished()) {
                     if (addBridges(island, island.getRightNeighbour(), false, false))
                         isFinishedChanged = true;
-                    n++;
+                    threeInTheCornerFiveOnTheSideAndSevenInTheMiddle++;
                 }
                 if (island.getLeftNeighbour() != null && !island.getLeftNeighbour().isFinished()) {
                     if (addBridges(island.getLeftNeighbour(), island, false, false))
                         isFinishedChanged = true;
-                    n++;
+                    threeInTheCornerFiveOnTheSideAndSevenInTheMiddle++;
                 }
             }
-            points += 10 * n;
         }
         return isFinishedChanged;
     }
@@ -195,24 +249,26 @@ public class STSolver {
                 isDouble = island.getDownNeighbour().getValue() != 1;
                 if (addBridges(island, island.getDownNeighbour(), isDouble, isDouble))
                     isFinishedChanged = true;
+                fourOnTheSide++;
             }
             if (island.getUpNeighbour() != null) {
                 isDouble = island.getUpNeighbour().getValue() != 1;
                 if (addBridges(island.getUpNeighbour(), island, isDouble, isDouble))
                     isFinishedChanged = true;
+                fourOnTheSide++;
             }
             if (island.getRightNeighbour() != null) {
                 isDouble = island.getRightNeighbour().getValue() != 1;
                 if (addBridges(island, island.getRightNeighbour(), isDouble, isDouble))
                     isFinishedChanged = true;
+                fourOnTheSide++;
             }
             if (island.getLeftNeighbour() != null) {
                 isDouble = island.getLeftNeighbour().getValue() != 1;
                 if (addBridges(island.getLeftNeighbour(), island, isDouble, isDouble))
                     isFinishedChanged = true;
+                fourOnTheSide++;
             }
-//            System.out.println("fourOnTheSide");
-            points += 30 * 4;
         }
 
         return isFinishedChanged;
@@ -222,56 +278,57 @@ public class STSolver {
     private static boolean sixInTheMiddle(STIsland island) {
         boolean isDouble = false;
         boolean isFinishedChanged = false;
-        if (island.getNumberOfNeighbours() == 4 && island.getValue() == 6 && island.numberOfUnfinishedNeighboursWithValueOne() == 1) {
+        if (island.getNumberOfNeighbours() == 4 && island.getValue() == 6 && island.getRemainingValue() == 6 && island.numberOfUnfinishedNeighboursWithValueOne() == 1) {
             //isDouble = island.neighbourWithValueOne().isFinished();
             if (island.getDownNeighbour().getValue() != 1) {
                 if (addBridges(island, island.getDownNeighbour(), isDouble, isDouble))
                     isFinishedChanged = true;
+                sixInTheMiddle++;
             }
             if (island.getUpNeighbour().getValue() != 1) {
                 if (addBridges(island.getUpNeighbour(), island, isDouble, isDouble))
                     isFinishedChanged = true;
+                sixInTheMiddle++;
             }
             if (island.getRightNeighbour().getValue() != 1) {
                 if (addBridges(island, island.getRightNeighbour(), isDouble, isDouble))
                     isFinishedChanged = true;
+                sixInTheMiddle++;
             }
             if (island.getLeftNeighbour().getValue() != 1) {
                 if (addBridges(island.getLeftNeighbour(), island, isDouble, isDouble))
                     isFinishedChanged = true;
+                sixInTheMiddle++;
             }
 //            System.out.println("sixInTheMiddle");
-            points += 20 * 3;
         }
         return isFinishedChanged;
     }
 
     private static boolean justEnoughDoubleNeighbours(STIsland island) {
         boolean isFinishedChanged = false;
-        int n = 0;
-        if (island.getValue() == island.getNumberOfNeighbours() * 2) {
+        if (island.getValue() == (island.getNumberOfNeighbours() * 2)) {
             if (island.getDownNeighbour() != null) {
                 if (addBridges(island, island.getDownNeighbour(), true, true))
                     isFinishedChanged = true;
-                n++;
+                justEnoughDoubleNeighbours++;
             }
             if (island.getUpNeighbour() != null) {
                 if (addBridges(island.getUpNeighbour(), island, true, true))
                     isFinishedChanged = true;
-                n++;
+                justEnoughDoubleNeighbours++;
             }
             if (island.getRightNeighbour() != null) {
                 if (addBridges(island, island.getRightNeighbour(), true, true))
                     isFinishedChanged = true;
-                n++;
+                justEnoughDoubleNeighbours++;
             }
             if (island.getLeftNeighbour() != null) {
                 if (addBridges(island.getLeftNeighbour(), island, true, true))
                     isFinishedChanged = true;
-                n++;
+                justEnoughDoubleNeighbours++;
             }
 //            System.out.println("justEnoughDoubleNeighbours");
-            points += 10 * n;
         }
         return isFinishedChanged;
     }
@@ -280,100 +337,151 @@ public class STSolver {
         boolean isFinishedChanged = false;
         if (island.numberOfUnfinishedNeighboursWithFreeBridges() == 1) {
             boolean isDouble = island.getRemainingValue() == 2;
-            if (island.getDownNeighbour() != null && !island.getDownNeighbour().isFinished() && island.getRemainingDownBridges() > 0) {
+            if (island.getDownNeighbour() != null && !island.getDownNeighbour().isFinished() && island.getRemainingBridges(DOWN) > 0) {
                 if (addBridges(island, island.getDownNeighbour(), isDouble, true))
                     isFinishedChanged = true;
+                oneUnsolvedNeighbour++;
             }
-            if (island.getUpNeighbour() != null && !island.getUpNeighbour().isFinished() && island.getRemainingUpBridges() > 0) {
+            if (island.getUpNeighbour() != null && !island.getUpNeighbour().isFinished() && island.getRemainingBridges(UP) > 0) {
                 if (addBridges(island.getUpNeighbour(), island, isDouble, true))
                     isFinishedChanged = true;
+                oneUnsolvedNeighbour++;
             }
-            if (island.getRightNeighbour() != null && !island.getRightNeighbour().isFinished()) {
+            if (island.getRightNeighbour() != null && !island.getRightNeighbour().isFinished() && island.getRemainingBridges(RIGHT) > 0) {
                 if (addBridges(island, island.getRightNeighbour(), isDouble, true))
                     isFinishedChanged = true;
+                oneUnsolvedNeighbour++;
             }
-            if (island.getLeftNeighbour() != null && !island.getLeftNeighbour().isFinished()) {
+            if (island.getLeftNeighbour() != null && !island.getLeftNeighbour().isFinished() && island.getRemainingBridges(LEFT) > 0) {
                 if (addBridges(island.getLeftNeighbour(), island, isDouble, true))
                     isFinishedChanged = true;
+                oneUnsolvedNeighbour++;
             }
 //            System.out.println("oneUnsolvedNeighbour");
-            points += 10;
         }
         return isFinishedChanged;
     }
 
-    private static boolean isolationOfATwoIslandSegment(STIsland island) {
-        boolean isFinishedChanged = false;
-
-        if (island.getValue() == 1 && island.numberOfUnfinishedNeighboursWithValueOne() >= 1
-                || island.getValue() == 2 && island.numberOfNeighboursWithValueTwo() >= 1) {
-            int value = island.getValue();
-            if (island.getDownNeighbour() != null && island.getDownNeighbour().getValue() != value) {
-                if (addBridges(island, island.getDownNeighbour(), false, false))
-                    isFinishedChanged = true;
-            }
-            if (island.getUpNeighbour() != null && island.getUpNeighbour().getValue() != value) {
-                if (addBridges(island.getUpNeighbour(), island, false, false))
-                    isFinishedChanged = true;
-            }
-            if (island.getRightNeighbour() != null && island.getRightNeighbour().getValue() != value) {
-                if (addBridges(island, island.getRightNeighbour(), false, false))
-                    isFinishedChanged = true;
-            }
-            if (island.getLeftNeighbour() != null && island.getLeftNeighbour().getValue() != value) {
-                if (addBridges(island.getLeftNeighbour(), island, false, false))
-                    isFinishedChanged = true;
-            }
-//            System.out.println("isolationOfATwoIslandSegment");
-            points += 60;
-        }
-        return isFinishedChanged;
-    }
-
-    private static boolean isolationOfASegment(STIsland island) {
-        boolean isFinishedChanged = false;
-
-        ArrayList<STIsland> neighboursWithoutBridges = island.getNeighboursWithoutBridges();
-        if (neighboursWithoutBridges.size() > 0) {
-            int sumOfValues = 0;
-            for (STIsland i : neighboursWithoutBridges) {
-                sumOfValues += i.getValue();
-            }
-            for (STIsland i : neighboursWithoutBridges) {
-                if ((sumOfValues - i.getValue()) == island.getValue()) {
-                    isFinishedChanged = addBridges(island, i, false, false);
-                }
-            }
-        }
-        return isFinishedChanged;
-    }
 
     private static boolean leftoverTechniques(STIsland island) {
         boolean isFinishedChanged = false;
         int n = 0;
-        if (island.getNumberOfUnfinishedNeighbours() == island.getRemainingValue() && island.numberOfNeighboursWithRemainingValueOne() == island.getRemainingValue() - 1) {
+        if (island.getNumberOfUnfinishedNeighbours() == island.getRemainingValue() && island.numberOfUnfinishedNeighboursWithValue(1) == island.getRemainingValue() - 1) {
             if (island.getDownNeighbour() != null && !island.getDownNeighbour().isFinished() && island.getDownNeighbour().getRemainingValue() != 1) {
                 if (addBridges(island, island.getDownNeighbour(), false, true))
                     isFinishedChanged = true;
-                n++;
+                leftoverTechniques++;
             }
             if (island.getUpNeighbour() != null && !island.getUpNeighbour().isFinished() && island.getUpNeighbour().getRemainingValue() != 1) {
                 if (addBridges(island.getUpNeighbour(), island, false, true))
                     isFinishedChanged = true;
-                n++;
+                leftoverTechniques++;
             }
             if (island.getRightNeighbour() != null && !island.getRightNeighbour().isFinished() && island.getRightNeighbour().getRemainingValue() != 1) {
                 if (addBridges(island, island.getRightNeighbour(), false, true))
                     isFinishedChanged = true;
-                n++;
+                leftoverTechniques++;
             }
             if (island.getLeftNeighbour() != null && !island.getLeftNeighbour().isFinished() && island.getLeftNeighbour().getRemainingValue() != 1) {
                 if (addBridges(island.getLeftNeighbour(), island, false, true))
                     isFinishedChanged = true;
-                n++;
+                leftoverTechniques++;
             }
-            points += 25 * n;
 //            System.out.println("leftoverTechniques");
+        }
+        return isFinishedChanged;
+    }
+
+//    //todo: ez nem jó
+//    private static boolean isolationOfASegment(STIsland island) {
+//        boolean isFinishedChanged = false;
+//        if (island.getNumberOfNeighboursWithoutBridges() == island.getNumberOfNeighbours()) {
+//
+//
+//            ArrayList<STIsland> neighboursWithoutBridges = island.getNeighboursWithoutBridges();
+//            if (neighboursWithoutBridges.size() > 0) {
+//                int sumOfValues = 0;
+//                for (STIsland i : neighboursWithoutBridges) {
+//                    sumOfValues += Math.min(i.getValue(), 2);
+//                }
+//                for (STIsland i : neighboursWithoutBridges) {
+//                    if ((sumOfValues - i.getValue()) == island.getRemainingValue()) {
+//                        isFinishedChanged = addBridges(island, i, false, false);
+//                    }
+//                }
+//            }
+//        }
+//        return isFinishedChanged;
+//    }
+
+    private static boolean isolationOfATwoIslandSegment(STIsland island) {
+        boolean isFinishedChanged = false;
+        if (island.getValue() == 1 && island.getRemainingValue() == 1 && (island.numberOfUnfinishedNeighboursWithValue(1) + 1 == island.getNumberOfNeighbours())) {
+            int value = island.getValue();
+            if (island.getDownNeighbour() != null && !island.getDownNeighbour().isFinished() && island.getDownNeighbour().getValue() != 1) {
+                if (addBridges(island, island.getDownNeighbour(), false, false))
+                    isFinishedChanged = true;
+                isolationOfATwoIslandSegment++;
+            }
+            if (island.getUpNeighbour() != null && !island.getUpNeighbour().isFinished() && island.getUpNeighbour().getValue() != 1) {
+                if (addBridges(island.getUpNeighbour(), island, false, false))
+                    isFinishedChanged = true;
+                isolationOfATwoIslandSegment++;
+            }
+            if (island.getRightNeighbour() != null && !island.getRightNeighbour().isFinished() && island.getRightNeighbour().getValue() != 1) {
+                if (addBridges(island, island.getRightNeighbour(), false, false))
+                    isFinishedChanged = true;
+                isolationOfATwoIslandSegment++;
+            }
+            if (island.getLeftNeighbour() != null && !island.getLeftNeighbour().isFinished() && island.getLeftNeighbour().getValue() != 1) {
+                if (addBridges(island.getLeftNeighbour(), island, false, false))
+                    isFinishedChanged = true;
+                isolationOfATwoIslandSegment++;
+            }
+        } else if (island.getValue() == 2 && island.getRemainingValue() == 2 && island.numberOfUnfinishedNeighboursWithValue(2) == 2 && island.getNumberOfNeighbours() == 2) {
+            int value = island.getValue();
+            if (island.getDownNeighbour() != null && !island.getDownNeighbour().isFinished() && island.getDownNeighbour().getValue() == 2) {
+                if (addBridges(island, island.getDownNeighbour(), false, false))
+                    isFinishedChanged = true;
+                isolationOfATwoIslandSegment++;
+            }
+            if (island.getUpNeighbour() != null && !island.getUpNeighbour().isFinished() && island.getUpNeighbour().getValue() == 2) {
+                if (addBridges(island.getUpNeighbour(), island, false, false))
+                    isFinishedChanged = true;
+                isolationOfATwoIslandSegment++;
+            }
+            if (island.getRightNeighbour() != null && !island.getRightNeighbour().isFinished() && island.getRightNeighbour().getValue() == 2) {
+                if (addBridges(island, island.getRightNeighbour(), false, false))
+                    isFinishedChanged = true;
+                isolationOfATwoIslandSegment++;
+            }
+            if (island.getLeftNeighbour() != null && !island.getLeftNeighbour().isFinished() && island.getLeftNeighbour().getValue() == 2) {
+                if (addBridges(island.getLeftNeighbour(), island, false, false))
+                    isFinishedChanged = true;
+                isolationOfATwoIslandSegment++;
+            }
+        } else if (island.getValue() == 2 && island.getRemainingValue() == 2 && island.numberOfUnfinishedNeighboursWithValue(2) == 1 && island.getNumberOfNeighbours() == 2) {
+            int value = island.getValue();
+            if (island.getDownNeighbour() != null && !island.getDownNeighbour().isFinished() && island.getDownNeighbour().getValue() != 2) {
+                if (addBridges(island, island.getDownNeighbour(), false, false))
+                    isFinishedChanged = true;
+                isolationOfATwoIslandSegment++;
+            }
+            if (island.getUpNeighbour() != null && !island.getUpNeighbour().isFinished() && island.getUpNeighbour().getValue() != 2) {
+                if (addBridges(island.getUpNeighbour(), island, false, false))
+                    isFinishedChanged = true;
+                isolationOfATwoIslandSegment++;
+            }
+            if (island.getRightNeighbour() != null && !island.getRightNeighbour().isFinished() && island.getRightNeighbour().getValue() != 2) {
+                if (addBridges(island, island.getRightNeighbour(), false, false))
+                    isFinishedChanged = true;
+                isolationOfATwoIslandSegment++;
+            }
+            if (island.getLeftNeighbour() != null && !island.getLeftNeighbour().isFinished() && island.getLeftNeighbour().getValue() != 2) {
+                if (addBridges(island.getLeftNeighbour(), island, false, false))
+                    isFinishedChanged = true;
+                isolationOfATwoIslandSegment++;
+            }
         }
         return isFinishedChanged;
     }
@@ -387,15 +495,18 @@ public class STSolver {
                 remainingValue += i.getRemainingValue();
             }
             if (remainingValue == 1) {
-
                 if (island.getDownNeighbour() != null && island.getDownNeighbour().getValue() != 1) {
                     isFinishedChanged = addBridges(island, island.getDownNeighbour(), false, false);
+                    isolationWhenASegmentConnectsToAnIsland++;
                 } else if (island.getUpNeighbour() != null && island.getUpNeighbour().getValue() != 1) {
                     isFinishedChanged = addBridges(island, island.getUpNeighbour(), false, false);
+                    isolationWhenASegmentConnectsToAnIsland++;
                 } else if (island.getRightNeighbour() != null && island.getRightNeighbour().getValue() != 1) {
                     isFinishedChanged = addBridges(island, island.getRightNeighbour(), false, false);
+                    isolationWhenASegmentConnectsToAnIsland++;
                 } else if (island.getLeftNeighbour() != null && island.getLeftNeighbour().getValue() != 1) {
                     isFinishedChanged = addBridges(island, island.getLeftNeighbour(), false, false);
+                    isolationWhenASegmentConnectsToAnIsland++;
                 }
             }
         }
@@ -404,15 +515,15 @@ public class STSolver {
 
     private static boolean isolationWhenASegmentConnectsToAnotherSegment(STIsland island) {
         boolean isFinishedChanged = false;
-        if (island.getNumberOfUnfinishedNeighbours() == 2) {
+        if (island.getNumberOfUnfinishedNeighbours() == 2 && island.getRemainingValue() == 1) {
             HashSet<STIsland> islandSegment = getSegment(island, new HashSet<>());
-            int remainingValue = 0;
+            int unfinishedIslands = 0;
             for (STIsland i : islandSegment) {
-                remainingValue += i.getRemainingValue();
+                if (!i.isFinished())
+                    unfinishedIslands++;
             }
-            if (remainingValue != island.getRemainingValue()) {
+            if (unfinishedIslands > 1)
                 return false;
-            }
             HashSet<STIsland> firstNeighbourSegment = new HashSet<>();
             HashSet<STIsland> secondNeighbourSegment = new HashSet<>();
             STIsland firstNeighbour = null;
@@ -443,8 +554,8 @@ public class STSolver {
                 }
             }
             if (island.getLeftNeighbour() != null && !island.getLeftNeighbour().isFinished()) {
-                secondNeighbour = island.getRightNeighbour();
-                secondNeighbourSegment = getSegment(island.getRightNeighbour(), new HashSet<>());
+                secondNeighbour = island.getLeftNeighbour();
+                secondNeighbourSegment = getSegment(island.getLeftNeighbour(), new HashSet<>());
             }
             for (STIsland i : firstNeighbourSegment) {
                 firstRemainingValue += i.getRemainingValue();
@@ -452,14 +563,56 @@ public class STSolver {
             for (STIsland i : secondNeighbourSegment) {
                 secondRemainingValue += i.getRemainingValue();
             }
-            if (remainingValue == secondRemainingValue) {
+            if (1 == secondRemainingValue) {
                 isFinishedChanged = addBridges(island, firstNeighbour, false, false);
+                isolationWhenASegmentConnectsToAnotherSegment++;
             }
-            if (remainingValue == firstRemainingValue) {
+            if (1 == firstRemainingValue) {
                 isFinishedChanged = addBridges(island, secondNeighbour, false, false);
+                isolationWhenASegmentConnectsToAnotherSegment++;
             }
         }
         return isFinishedChanged;
+    }
+
+
+    private static void addRandomBridge() {
+        if (stBoardBeforeRandom == null) {
+            try {
+                stBoardBeforeRandom = (STBoard) stBoard.clone();
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        Random rand = new Random();
+        int randomNumber = rand.nextInt(stBoard.getUnfinishedIslands().size() - 1);
+        STIsland island = stBoard.getUnfinishedIslands().get(randomNumber);
+        int randomDirection = rand.nextInt(3);
+        addRandomBridge++;
+        switch (randomDirection) {
+            case 0:
+                if (island.getDownNeighbour() != null && !island.getDownNeighbour().isFinished() && island.getDownBridges() == null) {
+                    addBridges(island, island.getDownNeighbour(), false, false);
+                }
+                break;
+            case 1:
+                if (island.getUpNeighbour() != null && !island.getUpNeighbour().isFinished() && island.getUpBridges() == null) {
+                    addBridges(island, island.getUpNeighbour(), false, false);
+                }
+                break;
+            case 2:
+                if (island.getRightNeighbour() != null && !island.getRightNeighbour().isFinished() && island.getRightBridges() == null) {
+                    addBridges(island, island.getRightNeighbour(), false, false);
+                }
+                break;
+            case 3:
+                if (island.getLeftNeighbour() != null && !island.getLeftNeighbour().isFinished() && island.getLeftBridges() == null) {
+                    addBridges(island, island.getLeftNeighbour(), false, false);
+                }
+                break;
+        }
+
     }
 
     private static void checkIntersectingBridges() {
@@ -576,117 +729,127 @@ public class STSolver {
     private static HashSet<STIsland> getSegment(STIsland island, HashSet<STIsland> segment) {
         if (!segment.contains(island)) {
             segment.add(island);
-            if (island.getDownNeighbour() != null) {
+            if (island.getDownBridges() != null) {
                 getSegment(island.getDownNeighbour(), segment);
             }
-            if (island.getUpNeighbour() != null) {
+            if (island.getUpBridges() != null) {
                 getSegment(island.getUpNeighbour(), segment);
             }
-            if (island.getRightNeighbour() != null) {
+            if (island.getRightBridges() != null) {
                 getSegment(island.getRightNeighbour(), segment);
             }
-            if (island.getLeftNeighbour() != null) {
+            if (island.getLeftBridges() != null) {
                 getSegment(island.getLeftNeighbour(), segment);
             }
         }
         return segment;
     }
 
+    private static void callSolverFunctions() {
 
-    private static void callSolverFunction() {
         boolean changed = false;
 
         checkIntersectingBridges();
+
         for (int i = 0; i < stBoard.getUnfinishedIslands().size(); i++) {
             changed = leftoverTechniques(stBoard.getUnfinishedIslands().get(i));
             if (changed) {
-                System.out.println("leftoverTechniques");
+                points += 5;
+//                System.out.println("leftoverTechniques " + stBoard.getUnfinishedIslands().get(i).getId() + "(" + stBoard.getUnfinishedIslands().get(i).getPosition().toString() + ")" );
                 return;
             }
         }
         for (int i = 0; i < stBoard.getUnfinishedIslands().size(); i++) {
             changed = justEnoughDoubleNeighbours(stBoard.getUnfinishedIslands().get(i));
             if (changed) {
-                System.out.println("justEnoughDoubleNeighbours");
+                points += 10;
+//                System.out.println("justEnoughDoubleNeighbours " + stBoard.getUnfinishedIslands().get(i).getValue() + "(" + stBoard.getUnfinishedIslands().get(i).getPosition().toString() + ")" );
                 return;
             }
         }
         for (int i = 0; i < stBoard.getUnfinishedIslands().size(); i++) {
             changed = oneUnsolvedNeighbour(stBoard.getUnfinishedIslands().get(i));
             if (changed) {
-                System.out.println("oneUnsolvedNeighbour");
+                points += 5;
+//                System.out.println("oneUnsolvedNeighbour " + stBoard.getUnfinishedIslands().get(i).getId() + "(" + stBoard.getUnfinishedIslands().get(i).getPosition().toString() + ")" );
                 return;
             }
         }
         for (int i = 0; i < stBoard.getUnfinishedIslands().size(); i++) {
             changed = islandRemainingValueEqualsToUnfinishedNeighboursRemainingValue(stBoard.getUnfinishedIslands().get(i));
             if (changed) {
-                System.out.println("islandRemainingValueEqualsToUnfinishedNeighboursRemainingValue");
+                points += 10;
+//                System.out.println("islandRemainingValueEqualsToUnfinishedNeighboursRemainingValue " + stBoard.getUnfinishedIslands().get(i).getId() + "(" + stBoard.getUnfinishedIslands().get(i).getPosition().toString() + ")" );
                 return;
             }
         }
         for (int i = 0; i < stBoard.getUnfinishedIslands().size(); i++) {
             changed = fourOnTheSide(stBoard.getUnfinishedIslands().get(i));
             if (changed) {
-                System.out.println("fourOnTheSide");
+                points += 20;
+//                System.out.println("fourOnTheSide " + stBoard.getUnfinishedIslands().get(i).getId() + "(" + stBoard.getUnfinishedIslands().get(i).getPosition().toString() + ")" );
                 return;
             }
         }
         for (int i = 0; i < stBoard.getUnfinishedIslands().size(); i++) {
             changed = sixInTheMiddle(stBoard.getUnfinishedIslands().get(i));
             if (changed) {
-                System.out.println("sixInTheMiddle");
+                points += 20;
+//                System.out.println("sixInTheMiddle " + stBoard.getUnfinishedIslands().get(i).getId() + "(" + stBoard.getUnfinishedIslands().get(i).getPosition().toString() + ")" );
                 return;
             }
         }
         for (int i = 0; i < stBoard.getUnfinishedIslands().size(); i++) {
             changed = threeInTheCornerFiveOnTheSideAndSevenInTheMiddle(stBoard.getUnfinishedIslands().get(i));
             if (changed) {
-                System.out.println("threeInTheCornerFiveOnTheSideAndSevenInTheMiddle");
+                points += 20;
+//                System.out.println("threeInTheCornerFiveOnTheSideAndSevenInTheMiddle " + stBoard.getUnfinishedIslands().get(i).getId() + "(" + stBoard.getUnfinishedIslands().get(i).getPosition().toString() + ")" );
                 return;
             }
         }
         for (int i = 0; i < stBoard.getUnfinishedIslands().size(); i++) {
             changed = islandRemainingValueEqualsToUnfinishedNeighboursRemainingBridges(stBoard.getUnfinishedIslands().get(i));
             if (changed) {
-                System.out.println("islandRemainingValueEqualsToUnfinishedNeighboursRemainingBridges");
+                points += 20;
+//                System.out.println("islandRemainingValueEqualsToUnfinishedNeighboursRemainingBridges " + stBoard.getUnfinishedIslands().get(i).getId() + "(" + stBoard.getUnfinishedIslands().get(i).getPosition().toString() + ")" );
                 return;
             }
         }
-//
-//
-//        i = 0;
-//        idx = 0;
-//        while (i < stBoard.getUnfinishedIslands().size()) {
-//            for (i = idx; i < stBoard.getUnfinishedIslands().size(); i++) {
-//                changed = isolationOfATwoIslandSegment(stBoard.getUnfinishedIslands().get(i));
-//                if (changed) {
-//                    idx = i;
-//                    System.out.println("isolationOfATwoIslandSegment");
-//                    return;
-//                }
+        for (int i = 0; i < stBoard.getUnfinishedIslands().size(); i++) {
+            changed = isolationOfATwoIslandSegment(stBoard.getUnfinishedIslands().get(i));
+            if (changed) {
+                points += 50;
+//                System.out.println("isolationOfATwoIslandSegment " + stBoard.getUnfinishedIslands().get(i).getId() + "(" + stBoard.getUnfinishedIslands().get(i).getPosition().toString() + ")" );
+                return;
+            }
+        }
+//        for (int i = 0; i < stBoard.getUnfinishedIslands().size(); i++) {
+//            changed = isolationWhenASegmentConnectsToAnIsland(stBoard.getUnfinishedIslands().get(i));
+//            if (changed) {
+//                points += 60;
+////                System.out.println("isolationWhenASegmentConnectsToAnIsland " + stBoard.getUnfinishedIslands().get(i).getId() + "(" + stBoard.getUnfinishedIslands().get(i).getPosition().toString() + ")" );
+//                return;
 //            }
 //        }
         for (int i = 0; i < stBoard.getUnfinishedIslands().size(); i++) {
-            changed = isolationOfASegment(stBoard.getUnfinishedIslands().get(i));
-            if (changed) {
-                System.out.println("isolationOfASegment");
-                return;
-            }
-        }
-        for (int i = 0; i < stBoard.getUnfinishedIslands().size(); i++) {
-            changed = isolationWhenASegmentConnectsToAnIsland(stBoard.getUnfinishedIslands().get(i));
-            if (changed) {
-                System.out.println("isolationWhenASegmentConnectsToAnIsland");
-                return;
-            }
-        }
-        for (int i = 0; i < stBoard.getUnfinishedIslands().size(); i++) {
             changed = isolationWhenASegmentConnectsToAnotherSegment(stBoard.getUnfinishedIslands().get(i));
             if (changed) {
-                System.out.println("isolationWhenASegmentConnectsToAnotherSegment");
+                points += 60;
+//                System.out.println("isolationWhenASegmentConnectsToAnotherSegment " + stBoard.getUnfinishedIslands().get(i).getId() + "(" + stBoard.getUnfinishedIslands().get(i).getPosition().toString() + ")" );
                 return;
             }
         }
+        //  addRandomBridge();
+
+
+//        for (int i = 0; i < stBoard.getUnfinishedIslands().size(); i++) {
+//            changed = isolationOfASegment(stBoard.getUnfinishedIslands().get(i));
+//            if (changed) {
+//                points += 50;
+//                System.out.println("isolationOfASegment " + stBoard.getUnfinishedIslands().get(i).getId() + "(" + stBoard.getUnfinishedIslands().get(i).getPosition().toString() + ")" );
+//                return;
+//            }
+//        }
+
     }
 }

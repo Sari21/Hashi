@@ -1,12 +1,16 @@
 package solver.solvingTechniques.models;
 
-import java.util.ArrayList;
+import solver.solvingTechniques.Levels;
 
-public class STBoard {
+import java.util.ArrayList;
+import java.util.HashSet;
+
+public class STBoard implements Cloneable  {
     private int width, height;
     private String filename;
+    private Levels level;
     
-    private ArrayList<STIsland> unfinishedIslands = new ArrayList<>();
+    private  ArrayList<STIsland> unfinishedIslands = new ArrayList<>();
     private ArrayList<STIsland> finishedIslands = new ArrayList<>();
     private ArrayList<STBridge> bridges = new ArrayList<>();
 
@@ -17,6 +21,46 @@ public class STBoard {
 
     public STBoard() {
     }
+
+    //true, ha van még befejezetlen szomszéd
+    //false ha különálló szegmensek vannak
+    public boolean checkFinishedIslands(){
+        HashSet<STIsland> segment = new HashSet<>();
+        ArrayList<STIsland> islands = new ArrayList<>(finishedIslands);
+        while(!islands.isEmpty()){
+            getSegment(islands.get(0), segment);
+            for(STIsland i : segment){
+                if(!i.isFinished()){
+                    islands.removeAll(segment);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    //ellenőrzi, hogy nincsenek-e különálló szegmensek
+    private HashSet<STIsland> getSegment(STIsland island, HashSet<STIsland> segment) {
+        System.out.println(island.getId());
+        if (!segment.contains(island)) {
+            segment.add(island);
+            if (island.getDownBridges() != null) {
+                getSegment(island.getDownNeighbour(), segment);
+            }
+            if (island.getUpBridges() != null) {
+                getSegment(island.getUpNeighbour(), segment);
+            }
+            if (island.getRightBridges() != null) {
+                getSegment(island.getRightNeighbour(), segment);
+            }
+            if (island.getLeftBridges() != null) {
+                getSegment(island.getLeftNeighbour(), segment);
+            }
+        }
+        return segment;
+    }
+
+
     public void finishIsland(STIsland island){
         finishedIslands.add(island);
         unfinishedIslands.remove(island);
@@ -78,5 +122,18 @@ public class STBoard {
 
     public void setFilename(String filename) {
         this.filename = filename;
+    }
+
+    public Levels getLevel() {
+        return level;
+    }
+
+    public void setLevel(Levels level) {
+        this.level = level;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

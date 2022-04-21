@@ -67,5 +67,8 @@ public class Island implements CsvPrintable, Comparable<Island> {
         }
     }
 
-
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

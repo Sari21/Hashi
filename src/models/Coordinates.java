@@ -31,4 +31,17 @@ public class Coordinates implements CsvPrintable {
         return new StringBuilder().append(this.x).append(CSV_SEPARATOR)
                 .append(this.y).toString();
     }
+
+    @Override
+    public String toString() {
+        return "Coordinates{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

@@ -131,8 +131,10 @@ public class Bridge implements CsvPrintable, Comparable<Bridge> {
             return Integer.compare(o.getEndIsland().getPosition().getX(), this.getEndIsland().getPosition().getX());
         } else
             return Integer.compare(o.getEndIsland().getPosition().getY(), this.getEndIsland().getPosition().getY());
-
-
     }
 
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }
