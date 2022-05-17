@@ -24,18 +24,8 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import services.PuzzleGeneratorService;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import javafx.stage.Stage;
-import javafx.scene.layout.*;
-import javafx.scene.paint.*;
 import javafx.scene.text.*;
 import javafx.geometry.*;
-import javafx.scene.layout.*;
-import javafx.scene.shape.*;
-
-import javax.swing.*;
 
 public class MenuView implements ViewElement {
     private Desktop desktop = Desktop.getDesktop();
@@ -79,6 +69,8 @@ public class MenuView implements ViewElement {
         Button solveGameLP = new Button("Solve game LP");
         Button solveGameST = new Button("Solve game ST");
         Button solveMultipleGamesST = new Button("Solve multiple games ST");
+        Button solveMultipleGamesLP = new Button("Solve multiple games LP");
+        Button predictDifficulty = new Button("Predict difficulty");
 
         GridPane.setConstraints(title, 0, 0);
         GridPane.setConstraints(openGame, 1, 1);
@@ -91,12 +83,14 @@ public class MenuView implements ViewElement {
         GridPane.setConstraints(solveGameLP, 1, 3);
         GridPane.setConstraints(solveGameST, 1, 4);
         GridPane.setConstraints(solveMultipleGamesST, 1, 5);
+        GridPane.setConstraints(solveMultipleGamesLP, 1, 6);
+        GridPane.setConstraints(predictDifficulty, 1, 7);
         gridPane.setHgap(10);
         gridPane.setVgap(10);
         generateNewGame.setMinWidth(140);
         gridPane.setMinWidth(generateNewGame.getMinWidth());
         gridPane.getChildren().addAll(title, openGame, openSolution, generateNewGame, generateNewGameWithSolution,
-                widthHB, heightHB, islandsHB, solveGameLP, solveGameST, solveMultipleGamesST);
+                widthHB, heightHB, islandsHB, solveGameLP, solveGameST, solveMultipleGamesST, solveMultipleGamesLP, predictDifficulty);
 
         final Pane rootGroup = new VBox(12);
         rootGroup.getChildren().addAll(gridPane);
@@ -134,7 +128,7 @@ public class MenuView implements ViewElement {
                         File file = fileChooser.showOpenDialog(stage);
                         if (file != null) {
                             try {
-                                MenuController.solveGame(file);
+                                MenuController.solveGameLP(file);
                             } catch (GRBException ex) {
                                 ex.printStackTrace();
                             }
@@ -161,9 +155,24 @@ public class MenuView implements ViewElement {
                     public void handle(final ActionEvent e) {
                         List<File> files = new ArrayList<>();
                         files = fileChooser.showOpenMultipleDialog(stage);
-                        if (!files.isEmpty()) {
+                        if (files != null && !files.isEmpty()) {
                             try {
                                 MenuController.solveMultipleGameWithSolvingTechniques(files);
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                    }
+                });
+        solveMultipleGamesLP.setOnAction(
+                new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(final ActionEvent e) {
+                        List<File> files = new ArrayList<>();
+                        files = fileChooser.showOpenMultipleDialog(stage);
+                        if (files != null && !files.isEmpty()) {
+                            try {
+                                MenuController.solveMultipleGameLP(files);
                             } catch (Exception ex) {
                                 ex.printStackTrace();
                             }
@@ -194,8 +203,22 @@ public class MenuView implements ViewElement {
                         MenuController.openSolution(file);
                     }
                 });
+        predictDifficulty.setOnAction(
+                new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(final ActionEvent e) {
+                        File file = fileChooser.showOpenDialog(stage);
+                        if (file != null) {
+                            try {
+                                MenuController.predict(file);
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                    }
+                });
 
-        stage.setScene(new Scene(rootGroup, 400, 250));
+        stage.setScene(new Scene(rootGroup, 400, 300));
         stage.getScene().setFill(Color.CORAL);
     }
 

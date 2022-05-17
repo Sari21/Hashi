@@ -27,21 +27,28 @@ public class STBoard implements Cloneable  {
     public boolean checkFinishedIslands(){
         HashSet<STIsland> segment = new HashSet<>();
         ArrayList<STIsland> islands = new ArrayList<>(finishedIslands);
-        while(!islands.isEmpty()){
+        boolean notEmpty =  !islands.isEmpty();
+        while(notEmpty){
             getSegment(islands.get(0), segment);
+            if(segment.size() == finishedIslands.size() + unfinishedIslands.size()){
+                return true;
+            }
             for(STIsland i : segment){
                 if(!i.isFinished()){
                     islands.removeAll(segment);
-                    return true;
+                    notEmpty = !islands.isEmpty();
+                    break;
                 }
+                return false;
             }
+            notEmpty = !islands.isEmpty();
         }
-        return false;
+
+        return true;
     }
 
     //ellenőrzi, hogy nincsenek-e különálló szegmensek
     private HashSet<STIsland> getSegment(STIsland island, HashSet<STIsland> segment) {
-        System.out.println(island.getId());
         if (!segment.contains(island)) {
             segment.add(island);
             if (island.getDownBridges() != null) {

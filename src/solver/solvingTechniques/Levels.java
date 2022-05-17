@@ -1,5 +1,5 @@
 package solver.solvingTechniques;
 
 public enum Levels {
-    EASY, MEDIUM, HARD
+    PRETTY_EASY, EASY, MEDIUM, HARD, VERY_HARD, SUPER_HARD
 }

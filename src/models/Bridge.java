@@ -59,6 +59,8 @@ public class Bridge implements CsvPrintable, Comparable<Bridge> {
         return fields;
     }
 
+
+
     public Bridge() {
     }
 

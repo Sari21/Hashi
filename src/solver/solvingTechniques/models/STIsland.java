@@ -104,6 +104,23 @@ public class STIsland extends Island {
         return n;
     }
 
+    public int getNumberOfNeighboursWithBridges() {
+        int n = 0;
+        if (upBridges != null) {
+            n++;
+        }
+        if (downBridges != null) {
+            n++;
+        }
+        if (rightBridges != null) {
+            n++;
+        }
+        if (leftBridges != null) {
+            n++;
+        }
+        return n;
+    }
+
     public int numberOfUnfinishedNeighboursWithValueOne() {
         int n = 0;
         if (upNeighbour != null && !upNeighbour.isFinished() && upNeighbour.getValue() == 1)
@@ -119,7 +136,7 @@ public class STIsland extends Island {
 
     public int numberOfUnfinishedNeighboursWithValue(int value) {
         int n = 0;
-        if (upNeighbour != null && !upNeighbour.isFinished() &&upNeighbour.getValue() == value)
+        if (upNeighbour != null && !upNeighbour.isFinished() && upNeighbour.getValue() == value)
             n++;
         if (downNeighbour != null && !downNeighbour.isFinished() && downNeighbour.getValue() == value)
             n++;

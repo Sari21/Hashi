@@ -2,15 +2,18 @@ package solver.mathematical;
 
 import gurobi.*;
 import models.Board;
+import services.FileService;
 import solver.mathematical.converters.BoardAndSolverModelConverter;
 import solver.mathematical.models.LPModel;
+
+import static interfaces.CsvPrintable.CSV_SEPARATOR;
 
 public class LPSolver {
     public static Board solve(Board board) throws GRBException {
         try {
             // Create empty environment, set options, and start
             GRBEnv env = new GRBEnv(true);
-            env.set("logFile", "mip1.log");
+          //  env.set("logFile", "mip1.log");
             env.start();
 
             // Create empty model
@@ -92,7 +95,7 @@ public class LPSolver {
                 expr1.addTerm(1.0, Y[startIdx2][endIdx2]);
 //                    GRBVar var = model.addVar(0.0, 1.0, 0.0, GRB.BINARY, "x");
                 model.addConstr(expr1, GRB.LESS_EQUAL, 1.0, "int");
-                System.out.println(startIdx1 + " " + endIdx1 + " " + startIdx2 + " " + endIdx2);
+//                System.out.println(startIdx1 + " " + endIdx1 + " " + startIdx2 + " " + endIdx2);
             }
             //szomszédok todo pipa
             for (int i = 0; i < LPModel.getN(); i++) {
@@ -110,8 +113,39 @@ public class LPSolver {
             model.addConstr(sumY, GRB.GREATER_EQUAL, LPModel.getN() - 1, "spanning tree");
             model.optimize();
 
+            double iterCount = model.get(GRB.DoubleAttr.IterCount);
+            double barIterCount = model.get(GRB.IntAttr.BarIterCount);
+            double runtime = model.get(GRB.DoubleAttr.Runtime);
+            int fingerprint = model.get(GRB.IntAttr.Fingerprint);
+            int numVars = model.get(GRB.IntAttr.NumVars);
+            double nodeCount = model.get(GRB.DoubleAttr.NodeCount);
+            int solCount = model.get(GRB.IntAttr.SolCount);
+            double maxBound = model.get(GRB.DoubleAttr.MaxBound);
+            double minBound = model.get(GRB.DoubleAttr.MinBound);
+            double maxObjCoeff = model.get(GRB.DoubleAttr.MaxObjCoeff);
+            double minObjCoeff = model.get(GRB.DoubleAttr.MinObjCoeff);
+            double maxRHS = model.get(GRB.DoubleAttr.MaxRHS);
+            double minRHS = model.get(GRB.DoubleAttr.MinRHS);
+            FileService fileService = new FileService();
+            StringBuilder results = new StringBuilder()
+                    .append(board.getFileName()).append(CSV_SEPARATOR)
+                    .append(iterCount).append(CSV_SEPARATOR)
+                    .append(barIterCount).append(CSV_SEPARATOR)
+                    .append(runtime).append(CSV_SEPARATOR)
+                    .append(fingerprint).append(CSV_SEPARATOR)
+                    .append(numVars).append(CSV_SEPARATOR)
+                    .append(nodeCount).append(CSV_SEPARATOR)
+                    .append(solCount).append(CSV_SEPARATOR)
+                    .append(maxBound).append(CSV_SEPARATOR)
+                    .append(minBound).append(CSV_SEPARATOR)
+                    .append(maxObjCoeff).append(CSV_SEPARATOR)
+                    .append(minObjCoeff).append(CSV_SEPARATOR)
+                    .append(maxRHS).append(CSV_SEPARATOR)
+                    .append(minRHS).append(CSV_SEPARATOR)
+                    .append(board.getLevel());
 //            hidak hozzáadása a táblához
             board = BoardAndSolverModelConverter.convertSolvedGameToBoard(LPModel, X, board);
+            fileService.writeDifficulty("Difficulty_lp.csv", results.toString());
             model.dispose();
             env.dispose();
         } catch (

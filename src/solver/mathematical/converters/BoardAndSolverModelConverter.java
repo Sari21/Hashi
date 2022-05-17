@@ -15,9 +15,9 @@ public class BoardAndSolverModelConverter {
         // n -> szigetek száma
         model.setN(board.getIslands().size());
         board.sortIslands();
-        for (Island i : board.getIslands()) {
-            System.out.println("(" + i.getPosition().getX() + "," + i.getPosition().getY() + ")");
-        }
+//        for (Island i : board.getIslands()) {
+//            System.out.println("(" + i.getPosition().getX() + "," + i.getPosition().getY() + ")");
+//        }
 
         //szomszédok
         model.setNeighbours(new int[model.getN()][model.getN()]);
@@ -34,18 +34,18 @@ public class BoardAndSolverModelConverter {
             }
         }
 
-        for (int i = 0; i < model.getN(); i++) {
-            System.out.println(board.getIslands().get(i).getValue() + " (" + board.getIslands().get(i).getPosition().getX() + "," + board.getIslands().get(i).getPosition().getY() + ")");
-        }
+//        for (int i = 0; i < model.getN(); i++) {
+////            System.out.println(board.getIslands().get(i).getValue() + " (" + board.getIslands().get(i).getPosition().getX() + "," + board.getIslands().get(i).getPosition().getY() + ")");
+//        }
 
         //kiírás
         for (int i = 0; i < model.getN(); i++) {
             for (int j = 0; j < model.getN(); j++) {
 //                    System.out.println(Y[i][j].get(GRB.StringAttr.VarName)
 //                            + " " +Y[i][j].get(GRB.DoubleAttr.X));
-                System.out.print(" " + model.getNeighbours()[i][j]);
+//                System.out.print(" " + model.getNeighbours()[i][j]);
             }
-            System.out.println("");
+//            System.out.println("");
 
         }
 
@@ -56,7 +56,7 @@ public class BoardAndSolverModelConverter {
         }
 
         //metsző élek
-        System.out.println(model.getN());
+//        System.out.println(model.getN());
         for (int i = 0; i < model.getN(); i++) {
             for (int j = i + 1; j < model.getN(); j++) {
                 for (int k = 0; k < model.getN(); k++) {
