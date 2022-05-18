@@ -9,11 +9,13 @@ import solver.mathematical.models.LPModel;
 import static interfaces.CsvPrintable.CSV_SEPARATOR;
 
 public class LPSolver {
+    private static double[] features;
+
     public static Board solve(Board board) throws GRBException {
         try {
             // Create empty environment, set options, and start
             GRBEnv env = new GRBEnv(true);
-          //  env.set("logFile", "mip1.log");
+            //  env.set("logFile", "mip1.log");
             env.start();
 
             // Create empty model
@@ -113,39 +115,27 @@ public class LPSolver {
             model.addConstr(sumY, GRB.GREATER_EQUAL, LPModel.getN() - 1, "spanning tree");
             model.optimize();
 
-            double iterCount = model.get(GRB.DoubleAttr.IterCount);
-            double barIterCount = model.get(GRB.IntAttr.BarIterCount);
-            double runtime = model.get(GRB.DoubleAttr.Runtime);
-            int fingerprint = model.get(GRB.IntAttr.Fingerprint);
-            int numVars = model.get(GRB.IntAttr.NumVars);
-            double nodeCount = model.get(GRB.DoubleAttr.NodeCount);
-            int solCount = model.get(GRB.IntAttr.SolCount);
-            double maxBound = model.get(GRB.DoubleAttr.MaxBound);
-            double minBound = model.get(GRB.DoubleAttr.MinBound);
-            double maxObjCoeff = model.get(GRB.DoubleAttr.MaxObjCoeff);
-            double minObjCoeff = model.get(GRB.DoubleAttr.MinObjCoeff);
-            double maxRHS = model.get(GRB.DoubleAttr.MaxRHS);
-            double minRHS = model.get(GRB.DoubleAttr.MinRHS);
+            features = new double[13];
+
+            features[0] = model.get(GRB.DoubleAttr.IterCount);
+            features[1] = model.get(GRB.IntAttr.BarIterCount);
+            features[2] = model.get(GRB.DoubleAttr.Runtime);
+            features[3] = model.get(GRB.IntAttr.Fingerprint);
+            features[4] = model.get(GRB.IntAttr.NumVars);
+            features[5] = model.get(GRB.DoubleAttr.NodeCount);
+            features[6] = model.get(GRB.IntAttr.SolCount);
+            features[7] = model.get(GRB.DoubleAttr.MaxBound);
+            features[8] = model.get(GRB.DoubleAttr.MinBound);
+            features[9] = model.get(GRB.DoubleAttr.MaxObjCoeff);
+            features[10] = model.get(GRB.DoubleAttr.MinObjCoeff);
+            features[11] = model.get(GRB.DoubleAttr.MaxRHS);
+            features[12] = model.get(GRB.DoubleAttr.MinRHS);
             FileService fileService = new FileService();
-            StringBuilder results = new StringBuilder()
-                    .append(board.getFileName()).append(CSV_SEPARATOR)
-                    .append(iterCount).append(CSV_SEPARATOR)
-                    .append(barIterCount).append(CSV_SEPARATOR)
-                    .append(runtime).append(CSV_SEPARATOR)
-                    .append(fingerprint).append(CSV_SEPARATOR)
-                    .append(numVars).append(CSV_SEPARATOR)
-                    .append(nodeCount).append(CSV_SEPARATOR)
-                    .append(solCount).append(CSV_SEPARATOR)
-                    .append(maxBound).append(CSV_SEPARATOR)
-                    .append(minBound).append(CSV_SEPARATOR)
-                    .append(maxObjCoeff).append(CSV_SEPARATOR)
-                    .append(minObjCoeff).append(CSV_SEPARATOR)
-                    .append(maxRHS).append(CSV_SEPARATOR)
-                    .append(minRHS).append(CSV_SEPARATOR)
-                    .append(board.getLevel());
+            StringBuilder results = new StringBuilder();
+
 //            hidak hozzáadása a táblához
             board = BoardAndSolverModelConverter.convertSolvedGameToBoard(LPModel, X, board);
-            fileService.writeDifficulty("Difficulty_lp.csv", results.toString());
+//            fileService.writeDifficulty("Difficulty_lp.csv", results.toString());
             model.dispose();
             env.dispose();
         } catch (
@@ -153,6 +143,9 @@ public class LPSolver {
             ex.printStackTrace();
         }
         return board;
+    }
+    public static double[] getFeatures(){
+        return features;
     }
 
 }

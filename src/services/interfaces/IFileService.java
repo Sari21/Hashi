@@ -11,4 +11,5 @@ public interface IFileService {
     Board readSolution(File file);
     Board readSolution(Board board);
     Board readGame(File file);
+    void writeDifficulty(String fileToWrite, String fileName, double features[], Levels level);
     }

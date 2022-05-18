@@ -20,6 +20,7 @@ public class STSolver {
     private static STBoard stBoard;
     private static STBoard stBoardBeforeRandom;
     private static int points = 0;
+    private static double[] features;
 
     enum Direction {
         UP,
@@ -105,36 +106,58 @@ public class STSolver {
         double averageNumberOfNeighbours = (double) neighboursWithBridges / (double) numberOfIslands;
         System.out.println("-------------------4");
 
-        FileService fileService = new FileService();
-        StringBuilder results = new StringBuilder()
-                .append(stBoard.getFilename()).append(CSV_SEPARATOR)
-                .append(board.getWidth() * board.getHeight()).append(CSV_SEPARATOR)
-                .append(leftoverTechniques).append(CSV_SEPARATOR)
-                .append(justEnoughDoubleNeighbours).append(CSV_SEPARATOR)
-                .append(oneUnsolvedNeighbour).append(CSV_SEPARATOR)
-                .append(islandRemainingValueEqualsToUnfinishedNeighboursRemainingValue).append(CSV_SEPARATOR)
-                .append(fourOnTheSide).append(CSV_SEPARATOR)
-                .append(sixInTheMiddle).append(CSV_SEPARATOR)
-                .append(threeInTheCornerFiveOnTheSideAndSevenInTheMiddle).append(CSV_SEPARATOR)
-                .append(islandRemainingValueEqualsToUnfinishedNeighboursRemainingBridges).append(CSV_SEPARATOR)
-                .append(isolationOfATwoIslandSegment).append(CSV_SEPARATOR)
-                .append(isolationOfASegment).append(CSV_SEPARATOR)
-                .append(isolationWhenASegmentConnectsToAnotherSegment).append(CSV_SEPARATOR)
-                .append(addRandomBridge).append(CSV_SEPARATOR)
-                .append(stBoard.getUnfinishedIslands().size()).append(CSV_SEPARATOR)
-                .append(remainingValue).append(CSV_SEPARATOR)
-                .append(sumValues).append(CSV_SEPARATOR)
-                .append(retry).append(CSV_SEPARATOR)
-                .append(stBoard.checkFinishedIslands()).append(CSV_SEPARATOR)
-                .append(averageBridgeLength).append(CSV_SEPARATOR)
-                .append(averageNumberOfNeighbours).append(CSV_SEPARATOR)
-                .append(endTime - startTime).append(CSV_SEPARATOR)
-                .append(board.getLevel());
+       features = new double[21];
+        features[0] = board.getWidth() * board.getHeight() ;
+        features[1] =  leftoverTechniques;
+        features[2] = justEnoughDoubleNeighbours ;
+        features[3] = oneUnsolvedNeighbour ;
+        features[4] = islandRemainingValueEqualsToUnfinishedNeighboursRemainingValue ;
+        features[5] = fourOnTheSide ;
+        features[6] = sixInTheMiddle ;
+        features[7] = threeInTheCornerFiveOnTheSideAndSevenInTheMiddle ;
+        features[8] = islandRemainingValueEqualsToUnfinishedNeighboursRemainingBridges ;
+        features[9] = isolationOfATwoIslandSegment ;
+        features[10] = isolationOfASegment ;
+        features[11] = isolationWhenASegmentConnectsToAnotherSegment ;
+        features[12] = addRandomBridge ;
+        features[13] = stBoard.getUnfinishedIslands().size() ;
+        features[14] = remainingValue ;
+        features[15] = sumValues ;
+        features[16] = retry ;
+        features[17] = stBoard.checkFinishedIslands() ? 1 : 0;
+        features[18] = averageBridgeLength ;
+        features[19] = averageNumberOfNeighbours ;
+        features[20] = endTime - startTime ;
+
+//        StringBuilder results = new StringBuilder()
+//                .append(stBoard.getFilename()).append(CSV_SEPARATOR)
+//                .append(board.getWidth() * board.getHeight()).append(CSV_SEPARATOR)
+//                .append(leftoverTechniques).append(CSV_SEPARATOR)
+//                .append(justEnoughDoubleNeighbours).append(CSV_SEPARATOR)
+//                .append(oneUnsolvedNeighbour).append(CSV_SEPARATOR)
+//                .append(islandRemainingValueEqualsToUnfinishedNeighboursRemainingValue).append(CSV_SEPARATOR)
+//                .append(fourOnTheSide).append(CSV_SEPARATOR)
+//                .append(sixInTheMiddle).append(CSV_SEPARATOR)
+//                .append(threeInTheCornerFiveOnTheSideAndSevenInTheMiddle).append(CSV_SEPARATOR)
+//                .append(islandRemainingValueEqualsToUnfinishedNeighboursRemainingBridges).append(CSV_SEPARATOR)
+//                .append(isolationOfATwoIslandSegment).append(CSV_SEPARATOR)
+//                .append(isolationOfASegment).append(CSV_SEPARATOR)
+//                .append(isolationWhenASegmentConnectsToAnotherSegment).append(CSV_SEPARATOR)
+//                .append(addRandomBridge).append(CSV_SEPARATOR)
+//                .append(stBoard.getUnfinishedIslands().size()).append(CSV_SEPARATOR)
+//                .append(remainingValue).append(CSV_SEPARATOR)
+//                .append(sumValues).append(CSV_SEPARATOR)
+//                .append(retry).append(CSV_SEPARATOR)
+//                .append(stBoard.checkFinishedIslands()).append(CSV_SEPARATOR)
+//                .append(averageBridgeLength).append(CSV_SEPARATOR)
+//                .append(averageNumberOfNeighbours).append(CSV_SEPARATOR)
+//                .append(endTime - startTime).append(CSV_SEPARATOR)
+//                .append(board.getLevel());
         System.out.println("-------------------5");
 
 //        char[] tmp = new char[10];
 //        results.getChars('a', 'b', tmp, 1);
-        fileService.writeDifficulty("Difficulty_ST.csv", results.toString());
+//        fileService.writeDifficulty("Difficulty_ST.csv", results.toString());
         System.out.println("-------------------6");
 
         return STBoardConverter.convertSTBoardToBoard(stBoard);
@@ -899,4 +922,7 @@ public class STSolver {
 //        }
 
     }
-}
+    public static double[] getFeatures(){
+        return features;
+    }
+ }

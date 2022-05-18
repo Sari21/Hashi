@@ -142,7 +142,7 @@ public class MenuView implements ViewElement {
                         File file = fileChooser.showOpenDialog(stage);
                         if (file != null) {
                             try {
-                                MenuController.solveGameWithSolvingTechniques(file);
+                                MenuController.solveGameST(file);
                             } catch (Exception ex) {
                                 ex.printStackTrace();
                             }
@@ -157,7 +157,7 @@ public class MenuView implements ViewElement {
                         files = fileChooser.showOpenMultipleDialog(stage);
                         if (files != null && !files.isEmpty()) {
                             try {
-                                MenuController.solveMultipleGameWithSolvingTechniques(files);
+                                MenuController.solveMultipleGamesST(files);
                             } catch (Exception ex) {
                                 ex.printStackTrace();
                             }
@@ -172,7 +172,7 @@ public class MenuView implements ViewElement {
                         files = fileChooser.showOpenMultipleDialog(stage);
                         if (files != null && !files.isEmpty()) {
                             try {
-                                MenuController.solveMultipleGameLP(files);
+                                MenuController.solveMultipleGamesLP(files);
                             } catch (Exception ex) {
                                 ex.printStackTrace();
                             }

@@ -10,6 +10,8 @@ import java.io.*;
 import java.util.Date;
 import java.util.Scanner;
 
+import static interfaces.CsvPrintable.CSV_SEPARATOR;
+
 public class FileService implements IFileService {
 
     @Override
@@ -44,12 +46,18 @@ public class FileService implements IFileService {
         }
     }
 
-    public void writeDifficulty(String filename, String textToWrite) {
-
+    @Override
+    public void writeDifficulty(String fileToWrite, String fileName, double features[], Levels level) {
+        StringBuilder results = new StringBuilder();
+        results.append(fileName).append(CSV_SEPARATOR);
+        for (int i = 0; i < features.length; i++) {
+            results.append(features[i]).append(CSV_SEPARATOR);
+        }
+        results.append(level);
         Writer output;
         try {
-            output = new BufferedWriter(new FileWriter(filename, true));
-            output.append(textToWrite);
+            output = new BufferedWriter(new FileWriter(fileToWrite, true));
+            output.append(results.toString());
             output.append("\n");
             output.close();
         } catch (IOException e) {

@@ -1,4 +1,4 @@
-package classif;
+package classifier;
 
 public class RandomForestClassifier {
 
