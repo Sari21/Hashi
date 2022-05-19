@@ -1,0 +1,17 @@
+HARD0,0,0,0,0,0
+0,1,0,0,0,0
+0,0,0,0,0,0
+0,0,0,0,0,0
+0,0,0,0,0,0
+0,0,0,0,0,0
+bridges
+2;1;double;horizontal
+1;3;double;horizontal
+2;4;double;vertical
+5;3;simple;vertical
+6;2;simple;vertical
+6;2;simple;vertical
+2;4;double;vertical
+2;1;double;horizontal
+1;3;double;horizontal
+5;3;simple;vertical
