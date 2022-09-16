@@ -2,9 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
+<<<<<<< HEAD
       <change afterPath="$PROJECT_DIR$/resources/hashiBoards/8_8_HARD_1653042681635.txt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/resources/hashiBoards/8_8_HARD_1653424715489.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+=======
+      <change afterPath="$PROJECT_DIR$/src/services/BoardService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/services/BridgeService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/services/IslandService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/services/interfaces/IBoardService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/services/interfaces/IBridgeService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/services/interfaces/IIslandService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/Controller.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/PuzzleGeneratorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/PuzzleGeneratorService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/IslandElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/IslandElement.java" afterDir="false" />
+>>>>>>> puzzleGenerator
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,6 +126,7 @@
     <property name="recentsLimit" value="5" />
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
+<<<<<<< HEAD
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\work\onlab\hashi\src\java\main" />
@@ -125,6 +139,8 @@
       <recent name="classifier" />
     </key>
   </component>
+=======
+>>>>>>> puzzleGenerator
   <component name="RunManager" selected="Application.Main">
     <configuration default="true" type="Applet" factoryName="Applet">
       <module name="" />
@@ -291,12 +307,20 @@
     <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
   </component>
   <component name="WindowStateProjectService">
+<<<<<<< HEAD
     <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1652866243055">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824/-1920.-260.1920.1040@0.0.1536.824" timestamp="1652866243055" />
     <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1650571091052" />
     <state x="538" y="113" key="#com.intellij.ide.util.MemberChooser" timestamp="1649406079555">
+=======
+    <state x="574" y="96" key="#com.intellij.ide.util.MemberChooser" timestamp="1635236395338">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="574" y="96" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1635236395338" />
+    <state x="353" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1634290002830">
+>>>>>>> puzzleGenerator
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="538" y="113" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1649406079555" />
