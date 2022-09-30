@@ -22,21 +22,24 @@ public class IslandElement implements ViewElement {
         this.position = island.getPosition();
 
         circle = new Circle();
-        circle.setCenterX(island.getPosition().getX() * FIELD_WIDTH - 40);
-        circle.setCenterY(island.getPosition().getY() * FIELD_WIDTH - 40);
+        int islandX = island.getPosition().getX() + 1;
+        int islandY = island.getPosition().getY() + 1;
+
+        circle.setCenterX(islandX * FIELD_WIDTH - 40);
+        circle.setCenterY(islandY * FIELD_WIDTH - 40);
         circle.setRadius(RADIUS);
         circle.setFill(Color.BISQUE);
 
         number = new Text();
         number.setText(String.valueOf(island.getValue()));
         number.setFont(Font.font("Verdana", 20));
-        number.setX(island.getPosition().getX() * FIELD_WIDTH - 45);
-        number.setY(island.getPosition().getY() * FIELD_WIDTH - 35);
+        number.setX(islandX * FIELD_WIDTH - 45);
+        number.setY(islandY * FIELD_WIDTH - 35);
         id = new Text();
         id.setText(String.valueOf(island.getId()));
         id.setFont(Font.font("Verdana", 20));
-        id.setX(island.getPosition().getX() * FIELD_WIDTH - 45);
-        id.setY(island.getPosition().getY() * FIELD_WIDTH - 50);
+        id.setX(islandX * FIELD_WIDTH - 45);
+        id.setY(islandY * FIELD_WIDTH - 50);
     }
 
     public Text getId() {

@@ -9,7 +9,10 @@ public class Board implements CsvPrintable {
     private int width, height;
     private ArrayList<Island> islands = new ArrayList<>();
     private ArrayList<Bridge> bridges = new ArrayList<>();
-    private Set<Coordinates> fields = new HashSet<>();
+    private boolean[][] islandFields;
+    private boolean[][] bridgeFields;
+    //    private Set<Coordinates> islandFields = new HashSet<>();
+//    private Set<Coordinates> bridgeFields = new HashSet<>();
     private String fileName;
     private Levels level;
 
@@ -17,6 +20,14 @@ public class Board implements CsvPrintable {
     public Board(int width, int height) {
         this.width = width;
         this.height = height;
+        islandFields = new boolean[this.width][height];
+        bridgeFields = new boolean[this.width][height];
+
+        for (int i = 0; i < islandFields.length; i++)
+            for (int j = 0; j < islandFields[i].length; j++) {
+                islandFields[i][j] = false;
+                bridgeFields[i][j] = false;
+            }
     }
 
     public Board() {
@@ -24,12 +35,14 @@ public class Board implements CsvPrintable {
 
     public void addBridge(Bridge bridge) {
         bridges.add(bridge);
-        fields.addAll(bridge.getFields());
+        for (Coordinates c : bridge.getFields()) {
+            bridgeFields[c.getX()][c.getY()] = true;
+        }
     }
 
     public void addIsland(Island island) {
         islands.add(island);
-        fields.add(island.getPosition());
+        islandFields[island.getPosition().getX()][island.getPosition().getY()] = true;
     }
 
     @Override
@@ -39,16 +52,16 @@ public class Board implements CsvPrintable {
         this.sortIslands();
         int i = 0;
         Island island = islands.get(i);
-        for (int x = 1; x <= this.height; x++) {
-            for (int y = 1; y <= this.width; y++) {
+        for (int y = 0; y < this.height; y++) {
+            for (int x = 0; x < this.width; x++) {
                 if (island.getPosition().getX() == x && island.getPosition().getY() == y) {
                     printedBoard.append(island.getValue());
-                    if (i < islands.size() -1)
+                    if (i < islands.size() - 1)
                         island = islands.get(++i);
                 } else {
                     printedBoard.append(0);
                 }
-                if (y != this.width)
+                if (x != this.width - 1)
                     printedBoard.append(",");
             }
             printedBoard.append("\n");
@@ -104,12 +117,20 @@ public class Board implements CsvPrintable {
         this.bridges = bridges;
     }
 
-    public Set<Coordinates> getFields() {
-        return fields;
+    public boolean[][] getIslandFields() {
+        return islandFields;
     }
 
-    public void setFields(Set<Coordinates> fields) {
-        this.fields = fields;
+    public void setIslandFields(boolean[][] islandFields) {
+        this.islandFields = islandFields;
+    }
+
+    public boolean[][] getBridgeFields() {
+        return bridgeFields;
+    }
+
+    public void setBridgeFields(boolean[][] bridgeFields) {
+        this.bridgeFields = bridgeFields;
     }
 
     public void sortIslands() {
@@ -151,5 +172,16 @@ public class Board implements CsvPrintable {
     @Override
     protected Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    public void setBridgeAndIslandFields() {
+        islandFields = new boolean[this.width][height];
+        bridgeFields = new boolean[this.width][height];
+
+        for (int i = 0; i < islandFields.length; i++)
+            for (int j = 0; j < islandFields[i].length; j++) {
+                islandFields[i][j] = false;
+                bridgeFields[i][j] = false;
+            }
     }
 }

@@ -38,20 +38,20 @@ public class Bridge implements CsvPrintable, Comparable<Bridge> {
         this.isDouble = false;
         this.isVertical = firstIsland.getPosition().getX() == secondIsland.getPosition().getX();
     }
-
+// <= ?
     public Set<Coordinates> getFields() {
         Set<Coordinates> fields = new HashSet<>();
         int x = this.startIsland.getPosition().getX();
         int y = this.startIsland.getPosition().getY();
         if (!isVertical) {
             x++;
-            while (x <= this.endIsland.getPosition().getX()) {
+            while (x < this.endIsland.getPosition().getX()) {
                 fields.add(new Coordinates(x, y));
                 x++;
             }
         } else {
             y++;
-            while (y <= this.endIsland.getPosition().getY()) {
+            while (y < this.endIsland.getPosition().getY()) {
                 fields.add(new Coordinates(x, y));
                 y++;
             }

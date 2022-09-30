@@ -8,6 +8,7 @@ import main.solver.mathematical.models.LPModel;
 
 public class LPSolver {
     private static float[] features;
+    private static boolean hasMultipleSolutions = false;
 
     public static Board solve(Board board) throws GRBException {
         try {
@@ -21,6 +22,9 @@ public class LPSolver {
             LPModel LPModel = BoardAndSolverModelConverter.convertBoardToSolverModel(board);
             //xij integer - hidak száma i és j között
             GRBVar[][] X = new GRBVar[LPModel.getN()][LPModel.getN()];
+
+            model.set(GRB.IntParam.PoolSolutions, 2);
+            model.set(GRB.IntParam.PoolSearchMode, 1);
 
             for (int i = 0; i < LPModel.getN(); i++) {
                 for (int j = 0; j < LPModel.getN(); j++) {
@@ -110,8 +114,11 @@ public class LPSolver {
                     sumY.addTerm(1.0, Y[i][j]);
                 }
             }
+
             model.addConstr(sumY, GRB.GREATER_EQUAL, LPModel.getN() - 1, "spanning tree");
             model.optimize();
+
+            hasMultipleSolutions = model.get(GRB.IntAttr.SolCount) != 1;
 
             features = new float[13];
 
@@ -128,11 +135,11 @@ public class LPSolver {
             features[10] = (float) model.get(GRB.DoubleAttr.MinObjCoeff);
             features[11] = (float) model.get(GRB.DoubleAttr.MaxRHS);
             features[12] = (float) model.get(GRB.DoubleAttr.MinRHS);
-            FileService fileService = new FileService();
-            StringBuilder results = new StringBuilder();
+//            FileService fileService = new FileService();
+//            StringBuilder results = new StringBuilder();
 
 //            hidak hozzáadása a táblához
-            board = BoardAndSolverModelConverter.convertSolvedGameToBoard(LPModel, X, board);
+//            board = BoardAndSolverModelConverter.convertSolvedGameToBoard(LPModel, X, board);
 //            fileService.writeDifficulty("Difficulty_lp.csv", results.toString());
             model.dispose();
             env.dispose();
@@ -146,4 +153,7 @@ public class LPSolver {
         return features;
     }
 
+    public static boolean hasMultipleSolutions() {
+        return hasMultipleSolutions;
+    }
 }

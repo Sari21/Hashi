@@ -638,9 +638,9 @@ public class STSolver {
         }
 
         Random rand = new Random();
-        int randomNumber = rand.nextInt(stBoard.getUnfinishedIslands().size() - 1);
+        int randomNumber = rand.nextInt(stBoard.getUnfinishedIslands().size());
         STIsland island = stBoard.getUnfinishedIslands().get(randomNumber);
-        int randomDirection = rand.nextInt(3);
+        int randomDirection = rand.nextInt(4);
 
         switch (randomDirection) {
             case 0:

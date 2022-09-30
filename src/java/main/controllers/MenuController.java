@@ -123,6 +123,11 @@ public class MenuController {
     }
     public static File generatePuzzle(int w, int h, int i) throws GRBException {
         Board board = PuzzleGeneratorService.generatePuzzle(w, h, i);
+        LPSolver.solve(board);
+        while(LPSolver.hasMultipleSolutions()){
+            board = PuzzleGeneratorService.generatePuzzle(w, h, i);
+            LPSolver.solve(board);
+        }
         Levels level = predictTF(board);
         board.setLevel(level);
         FileService fileService = new FileService();

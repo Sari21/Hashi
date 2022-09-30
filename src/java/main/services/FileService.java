@@ -73,38 +73,53 @@ public class FileService implements IFileService {
         String data = "";
 
         try {
-            //File myObj = new File(path + fileName);
             Scanner myReader = new Scanner(file);
-            if (myReader.hasNextLine() && !myReader.nextLine().equals("board")) {
-                return null;
-            }
+            String level = myReader.nextLine();
+            this.setLevel(level, board);
+//            System.out.println(level);
+            board.setFileName(file.getName());
+
             String[] splittedLine;
             data = myReader.nextLine();
             splittedLine = data.split(",");
-            board.setWidth(Integer.parseInt(splittedLine[0]));
-            board.setHeight(Integer.parseInt(splittedLine[1]));
-            board.setFileName(file.getName());
-            data = myReader.nextLine();
-
-            this.setLevel(data, board);
-
-            myReader.nextLine();
-
+            int size = Integer.parseInt(String.valueOf(splittedLine.length));
+            board.setWidth(size);
+            board.setHeight(size);
+            board.setBridgeAndIslandFields();
+            int j = 0;
+            int id = 1;
+            for (int i = 0; i < splittedLine.length; i++) {
+                if (Integer.parseInt(splittedLine[i]) != 0) {
+                    Island island = new Island();
+                    island.setId(id);
+                    island.setValue(Integer.parseInt(splittedLine[i]));
+                    island.getPosition().setX(i);
+                    island.getPosition().setY(j);
+                    id++;
+                    board.addIsland(island);
+                }
+            }
+            j++;
             while (myReader.hasNextLine()) {
                 data = myReader.nextLine();
-                if (data.equals("bridges")) {
+                if (data.equals("bridges"))
                     break;
-                }
-                Island island = new Island();
                 splittedLine = data.split(",");
-                island.setId(Integer.parseInt(splittedLine[0]));
-                island.setValue(Integer.parseInt(splittedLine[1]));
-                island.getPosition().setX(Integer.parseInt(splittedLine[2]));
-                island.getPosition().setY(Integer.parseInt(splittedLine[3]));
-                board.addIsland(island);
+                for (int i = 0; i < splittedLine.length; i++) {
+                    if (Integer.parseInt(splittedLine[i]) != 0) {
+                        Island island = new Island();
+                        island.setId(id);
+                        island.setValue(Integer.parseInt(splittedLine[i]));
+                        island.getPosition().setX(i);
+                        island.getPosition().setY(j);
+                        id++;
+                        board.addIsland(island);
+                    }
+                }
+                j++;
             }
             while (myReader.hasNextLine()) {
-                splittedLine = myReader.nextLine().split(",");
+                splittedLine = myReader.nextLine().split(";");
                 Bridge bridge = new Bridge();
                 String[] finalSplittedLine = splittedLine;
                 Island startIsland = board.getIslands().stream().filter(isl -> isl.getId() == Integer.parseInt(finalSplittedLine[0])).findFirst().orElse(null);
@@ -145,15 +160,16 @@ public class FileService implements IFileService {
             int size = Integer.parseInt(String.valueOf(splittedLine.length));
             board.setWidth(size);
             board.setHeight(size);
+            board.setBridgeAndIslandFields();
             int j = 0;
-            int id = 0;
+            int id = 1;
             for (int i = 0; i < splittedLine.length; i++) {
                 if (Integer.parseInt(splittedLine[i]) != 0) {
                     Island island = new Island();
                     island.setId(id);
                     island.setValue(Integer.parseInt(splittedLine[i]));
-                    island.getPosition().setX(i + 1);
-                    island.getPosition().setY(j + 1);
+                    island.getPosition().setX(i);
+                    island.getPosition().setY(j);
                     id++;
                     board.addIsland(island);
                 }
@@ -161,7 +177,7 @@ public class FileService implements IFileService {
             j++;
             while (myReader.hasNextLine()) {
                 data = myReader.nextLine();
-                if(data.equals("bridges"))
+                if (data.equals("bridges"))
                     break;
                 splittedLine = data.split(",");
                 for (int i = 0; i < splittedLine.length; i++) {
@@ -169,8 +185,8 @@ public class FileService implements IFileService {
                         Island island = new Island();
                         island.setId(id);
                         island.setValue(Integer.parseInt(splittedLine[i]));
-                        island.getPosition().setX(i + 1);
-                        island.getPosition().setY(j + 1);
+                        island.getPosition().setX(i);
+                        island.getPosition().setY(j);
                         id++;
                         board.addIsland(island);
                     }
