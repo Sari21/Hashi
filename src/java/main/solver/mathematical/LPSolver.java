@@ -2,13 +2,17 @@ package main.solver.mathematical;
 
 import gurobi.*;
 import main.models.Board;
+import main.models.Bridge;
 import main.services.FileService;
 import main.solver.mathematical.converters.BoardAndSolverModelConverter;
 import main.solver.mathematical.models.LPModel;
 
+import java.util.ArrayList;
+
 public class LPSolver {
     private static float[] features;
     private static boolean hasMultipleSolutions = false;
+    private static ArrayList<Bridge> solutionBridges = new ArrayList<>();
 
     public static Board solve(Board board) throws GRBException {
         try {
@@ -141,6 +145,8 @@ public class LPSolver {
 //            hidak hozzáadása a táblához
 //            board = BoardAndSolverModelConverter.convertSolvedGameToBoard(LPModel, X, board);
 //            fileService.writeDifficulty("Difficulty_lp.csv", results.toString());
+            solutionBridges = BoardAndSolverModelConverter.convertSolvedModelToBridges(LPModel, X, board);
+
             model.dispose();
             env.dispose();
         } catch (
@@ -149,11 +155,17 @@ public class LPSolver {
         }
         return board;
     }
-    public static float[] getFeatures(){
+
+    public static float[] getFeatures() {
         return features;
     }
 
     public static boolean hasMultipleSolutions() {
         return hasMultipleSolutions;
+    }
+
+    public static ArrayList<Bridge> solveAndGetBridges(Board board) throws GRBException {
+        solve(board);
+        return solutionBridges;
     }
 }

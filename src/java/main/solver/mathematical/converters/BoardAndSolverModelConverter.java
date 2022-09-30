@@ -12,6 +12,8 @@ import main.models.Island;
 import main.solver.mathematical.models.BridgePairs;
 import main.solver.mathematical.models.LPModel;
 
+import java.util.ArrayList;
+
 public class BoardAndSolverModelConverter {
     public static LPModel convertBoardToSolverModel(Board board) {
         LPModel model = new LPModel();
@@ -78,20 +80,23 @@ public class BoardAndSolverModelConverter {
         return model;
     }
 
-    public static Board convertSolvedGameToBoard(LPModel solverModel, GRBVar[][] X, Board board) throws GRBException {
+    public static ArrayList<Bridge> convertSolvedModelToBridges(LPModel solverModel, GRBVar[][] X, Board board) throws GRBException {
+        Board solutionBoard = new Board(board.getWidth(), board.getHeight());
+        solutionBoard.setIslands(board.getIslands());
+
         for (int i = 0; i < solverModel.getN(); i++) {
             for (int j = 0; j < solverModel.getN(); j++) {
                 if (X[i][j].get(GRB.DoubleAttr.X) == 1.0) {
-                    Bridge bridge = new Bridge(board.getIslands().get(i), board.getIslands().get(j));
-                    board.addBridge(bridge);
+                    Bridge bridge = new Bridge(solutionBoard.getIslands().get(i), solutionBoard.getIslands().get(j));
+                    solutionBoard.addBridge(bridge);
                 } else if (X[i][j].get(GRB.DoubleAttr.X) == 2.0) {
-                    Bridge bridge = new Bridge(board.getIslands().get(i), board.getIslands().get(j));
+                    Bridge bridge = new Bridge(solutionBoard.getIslands().get(i), solutionBoard.getIslands().get(j));
                     bridge.setDouble(true);
-                    board.addBridge(bridge);
+                    solutionBoard.addBridge(bridge);
                 }
             }
         }
-        return board;
+        return solutionBoard.getBridges();
     }
 
     private static boolean areBridgesIntersect(Coordinates A, Coordinates B, Coordinates C, Coordinates D) {

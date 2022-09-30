@@ -114,7 +114,9 @@ public class Board implements CsvPrintable {
     }
 
     public void setBridges(ArrayList<Bridge> bridges) {
-        this.bridges = bridges;
+        for (Bridge b : bridges) {
+            addBridge(b);
+        }
     }
 
     public boolean[][] getIslandFields() {

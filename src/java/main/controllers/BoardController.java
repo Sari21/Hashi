@@ -135,9 +135,9 @@ public class BoardController {
 
     public static boolean checkSolution(Board board) throws GRBException {
         Board solution = fileService.readSolution(board);
-        if(solution == null){
-            solution = LPSolver.solve(board);
-        }
+//        if(board.getBridges().isEmpty()){
+//            board.setBridges(LPSolver.solveAndGetBridges(board));
+//        }
         return board.equals(solution);
     }
 

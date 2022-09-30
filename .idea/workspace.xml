@@ -2,80 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/10_10_HARD_1664224940588.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/10_10_HARD_1664226119159.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/10_10_HARD_1664227509687.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/10_10_HARD_1664230844294.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/10_10_HARD_1664230939137.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/10_10_HARD_1664231549936.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/10_10_HARD_1664236804646.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/10_10_HARD_1664533426875.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/10_10_MEDIUM_1664226012707.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/10_10_MEDIUM_1664226059556.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/10_10_MEDIUM_1664226172360.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/10_10_MEDIUM_1664531564626.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/10_10_MEDIUM_1664531581422.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/5_5_HARD_1664534383427.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/5_5_HARD_1664534795376.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/5_5_MEDIUM_1664534904404.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_HARD_1664178101309.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_HARD_1664221723002.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_HARD_1664222930881.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_HARD_1664224220935.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_HARD_1664224463146.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_HARD_1664224732570.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_HARD_1664225638808.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_HARD_1664226382980.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_HARD_1664226611147.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_HARD_1664226757167.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_HARD_1664227103052.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_HARD_1664231698019.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_HARD_1664238839139.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_HARD_1664238895754.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_HARD_1664238983455.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_HARD_1664239629243.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_HARD_1664240199322.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_HARD_1664268007916.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_HARD_1664268377309.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_HARD_1664271980636.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_HARD_1664535187409.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_MEDIUM_1664221131468.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_MEDIUM_1664221369026.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_MEDIUM_1664222147066.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_MEDIUM_1664222485232.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_MEDIUM_1664222698845.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_MEDIUM_1664223303627.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_MEDIUM_1664223775416.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_MEDIUM_1664225717404.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_MEDIUM_1664226467417.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_MEDIUM_1664227352660.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_MEDIUM_1664231391798.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_MEDIUM_1664231458290.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_MEDIUM_1664231869770.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_MEDIUM_1664237977618.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_MEDIUM_1664238328809.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_MEDIUM_1664238347028.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_MEDIUM_1664239982712.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_MEDIUM_1664240351709.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_MEDIUM_1664268067445.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_MEDIUM_1664535389970.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_MEDIUM_1664535394716.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/7_7_HARD_1664240511073.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/8_8_HARD_1664225231896.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/8_8_HARD_1664272049623.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/8_8_MEDIUM_1664272241353.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_HARD_1664536088204.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_MEDIUM_1664536099724.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/java/main/controllers/BoardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/main/controllers/BoardController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/java/main/controllers/MenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/main/controllers/MenuController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/java/main/models/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/main/models/Board.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/main/models/Bridge.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/main/models/Bridge.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/main/models/Island.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/main/models/Island.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/main/services/FileService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/main/services/FileService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/main/services/PuzzleGeneratorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/main/services/PuzzleGeneratorService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/java/main/solver/mathematical/LPSolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/main/solver/mathematical/LPSolver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/main/solver/solvingTechniques/STSolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/main/solver/solvingTechniques/STSolver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/main/view/BridgeElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/main/view/BridgeElement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/main/view/IslandElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/main/view/IslandElement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/java/main/solver/mathematical/converters/BoardAndSolverModelConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/main/solver/mathematical/converters/BoardAndSolverModelConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/java/main/view/MenuView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/main/view/MenuView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -354,7 +289,7 @@
       <workItem from="1664219582071" duration="14843000" />
       <workItem from="1664266433490" duration="6053000" />
       <workItem from="1664385928178" duration="415000" />
-      <workItem from="1664531419336" duration="3482000" />
+      <workItem from="1664531419336" duration="6288000" />
     </task>
     <servers />
   </component>
@@ -371,42 +306,42 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="574" y="96" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1664270854720" />
-    <state width="414" height="466" key="DebuggerActiveHint" timestamp="1664534436150">
+    <state width="448" height="466" key="DebuggerActiveHint" timestamp="1664538236594">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="414" height="466" key="DebuggerActiveHint/0.0.1536.824@0.0.1536.824" timestamp="1664534436150" />
-    <state width="1493" height="2" key="GridCell.Tab.0.bottom" timestamp="1664535373825">
+    <state width="448" height="466" key="DebuggerActiveHint/0.0.1536.824@0.0.1536.824" timestamp="1664538236594" />
+    <state width="1493" height="351" key="GridCell.Tab.0.bottom" timestamp="1664538623214">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="2" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1664535373825" />
-    <state width="1493" height="2" key="GridCell.Tab.0.center" timestamp="1664535373825">
+    <state width="1493" height="351" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1664538623214" />
+    <state width="1493" height="351" key="GridCell.Tab.0.center" timestamp="1664538623213">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="2" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1664535373825" />
-    <state width="1493" height="2" key="GridCell.Tab.0.left" timestamp="1664535373825">
+    <state width="1493" height="351" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1664538623213" />
+    <state width="1493" height="351" key="GridCell.Tab.0.left" timestamp="1664538623213">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="2" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1664535373825" />
-    <state width="1493" height="2" key="GridCell.Tab.0.right" timestamp="1664535373825">
+    <state width="1493" height="351" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1664538623213" />
+    <state width="1493" height="351" key="GridCell.Tab.0.right" timestamp="1664538623214">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="2" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1664535373825" />
-    <state width="1493" height="2" key="GridCell.Tab.1.bottom" timestamp="1664535394740">
+    <state width="1493" height="351" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1664538623214" />
+    <state width="1493" height="351" key="GridCell.Tab.1.bottom" timestamp="1664538635868">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="2" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1664535394740" />
-    <state width="1493" height="2" key="GridCell.Tab.1.center" timestamp="1664535394739">
+    <state width="1493" height="351" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1664538635868" />
+    <state width="1493" height="351" key="GridCell.Tab.1.center" timestamp="1664538635868">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="2" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1664535394739" />
-    <state width="1493" height="2" key="GridCell.Tab.1.left" timestamp="1664535394739">
+    <state width="1493" height="351" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1664538635868" />
+    <state width="1493" height="351" key="GridCell.Tab.1.left" timestamp="1664538635868">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="2" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1664535394739" />
-    <state width="1493" height="2" key="GridCell.Tab.1.right" timestamp="1664535394740">
+    <state width="1493" height="351" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1664538635868" />
+    <state width="1493" height="351" key="GridCell.Tab.1.right" timestamp="1664538635868">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="2" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1664535394740" />
+    <state width="1493" height="351" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1664538635868" />
     <state x="326" y="148" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1664226093360">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -429,8 +364,33 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/java/main/solver/mathematical/LPSolver.java</url>
-          <line>141</line>
+          <line>145</line>
           <option name="timeStamp" value="28" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/java/main/controllers/BoardController.java</url>
+          <line>136</line>
+          <option name="timeStamp" value="38" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/java/main/models/Board.java</url>
+          <line>155</line>
+          <option name="timeStamp" value="39" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/java/main/models/Board.java</url>
+          <line>157</line>
+          <option name="timeStamp" value="40" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/java/main/controllers/MenuController.java</url>
+          <line>24</line>
+          <option name="timeStamp" value="41" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/java/main/solver/mathematical/LPSolver.java</url>
+          <line>167</line>
+          <option name="timeStamp" value="42" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
