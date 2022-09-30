@@ -13,10 +13,6 @@ public class Island implements CsvPrintable, Comparable<Island> {
         this.id = id;
     }
 
-    public Island(Coordinates position, int id, int value) {
-        this.value = value;
-    }
-
     public Island() {
         this.position = new Coordinates(0, 0);
     }
@@ -60,7 +56,7 @@ public class Island implements CsvPrintable, Comparable<Island> {
 
     @Override
     public int compareTo(Island o) {
-        if (o.getPosition().getX() != this.getPosition().getX()) {
+        if (o.getPosition().getY() == this.getPosition().getY()) {
             return Integer.compare(this.getPosition().getX(), o.getPosition().getX());
         } else {
             return Integer.compare(this.getPosition().getY(), o.getPosition().getY());

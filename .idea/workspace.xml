@@ -2,12 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_HARD_1664177199526.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_HARD_1664177231671.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_MEDIUM_1664177212248.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/8_8_HARD_1664177252004.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_HARD_1664536088204.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/hashiBoards/6_6_MEDIUM_1664536099724.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hashi.iml" beforeDir="false" afterPath="$PROJECT_DIR$/hashi.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/java/main/controllers/BoardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/main/controllers/BoardController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/java/main/controllers/MenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/main/controllers/MenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/java/main/models/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/main/models/Board.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/java/main/solver/mathematical/LPSolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/main/solver/mathematical/LPSolver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/java/main/solver/mathematical/converters/BoardAndSolverModelConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/main/solver/mathematical/converters/BoardAndSolverModelConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/java/main/view/MenuView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/main/view/MenuView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -282,7 +285,11 @@
       <workItem from="1653042412746" duration="866000" />
       <workItem from="1653423090725" duration="2207000" />
       <workItem from="1654363559240" duration="94000" />
-      <workItem from="1664176599035" duration="832000" />
+      <workItem from="1664176599035" duration="7234000" />
+      <workItem from="1664219582071" duration="14843000" />
+      <workItem from="1664266433490" duration="6053000" />
+      <workItem from="1664385928178" duration="415000" />
+      <workItem from="1664531419336" duration="6288000" />
     </task>
     <servers />
   </component>
@@ -295,40 +302,98 @@
     <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1493" height="408" key="GridCell.Tab.0.bottom" timestamp="1664177465971">
+    <state x="574" y="96" key="#com.intellij.ide.util.MemberChooser" timestamp="1664270854721">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="408" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1664177465971" />
-    <state width="1493" height="408" key="GridCell.Tab.0.center" timestamp="1664177465971">
+    <state x="574" y="96" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1664270854720" />
+    <state width="448" height="466" key="DebuggerActiveHint" timestamp="1664538236594">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="408" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1664177465971" />
-    <state width="1493" height="408" key="GridCell.Tab.0.left" timestamp="1664177465971">
+    <state width="448" height="466" key="DebuggerActiveHint/0.0.1536.824@0.0.1536.824" timestamp="1664538236594" />
+    <state width="1493" height="351" key="GridCell.Tab.0.bottom" timestamp="1664538623214">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="408" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1664177465971" />
-    <state width="1493" height="408" key="GridCell.Tab.0.right" timestamp="1664177465971">
+    <state width="1493" height="351" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1664538623214" />
+    <state width="1493" height="351" key="GridCell.Tab.0.center" timestamp="1664538623213">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="408" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1664177465971" />
-    <state width="1493" height="408" key="GridCell.Tab.1.bottom" timestamp="1664177465788">
+    <state width="1493" height="351" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1664538623213" />
+    <state width="1493" height="351" key="GridCell.Tab.0.left" timestamp="1664538623213">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="408" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1664177465788" />
-    <state width="1493" height="408" key="GridCell.Tab.1.center" timestamp="1664177465788">
+    <state width="1493" height="351" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1664538623213" />
+    <state width="1493" height="351" key="GridCell.Tab.0.right" timestamp="1664538623214">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="408" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1664177465788" />
-    <state width="1493" height="408" key="GridCell.Tab.1.left" timestamp="1664177465788">
+    <state width="1493" height="351" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1664538623214" />
+    <state width="1493" height="351" key="GridCell.Tab.1.bottom" timestamp="1664538635868">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="408" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1664177465788" />
-    <state width="1493" height="408" key="GridCell.Tab.1.right" timestamp="1664177465788">
+    <state width="1493" height="351" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1664538635868" />
+    <state width="1493" height="351" key="GridCell.Tab.1.center" timestamp="1664538635868">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="408" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1664177465788" />
+    <state width="1493" height="351" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1664538635868" />
+    <state width="1493" height="351" key="GridCell.Tab.1.left" timestamp="1664538635868">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="351" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1664538635868" />
+    <state width="1493" height="351" key="GridCell.Tab.1.right" timestamp="1664538635868">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="351" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1664538635868" />
+    <state x="326" y="148" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1664226093360">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="326" y="148" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1536.824@0.0.1536.824" timestamp="1664226093360" />
+    <state x="462" y="144" width="611" height="536" key="find.popup" timestamp="1664181337455">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="462" y="144" width="611" height="536" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1664181337455" />
+    <state x="425" y="187" key="run.anything.popup" timestamp="1664220846246">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1664220846246" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1664181199440">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1664181199440" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/java/main/solver/mathematical/LPSolver.java</url>
+          <line>145</line>
+          <option name="timeStamp" value="28" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/java/main/controllers/BoardController.java</url>
+          <line>136</line>
+          <option name="timeStamp" value="38" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/java/main/models/Board.java</url>
+          <line>155</line>
+          <option name="timeStamp" value="39" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/java/main/models/Board.java</url>
+          <line>157</line>
+          <option name="timeStamp" value="40" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/java/main/controllers/MenuController.java</url>
+          <line>24</line>
+          <option name="timeStamp" value="41" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/java/main/solver/mathematical/LPSolver.java</url>
+          <line>167</line>
+          <option name="timeStamp" value="42" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="((RawTensor)((DenseTFloat32)t).rawTensor).tensorScope" custom="org.tensorflow.internal.types.TFloat32Mapper.DenseTFloat32,org.tensorflow.RawTensor" />

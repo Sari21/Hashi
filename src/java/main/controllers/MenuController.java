@@ -21,8 +21,13 @@ public class MenuController {
     private static MenuView menuView = new MenuView();
     private static IFileService fileService = new FileService();
 
-    public static void openGame(File file) {
+    public static void openGame(File file) throws GRBException {
         Board board = fileService.readGame(file);
+        if(board.getBridges().isEmpty()){
+            board.setBridges(LPSolver.solveAndGetBridges(board));
+        }
+        File newFile = fileService.saveNewBoard(board);
+        board = fileService.readGame(newFile);
         closeMenuStage();
         BoardController.openGame(board);
     }
@@ -107,6 +112,7 @@ public class MenuController {
 //        }
         BoardController.openGame(board);
     }
+
     private static Levels predictTF(Board board) throws GRBException {
         float[] featuresLP;
         float[] featuresST;
@@ -118,17 +124,26 @@ public class MenuController {
         System.arraycopy(featuresLP, 0, features, 0, featuresLP.length);
         System.arraycopy(featuresST, 0, features, featuresLP.length, featuresST.length);
 
-       return TensorflowClassifier.predict(features);
+        return TensorflowClassifier.predict(features);
 
     }
-    public static File generatePuzzle(int w, int h, int i) throws GRBException {
+
+    public static void generatePuzzle(int w, int h, int i, boolean withSolution) throws GRBException {
         Board board = PuzzleGeneratorService.generatePuzzle(w, h, i);
+        LPSolver.solve(board);
+        while (LPSolver.hasMultipleSolutions()) {
+            board = PuzzleGeneratorService.generatePuzzle(w, h, i);
+            LPSolver.solve(board);
+        }
         Levels level = predictTF(board);
         board.setLevel(level);
         FileService fileService = new FileService();
         File file = fileService.saveNewBoard(board);
         System.out.println(board.getLevel().toString());
-        return file;
+        if (withSolution)
+            openSolution(file);
+        else
+            openGame(file);
     }
 
     public static void showMenuStage() {

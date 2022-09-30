@@ -54,13 +54,15 @@ public class BoardController {
                             startIsland.removeStroke();
                             endIsland = null;
                             startIsland = null;
-                        } else if (endIsland == null &&
-                                (Math.abs(startIsland.getIsland().getPosition().getX() - islandElement.getIsland().getPosition().getX()) == 1
-                                        || Math.abs(startIsland.getIsland().getPosition().getY() - islandElement.getIsland().getPosition().getY()) == 1)) {
-                            startIsland.removeStroke();
-                            endIsland = null;
-                            startIsland = null;
-                        } else if (endIsland == null && startIsland != islandElement) {
+                        }
+//                        else if (endIsland == null &&
+//                                (Math.abs(startIsland.getIsland().getPosition().getX() - islandElement.getIsland().getPosition().getX()) == 1
+//                                        || Math.abs(startIsland.getIsland().getPosition().getY() - islandElement.getIsland().getPosition().getY()) == 1)) {
+//                            startIsland.removeStroke();
+//                            endIsland = null;
+//                            startIsland = null;
+//                        }
+                        else if (endIsland == null && startIsland != islandElement) {
                             endIsland = islandElement;
                             if ((startIsland.getIsland().getPosition().getX() == endIsland.getIsland().getPosition().getX() ||
                                     startIsland.getIsland().getPosition().getY() == endIsland.getIsland().getPosition().getY())) {
@@ -133,9 +135,9 @@ public class BoardController {
 
     public static boolean checkSolution(Board board) throws GRBException {
         Board solution = fileService.readSolution(board);
-        if(solution == null){
-            solution = LPSolver.solve(board);
-        }
+//        if(board.getBridges().isEmpty()){
+//            board.setBridges(LPSolver.solveAndGetBridges(board));
+//        }
         return board.equals(solution);
     }
 

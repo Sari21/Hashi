@@ -120,7 +120,11 @@ public class MenuView implements ViewElement {
                     public void handle(final ActionEvent e) {
                         File file = fileChooser.showOpenDialog(stage);
                         if (file != null) {
-                            MenuController.openGame(file);
+                            try {
+                                MenuController.openGame(file);
+                            } catch (GRBException ex) {
+                                ex.printStackTrace();
+                            }
                         }
                     }
                 });
@@ -190,12 +194,9 @@ public class MenuView implements ViewElement {
                         int w = widthTextField.getCharacters().toString().equals("") ? 6 : Integer.parseInt(widthTextField.getCharacters().toString());
                         int h = heightTextField.getCharacters().toString().equals("") ? 6 : Integer.parseInt(heightTextField.getCharacters().toString());
                         int i = islandsTextField.getCharacters().toString().equals("") ? 6 : Integer.parseInt(islandsTextField.getCharacters().toString());
-
-                        File file = null;
                         try {
-                            file = MenuController.generatePuzzle(w, h, i);
-                            MenuController.closeMenuStage();
-                            MenuController.openGame(file);
+                            MenuController.generatePuzzle(w, h, i, false);
+
                         } catch (GRBException ex) {
                             ex.printStackTrace();
                         }
@@ -208,10 +209,8 @@ public class MenuView implements ViewElement {
                         int w = widthTextField.getCharacters().toString().equals("") ? 6 : Integer.parseInt(widthTextField.getCharacters().toString());
                         int h = heightTextField.getCharacters().toString().equals("") ? 6 : Integer.parseInt(heightTextField.getCharacters().toString());
                         int i = islandsTextField.getCharacters().toString().equals("") ? 6 : Integer.parseInt(islandsTextField.getCharacters().toString());
-                        File file = null;
                         try {
-                            file = MenuController.generatePuzzle(w, h, i);
-                            MenuController.openSolution(file);
+                            MenuController.generatePuzzle(w, h, i, true);
                         } catch (GRBException ex) {
                             ex.printStackTrace();
                         }
