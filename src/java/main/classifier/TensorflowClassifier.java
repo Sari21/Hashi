@@ -1,18 +1,15 @@
 package main.classifier;
 
 
-import main.solver.solvingTechniques.Levels;
-import org.tensorflow.ConcreteFunction;
+import main.models.Level;
 import org.tensorflow.SavedModelBundle;
 import org.tensorflow.Tensor;
 import org.tensorflow.ndarray.FloatNdArray;
 import org.tensorflow.ndarray.NdArrays;
 import org.tensorflow.ndarray.Shape;
 import org.tensorflow.ndarray.StdArrays;
-import org.tensorflow.proto.framework.SignatureDef;
 import org.tensorflow.types.TFloat32;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +24,7 @@ public class TensorflowClassifier {
 //        System.out.println(model.graph());
     }
 
-    public static Levels predict(float[] features) {
+    public static Level predict(float[] features) {
         if (model == null) {
             loadModel();
         }
@@ -54,13 +51,13 @@ public class TensorflowClassifier {
 //        {0: 'EASY', 1: 'HARD', 2: 'MEDIUM'}
         if (res[0][0] < res[0][1]) {
             if (res[0][1] < res[0][2])
-                return Levels.MEDIUM;
+                return Level.MEDIUM;
             else
-                return Levels.HARD;
+                return Level.HARD;
         } else if (res[0][0] < res[0][2])
-            return Levels.MEDIUM;
+            return Level.MEDIUM;
         else
-            return Levels.EASY;
+            return Level.EASY;
     }
 
     public static void closeSession() {

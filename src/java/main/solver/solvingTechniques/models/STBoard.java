@@ -1,6 +1,6 @@
 package main.solver.solvingTechniques.models;
 
-import main.solver.solvingTechniques.Levels;
+import main.models.Level;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -8,7 +8,7 @@ import java.util.HashSet;
 public class STBoard implements Cloneable  {
     private int width, height;
     private String filename;
-    private Levels level;
+    private Level level;
     
     private  ArrayList<STIsland> unfinishedIslands = new ArrayList<>();
     private ArrayList<STIsland> finishedIslands = new ArrayList<>();
@@ -131,11 +131,11 @@ public class STBoard implements Cloneable  {
         this.filename = filename;
     }
 
-    public Levels getLevel() {
+    public Level getLevel() {
         return level;
     }
 
-    public void setLevel(Levels level) {
+    public void setLevel(Level level) {
         this.level = level;
     }
 

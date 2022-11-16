@@ -1,7 +1,7 @@
 package main.services.interfaces;
 
 import main.models.Board;
-import main.solver.solvingTechniques.Levels;
+import main.models.Level;
 
 import java.io.File;
 
@@ -11,5 +11,5 @@ public interface IFileService {
     Board readSolution(File file);
     Board readSolution(Board board);
     Board readGame(File file);
-    void writeDifficulty(String fileToWrite, String fileName, float features[], Levels level);
+    void writeDifficulty(String fileToWrite, String fileName, float features[], Level level);
     }

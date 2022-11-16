@@ -1,10 +1,6 @@
 package main.solver.solvingTechniques;
 
-import main.models.Board;
-import main.models.Bridge;
-import main.models.Coordinates;
-import main.models.Island;
-import main.services.FileService;
+import main.models.*;
 import main.solver.solvingTechniques.models.STBoard;
 import main.solver.solvingTechniques.models.STBridge;
 import main.solver.solvingTechniques.models.STIsland;
@@ -25,14 +21,14 @@ public class STSolver {
     private static int sixInTheMiddle, threeInTheCornerFiveOnTheSideAndSevenInTheMiddle, islandRemainingValueEqualsToUnfinishedNeighboursRemainingBridges, isolationOfATwoIslandSegment = 0;
     private static int isolationOfASegment,  isolationWhenASegmentConnectsToAnotherSegment, addRandomBridge = 0;
 
-    public static Levels calculateGameLevel(Board board) {
+    public static Level calculateGameLevel(Board board) {
         solve(board);
         if (points < 10)
-            return Levels.EASY;
+            return Level.EASY;
         else if (points < 15)
-            return Levels.MEDIUM;
+            return Level.MEDIUM;
         else
-            return Levels.HARD;
+            return Level.HARD;
     }
 
     public static Board solve(Board board) {
