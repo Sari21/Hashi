@@ -134,11 +134,14 @@ public class MenuTestController {
 
     public static void generatePuzzle(int w, int h, int i, boolean withSolution) throws GRBException, ExecutionException, InterruptedException {
         Board board = PuzzleGeneratorService.generatePuzzle(w, h, i);
-        LPSolver.solve(board);
-        while (LPSolver.hasMultipleSolutions()) {
+        while(LPSolver.solve(board) == null){
             board = PuzzleGeneratorService.generatePuzzle(w, h, i);
-            LPSolver.solve(board);
+
         }
+//        while (LPSolver.hasMultipleSolutions()) {
+//            board = PuzzleGeneratorService.generatePuzzle(w, h, i);
+//            LPSolver.solve(board);
+//        }
         Level level = predictTF(board);
         board.setLevel(level);
         manageData.addSimpleDocumentAsEntity(board);

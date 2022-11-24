@@ -71,14 +71,14 @@ public class LPSolver {
 
             }
 
-            //nincsenek hurokélek todo pipa
+            //nincsenek hurokélek
             for (int i = 0; i < LPModel.getN(); i++) {
                 expr = new GRBLinExpr();
                 expr.addTerm(1.0, X[i][i]);
                 model.addConstr(expr, GRB.EQUAL, 0.0, "c0");
             }
 
-            // (2) todo pipa
+            // (2)
             for (int i = 0; i < LPModel.getN(); i++) {
                 for (int j = i + 1; j < LPModel.getN(); j++) {
                     GRBLinExpr exprY = new GRBLinExpr();
@@ -105,7 +105,7 @@ public class LPSolver {
                 model.addConstr(expr1, GRB.LESS_EQUAL, 1.0, "int");
 //                System.out.println(startIdx1 + " " + endIdx1 + " " + startIdx2 + " " + endIdx2);
             }
-            //szomszédok todo pipa
+            //szomszédok
             for (int i = 0; i < LPModel.getN(); i++) {
                 for (int j = i; j < LPModel.getN(); j++) {
                     model.addConstr(Y[i][j], GRB.LESS_EQUAL, LPModel.getNeighbours()[i][j], "int");
@@ -122,7 +122,9 @@ public class LPSolver {
             model.addConstr(sumY, GRB.GREATER_EQUAL, LPModel.getN() - 1, "spanning tree");
             model.optimize();
 
-            hasMultipleSolutions = model.get(GRB.IntAttr.SolCount) != 1;
+            if(model.get(GRB.IntAttr.SolCount) != 1){
+                return null;
+            }
 
             features = new float[13];
 

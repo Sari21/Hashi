@@ -1,6 +1,7 @@
 package main.models;
 
 import main.interfaces.CsvPrintable;
+import main.models.comparators.SortIslandsVertically;
 
 import java.util.*;
 
@@ -136,7 +137,8 @@ public class Board implements CsvPrintable {
     }
 
     public void sortIslands() {
-        Collections.sort(islands);
+        Collections.sort(islands, new SortIslandsVertically());
+//        Collections.sort(islands);
     }
 
     public String getFileName() {

@@ -3,7 +3,7 @@ package main.models;
 
 import main.interfaces.CsvPrintable;
 
-public class Island implements CsvPrintable, Comparable<Island> {
+public class Island implements CsvPrintable{
     private int id;
     private int value = 0;
     private Coordinates position;
@@ -54,14 +54,14 @@ public class Island implements CsvPrintable, Comparable<Island> {
         return printedIsland.toString();
     }
 
-    @Override
-    public int compareTo(Island o) {
-        if (o.getPosition().getY() == this.getPosition().getY()) {
-            return Integer.compare(this.getPosition().getX(), o.getPosition().getX());
-        } else {
-            return Integer.compare(this.getPosition().getY(), o.getPosition().getY());
-        }
-    }
+//    @Override
+//    public int compareTo(Island o) {
+//        if (o.getPosition().getX() == this.getPosition().getX()) {
+//            return Integer.compare(this.getPosition().getY(), o.getPosition().getY());
+//        } else {
+//            return Integer.compare(this.getPosition().getX(), o.getPosition().getX());
+//        }
+//    }
 
     @Override
     protected Object clone() throws CloneNotSupportedException {

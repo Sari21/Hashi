@@ -2,6 +2,8 @@ package main.controllers;
 
 import com.google.cloud.firestore.Query;
 import com.google.inject.Inject;
+import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import main.database.BoardModelDTOConverter;
 import main.database.ManageData;
 import main.database.QueryData;
@@ -17,6 +19,11 @@ public class MenuGameController {
     private static ManageData manageData = new ManageData();
     @Inject
     private static QueryData queryData = new QueryData();
+//    @FXML
+//    private ComboBox<Integer> sizeCombo;
+//    @FXML
+//    private ComboBox<Level> levelCombo;
+//
 
     public static void openGame(Level level, int size) throws Exception {
 //        Board board = fileService.readGame(file);

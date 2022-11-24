@@ -103,24 +103,38 @@ public class BoardModelDTOConverter {
 
     public static BoardDTO ModelToDTOConverter(Board model) {
         BoardDTO dto = new BoardDTO(model.getLevel(), model.getId(), model.getWidth());
-        Integer[][] tmpIslands = new Integer[model.getWidth()][model.getHeight()];
-        int i = 0;
-        Island island = model.getIslands().get(i);
-        for (int y = 0; y < model.getHeight(); y++) {
-            for (int x = 0; x < model.getWidth(); x++) {
-                if (island.getPosition().getX() == x && island.getPosition().getY() == y) {
-                    tmpIslands[x][y] = island.getValue();
-                    if (i < model.getIslands().size() - 1)
-                        island = model.getIslands().get(++i);
-                } else {
-                    tmpIslands[x][y] = 0;
-                }
+        Integer[][] tmpIslands = new Integer[model.getWidth()][model.getHeight()] ;
+        for(int x = 0; x < model.getWidth(); x++) {
+            for(int y = 0; y < model.getHeight(); y++){
+                tmpIslands[x][y] = 0;
             }
         }
-        List<Integer> islands = new ArrayList<>();
-        for (Integer[] tmpIsland : tmpIslands) {
-            islands.addAll(Arrays.asList(tmpIsland));
+        for(Island i : model.getIslands()){
+            tmpIslands[i.getPosition().getX()][ i.getPosition().getY()] =i.getValue();
         }
+//        int i = 0;
+//        Island island = model.getIslands().get(i);
+//            for (int x = 0; x < model.getWidth(); x++) {
+//        for (int y = 0; y < model.getHeight(); y++) {
+//                if (island.getPosition().getX() == x && island.getPosition().getY() == y) {
+//                    tmpIslands[x][y] = island.getValue();
+//                    if (i < model.getIslands().size() - 1)
+//                        island = model.getIslands().get(++i);
+//                }
+//                else {
+//                    tmpIslands[x][y] = 0;
+//                }
+//            }
+//        }
+        List<Integer> islands = new ArrayList<>();
+        for(int x = 0; x < model.getWidth(); x++) {
+            for(int y = 0; y < model.getHeight(); y++){
+                islands.add( tmpIslands[x][y]);
+            }
+        }
+//        for (Integer[] tmpIsland : tmpIslands) {
+//            islands.addAll(Arrays.asList(tmpIsland));
+//        }
         dto.setIslands(islands);
         List<BridgeDTO> bridgeDTOS = new ArrayList<>();
         BridgeDTO bridgeDTO = new BridgeDTO();
