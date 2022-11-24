@@ -1,7 +1,7 @@
 package main.models;
 
 import main.interfaces.CsvPrintable;
-import main.solver.solvingTechniques.Levels;
+import main.models.comparators.SortIslandsVertically;
 
 import java.util.*;
 
@@ -14,7 +14,8 @@ public class Board implements CsvPrintable {
     //    private Set<Coordinates> islandFields = new HashSet<>();
 //    private Set<Coordinates> bridgeFields = new HashSet<>();
     private String fileName;
-    private Levels level;
+    private Level level;
+    private int id;
 
 
     public Board(int width, int height) {
@@ -136,7 +137,8 @@ public class Board implements CsvPrintable {
     }
 
     public void sortIslands() {
-        Collections.sort(islands);
+        Collections.sort(islands, new SortIslandsVertically());
+//        Collections.sort(islands);
     }
 
     public String getFileName() {
@@ -163,11 +165,11 @@ public class Board implements CsvPrintable {
         return Objects.hash(islands, bridges, fileName);
     }
 
-    public Levels getLevel() {
+    public Level getLevel() {
         return level;
     }
 
-    public void setLevel(Levels level) {
+    public void setLevel(Level level) {
         this.level = level;
     }
 
@@ -185,5 +187,13 @@ public class Board implements CsvPrintable {
                 islandFields[i][j] = false;
                 bridgeFields[i][j] = false;
             }
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

@@ -1,7 +1,7 @@
 package main.view;
 
 import main.controllers.BoardController;
-import main.controllers.MenuController;
+import main.controllers.MenuTestController;
 import gurobi.GRBException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -92,7 +92,7 @@ public class BoardView implements ViewElement {
         boardStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent e) {
-                MenuController.showMenuStage();
+                MenuTestController.showMenuStage();
                 //  Platform.exit();
                 //  System.exit(0);
             }

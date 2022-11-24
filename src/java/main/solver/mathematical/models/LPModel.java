@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class LPModel {
     private int [][] neighbours;
-    private int [][] G;
+   // private int [][] G;
     private int [] d;
     private int n;
     private ArrayList<BridgePairs> intersectingBridges = new ArrayList<>();
@@ -25,13 +25,13 @@ public class LPModel {
         this.neighbours = neighbours;
     }
 
-    public int[][] getG() {
-        return G;
-    }
-
-    public void setG(int[][] g) {
-        G = g;
-    }
+//    public int[][] getG() {
+//        return G;
+//    }
+//
+//    public void setG(int[][] g) {
+//        G = g;
+//    }
 
     public int[] getD() {
         return d;

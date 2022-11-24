@@ -5,6 +5,7 @@ import main.models.Board;
 import main.models.Bridge;
 import main.models.Coordinates;
 import main.models.Island;
+import main.models.comparators.SortIslandsHorizontally;
 import main.services.interfaces.IFileService;
 import main.services.interfaces.IPuzzleGeneratorService;
 import main.solver.mathematical.LPSolver;
@@ -15,9 +16,8 @@ import java.util.Random;
 
 public class PuzzleGeneratorService implements IPuzzleGeneratorService {
     private static Board board;
-    private static IFileService fileService = new FileService();
 
-    public static Board generatePuzzle(int width, int height, int numberOfIslands) throws GRBException {
+    public static Board generatePuzzle(int width, int height, int numberOfIslands){
         board = new Board(width, height);
         Random random = new Random();
         int randomX = random.nextInt(width);
@@ -32,6 +32,7 @@ public class PuzzleGeneratorService implements IPuzzleGeneratorService {
             int y = randomIsland.getPosition().getY();
             int direction = random.nextInt(4);
             switch (direction) {
+                //RIGHT
                 case 0:
                     x++;
                     x++;
@@ -42,9 +43,12 @@ public class PuzzleGeneratorService implements IPuzzleGeneratorService {
                                 break;
                             }
                         }
-                        createNewIsland(randomIsland, x, y, id++);
+                        if (checkIfFieldIsFreeOrBridgeOrEdge(x, y - 1) && checkIfFieldIsFreeOrBridgeOrEdge(x, y + 1)) {
+                            createNewIsland(randomIsland, x, y, id++);
+                        }
                     }
                     break;
+                //DOWN
                 case 1:
                     y++;
                     y++;
@@ -55,9 +59,12 @@ public class PuzzleGeneratorService implements IPuzzleGeneratorService {
                                 break;
                             }
                         }
-                        createNewIsland(randomIsland, x, y, id++);
+                        if (checkIfFieldIsFreeOrBridgeOrEdge(x - 1, y) && checkIfFieldIsFreeOrBridgeOrEdge(x + 1, y)) {
+                            createNewIsland(randomIsland, x, y, id++);
+                        }
                     }
                     break;
+                //LEFT
                 case 2:
                     x--;
                     x--;
@@ -68,9 +75,12 @@ public class PuzzleGeneratorService implements IPuzzleGeneratorService {
                                 break;
                             }
                         }
-                        createNewIsland(randomIsland, x, y, id++);
+                        if (checkIfFieldIsFreeOrBridgeOrEdge(x, y - 1) && checkIfFieldIsFreeOrBridgeOrEdge(x, y + 1)) {
+                            createNewIsland(randomIsland, x, y, id++);
+                        }
                     }
                     break;
+                //UP
                 case 3:
                     y--;
                     y--;
@@ -81,14 +91,18 @@ public class PuzzleGeneratorService implements IPuzzleGeneratorService {
                                 break;
                             }
                         }
-                        createNewIsland(randomIsland, x, y, id++);
+                        if (checkIfFieldIsFreeOrBridgeOrEdge(x - 1, y) && checkIfFieldIsFreeOrBridgeOrEdge(x + 1, y)) {
+                            createNewIsland(randomIsland, x, y, id++);
+                        }
                     }
                     break;
             }
         }
-        Collections.sort(board.getIslands());
+        board.getIslands().sort(new
+                SortIslandsHorizontally());
         int newId = 1;
-        for(Island i : board.getIslands()){
+        for (
+                Island i : board.getIslands()) {
             i.setId(newId);
             newId++;
         }

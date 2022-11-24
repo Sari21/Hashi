@@ -4,7 +4,7 @@ import main.models.Board;
 import main.models.Bridge;
 import main.models.Island;
 import main.services.interfaces.IFileService;
-import main.solver.solvingTechniques.Levels;
+import main.models.Level;
 
 import java.io.*;
 import java.util.Date;
@@ -47,7 +47,7 @@ public class FileService implements IFileService {
     }
 
     @Override
-    public void writeDifficulty(String fileToWrite, String fileName, float features[], Levels level) {
+    public void writeDifficulty(String fileToWrite, String fileName, float features[], Level level) {
         StringBuilder results = new StringBuilder();
         results.append(fileName).append(CSV_SEPARATOR);
         for (int i = 0; i < features.length; i++) {
@@ -205,25 +205,25 @@ public class FileService implements IFileService {
         data = data.toLowerCase();
         switch (data) {
             case "very_easy":
-                board.setLevel(Levels.PRETTY_EASY);
+                board.setLevel(Level.PRETTY_EASY);
                 break;
             case "pretty_easy":
-                board.setLevel(Levels.PRETTY_EASY);
+                board.setLevel(Level.PRETTY_EASY);
                 break;
             case "easy":
-                board.setLevel(Levels.EASY);
+                board.setLevel(Level.EASY);
                 break;
             case "medium":
-                board.setLevel(Levels.MEDIUM);
+                board.setLevel(Level.MEDIUM);
                 break;
             case "hard":
-                board.setLevel(Levels.HARD);
+                board.setLevel(Level.HARD);
                 break;
             case "very_hard":
-                board.setLevel(Levels.VERY_HARD);
+                board.setLevel(Level.VERY_HARD);
                 break;
             case "super_hard":
-                board.setLevel(Levels.SUPER_HARD);
+                board.setLevel(Level.SUPER_HARD);
                 break;
             default:
                 break;
