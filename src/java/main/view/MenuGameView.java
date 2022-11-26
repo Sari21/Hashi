@@ -80,11 +80,11 @@ public class MenuGameView implements ViewElement {
                 new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(final ActionEvent e) {
-                            try {
-                                MenuGameController.openGame(levelComboBox.getValue(), sizeComboBox.getValue());
-                            } catch (Exception ex) {
-                                ex.printStackTrace();
-                            }
+//                            try {
+//                                MenuGameController.openGame();
+//                            } catch (Exception ex) {
+//                                ex.printStackTrace();
+//                            }
                     }
                 });
 

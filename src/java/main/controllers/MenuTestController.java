@@ -25,6 +25,7 @@ public class MenuTestController {
     private static IFileService fileService = new FileService();
     @Inject private static ManageData manageData = new ManageData();
 
+
     public static void openGame(File file) throws GRBException {
         Board board = fileService.readGame(file);
         if(board.getBridges().isEmpty()){
@@ -33,27 +34,27 @@ public class MenuTestController {
         File newFile = fileService.saveNewBoard(board);
         board = fileService.readGame(newFile);
         closeMenuStage();
-        BoardController.openGame(board);
+//        BoardController.openGame(board);
     }
 
     public static void solveGameLP(File file) throws GRBException {
         Board board = fileService.readGame(file);
         closeMenuStage();
         Board board2 = LPSolver.solve(board);
-        BoardController.openGame(board2);
+//        BoardController.openGame(board2);
     }
 
     public static void solveGameST(File file) throws GRBException {
         Board board = fileService.readGame(file);
         closeMenuStage();
         Board board2 = STSolver.solve(board);
-        BoardController.openGame(board2);
+//        BoardController.openGame(board2);
     }
 
     public static void openSolution(File file) {
         Board board = fileService.readSolution(file);
         closeMenuStage();
-        BoardController.openGame(board);
+//        BoardController.openGame(board);
     }
 
     public static void solveMultipleGamesST(List<File> files) {
@@ -100,7 +101,7 @@ public class MenuTestController {
 //            System.out.print(d);
 //            System.out.print(", ");
 //        }
-        BoardController.openGame(boardLP);
+//        BoardController.openGame(boardLP);
     }
 
     public static void predictFromFileTF(File file) throws GRBException {
@@ -114,7 +115,7 @@ public class MenuTestController {
 //            System.out.print(d);
 //            System.out.print(", ");
 //        }
-        BoardController.openGame(board);
+//        BoardController.openGame(board);
     }
 
     private static Level predictTF(Board board) throws GRBException {

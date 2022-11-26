@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.collections.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.collections.FXCollections?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="400.0"
+            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="main.controllers.MenuGameController">
+    <children>
+        <MenuBar layoutX="29.0" layoutY="6.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                 AnchorPane.topAnchor="0.0">
+            <menus>
+                <Menu mnemonicParsing="false" text="Rules">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Close"/>
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+        <SplitPane dividerPositions="0.26905829596412556" layoutX="28.0" layoutY="70.0" orientation="VERTICAL"
+                   prefHeight="480.0" prefWidth="450.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                   AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
+            <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="122.0" prefWidth="448.0">
+                    <children>
+                        <ImageView fitHeight="255.0" fitWidth="601.0" layoutY="-33.0" pickOnBounds="true"
+                                   preserveRatio="true">
+                            <image>
+                                <Image url="@../../../resources/images/lanchid2.jpg"/>
+                            </image>
+                        </ImageView>
+                    </children>
+                </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="266.0" prefWidth="448.0">
+                    <children>
+                        <Text layoutX="142.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hashi"
+                              AnchorPane.leftAnchor="142.0" AnchorPane.rightAnchor="142.5" AnchorPane.topAnchor="33.0">
+                            <font>
+                                <Font name="Microsoft Sans Serif" size="40.0"/>
+                            </font>
+                        </Text>
+                        <GridPane layoutX="95.0" layoutY="104.0" prefHeight="122.0" prefWidth="197.0"
+                                  AnchorPane.leftAnchor="95.0" AnchorPane.rightAnchor="95.0"
+                                  AnchorPane.topAnchor="104.0">
+                            <columnConstraints>
+                                <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" minWidth="10.0"
+                                                   prefWidth="100.0"/>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                            </rowConstraints>
+                            <children>
+                                <ComboBox id="sizeCombo" fx:id="sizeCombo" prefWidth="150.0" GridPane.columnIndex="1">
+                                </ComboBox>
+                                <ComboBox id="levelCombo" fx:id="levelCombo" prefWidth="150.0" GridPane.columnIndex="1"
+                                          GridPane.rowIndex="1">
+                                </ComboBox>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Size"/>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Level" GridPane.rowIndex="1"/>
+                                <Button id="startButton" fx:id="startButton" mnemonicParsing="false"
+                                        onAction="#openGame" text="Start" GridPane.columnIndex="1"
+                                        GridPane.rowIndex="2"/>
+                            </children>
+                        </GridPane>
+                    </children>
+                </AnchorPane>
+            </items>
+        </SplitPane>
+    </children>
+</AnchorPane>

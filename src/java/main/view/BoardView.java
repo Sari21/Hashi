@@ -1,5 +1,6 @@
 package main.view;
 
+import javafx.fxml.FXML;
 import main.controllers.BoardController;
 import main.controllers.MenuTestController;
 import gurobi.GRBException;
@@ -27,13 +28,13 @@ public class BoardView implements ViewElement {
     private int width, height;
     private Group root;
     private Stage boardStage;
-    private boolean gameMode;
+    private Button checkSolutionButton;
 
-    public BoardView(Board board, boolean gameMode) {
+
+public BoardView(Board board) {
         this.height = board.getHeight() * FIELD_WIDTH + 50;
         this.width = board.getWidth() * FIELD_WIDTH;
         this.board = board;
-        this.gameMode = gameMode;
 
         root = new Group();
         for (Bridge bridge : board.getBridges()) {
@@ -50,9 +51,8 @@ public class BoardView implements ViewElement {
             root.getChildren().addAll(islandElement.getCircle());
             root.getChildren().addAll(islandElement.getNumber());
         }
-//        if (gameMode) {
-        if(true){
-            Button checkSolutionButton = new Button("Check solution");
+
+            checkSolutionButton = new Button("Check solution");
             checkSolutionButton.setAlignment(Pos.BOTTOM_CENTER);
             checkSolutionButton.setLayoutX(10);
             checkSolutionButton.setLayoutY(height - 40);
@@ -65,29 +65,12 @@ public class BoardView implements ViewElement {
             result.setFont(Font.font("Veranda", FontWeight.LIGHT, 12));
             root.getChildren().add(result);
 
-            checkSolutionButton.setOnAction(
-                    new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(final ActionEvent e) {
-                            try {
-                                if (BoardController.checkSolution(board)) {
-                                    result.setText("Perfect!");
-                                }
-                                else{
-                                    result.setText(":(");
-                                }
-                            } catch (GRBException ex) {
-                                ex.printStackTrace();
-                            }
-
-
-                        }
-                    });
-        }
         boardStage = new Stage();
         boardStage.setScene(new Scene(root, this.width, this.height));
         boardStage.setResizable(false);
         boardStage.setTitle("Hashi");
+
+        //todo
 
         boardStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
@@ -99,6 +82,7 @@ public class BoardView implements ViewElement {
         });
     }
 
+    //todo
     public void refreshBridges() {
         for (BridgeElement b : bridgeElements) {
             root.getChildren().removeAll(b.getDoubleLine(), b.getLine());
@@ -113,11 +97,6 @@ public class BoardView implements ViewElement {
                 root.getChildren().addAll(bridgeView.getDoubleLine());
             }
         }
-    }
-
-
-    public BoardView(boolean gameMode) {
-        this.gameMode = gameMode;
     }
 
     public Stage getBoardStage() {
@@ -174,5 +153,13 @@ public class BoardView implements ViewElement {
 
     public void setRoot(Group root) {
         this.root = root;
+    }
+
+    public Button getCheckSolutionButton() {
+        return checkSolutionButton;
+    }
+
+    public void setCheckSolutionButton(Button checkSolutionButton) {
+        this.checkSolutionButton = checkSolutionButton;
     }
 }

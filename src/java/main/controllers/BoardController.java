@@ -1,8 +1,11 @@
 package main.controllers;
 
 import gurobi.GRBException;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import main.models.Board;
 import main.models.Bridge;
 import main.services.FileService;
@@ -12,36 +15,42 @@ import main.view.BoardView;
 import main.view.BridgeElement;
 import main.view.IslandElement;
 
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class BoardController {
-    private static Board board;
-    private static BoardView boardView;
-    private static IslandElement startIsland, endIsland;
-    private static IFileService fileService = new FileService();
 
-    private static void setBoardStage() {
-        boardView = new BoardView(board, true);
-        setEventHandlersForIslands();
-        setEventHandlersForBridges();
+public class BoardController implements Initializable {
+    public Pane gameMenuPane;
+    public Pane gamePane;
+    private Board board;
+    private BoardView boardView;
+    private IslandElement startIsland, endIsland;
+    private IFileService fileService = new FileService();
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+//        boardView = new BoardView(board);
+
+    }
+    private  void setBoardStage() {
+//        boardView = new BoardView(board, true);
+
     }
 
-    public static void openGame(Board board) {
-        setBoard(board);
-        boardView = new BoardView(true);
-        setBoardStage();
-        showBoardStage();
+    public  void openGame(Board board) {
+
     }
 
-    public static void showBoardStage() {
+    public  void showBoardStage() {
         setBoardStage();
         boardView.getBoardStage().show();
     }
 
-    public static void closeBoardStage() {
+    public  void closeBoardStage() {
         boardView.getBoardStage().close();
     }
 
-    private static void setEventHandlersForIslands() {
+    private  void setEventHandlersForIslands() {
         for (IslandElement islandElement : boardView.getIslandElements()) {
             islandElement.getCircle().setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
@@ -104,8 +113,8 @@ public class BoardController {
         }
     }
 
-    private static void setEventHandlersForBridges() {
-        for (BridgeElement bridgeElement : boardView.getBridgeElements()) {
+    private void setEventHandlersForBridges() {
+        for (BridgeElement bridgeElement : this.boardView.getBridgeElements()) {
             bridgeElement.getLine().setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(javafx.scene.input.MouseEvent e) {
@@ -132,8 +141,30 @@ public class BoardController {
             });
         }
     }
+    private void setEventListenerForCheckSolutionButton(){
+        this.boardView.getCheckSolutionButton().setOnAction(
+                new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(final ActionEvent e) {
+                        try {
+                            if (checkSolution(board)) {
+//                                result.setText("Perfect!");
+                            }
+                            else{
+//                                result.setText(":(");
+                            }
+                        } catch (GRBException ex) {
+                            ex.printStackTrace();
+                        }
 
-    public static boolean checkSolution(Board board) throws GRBException {
+
+                    }
+                });
+
+    }
+
+    //todo
+    public  boolean checkSolution(Board board) throws GRBException {
         Board solution = fileService.readSolution(board);
 //        if(board.getBridges().isEmpty()){
 //            board.setBridges(LPSolver.solveAndGetBridges(board));
@@ -141,19 +172,26 @@ public class BoardController {
         return board.equals(solution);
     }
 
-    public static Board getBoard() {
+    public  Board getBoard() {
         return board;
     }
 
-    public static void setBoard(Board board) {
-        BoardController.board = board;
+    public  void setBoard(Board board) {
+        this.board = board;
+        boardView = new BoardView(board);
+        gamePane.getChildren().add(boardView.getRoot());
+        setEventHandlersForIslands();
+        setEventHandlersForBridges();
+
     }
 
-    public static BoardView getBoardView() {
+    public  BoardView getBoardView() {
         return boardView;
     }
 
-    public static void setBoardView(BoardView boardView) {
-        BoardController.boardView = boardView;
+    public  void setBoardView(BoardView boardView) {
+        this.boardView = boardView;
     }
+
+
 }
