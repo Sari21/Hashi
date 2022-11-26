@@ -28,8 +28,8 @@ public class MenuTestController {
 
     public static void openGame(File file) throws GRBException {
         Board board = fileService.readGame(file);
-        if(board.getBridges().isEmpty()){
-            board.setBridges(LPSolver.solveAndGetBridges(board));
+        if(board.getSolutionBridges().isEmpty()){
+            board.setSolutionBridges(LPSolver.solveAndGetBridges(board));
         }
         File newFile = fileService.saveNewBoard(board);
         board = fileService.readGame(newFile);

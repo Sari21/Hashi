@@ -8,6 +8,7 @@ import java.util.*;
 public class Board implements CsvPrintable {
     private int width, height;
     private ArrayList<Island> islands = new ArrayList<>();
+    private ArrayList<Bridge> solutionBridges = new ArrayList<>();
     private ArrayList<Bridge> bridges = new ArrayList<>();
     private boolean[][] islandFields;
     private boolean[][] bridgeFields;
@@ -36,6 +37,11 @@ public class Board implements CsvPrintable {
 
     public void addBridge(Bridge bridge) {
         bridges.add(bridge);
+        for (Coordinates c : bridge.getFields()) {
+            bridgeFields[c.getX()][c.getY()] = true;
+        }
+    }  public void addSolutionBridge(Bridge bridge) {
+        solutionBridges.add(bridge);
         for (Coordinates c : bridge.getFields()) {
             bridgeFields[c.getX()][c.getY()] = true;
         }
@@ -68,7 +74,7 @@ public class Board implements CsvPrintable {
             printedBoard.append("\n");
         }
         printedBoard.append("bridges").append("\n");
-        for (Bridge bridge : bridges) {
+        for (Bridge bridge : solutionBridges) {
             printedBoard.append(bridge.printCsv()).append("\n");
         }
         return printedBoard.toString();
@@ -110,12 +116,12 @@ public class Board implements CsvPrintable {
         this.islands = islands;
     }
 
-    public ArrayList<Bridge> getBridges() {
-        return bridges;
+    public ArrayList<Bridge> getSolutionBridges() {
+        return solutionBridges;
     }
 
-    public void setBridges(ArrayList<Bridge> bridges) {
-        for (Bridge b : bridges) {
+    public void setSolutionBridges(ArrayList<Bridge> solutionBridges) {
+        for (Bridge b : solutionBridges) {
             addBridge(b);
         }
     }
@@ -154,7 +160,7 @@ public class Board implements CsvPrintable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Board board = (Board) o;
-        Collections.sort(board.getBridges());
+        Collections.sort(board.getSolutionBridges());
         Collections.sort(this.bridges);
 
         return bridges.equals(board.bridges);
@@ -178,6 +184,7 @@ public class Board implements CsvPrintable {
         return super.clone();
     }
 
+    //todo
     public void setBridgeAndIslandFields() {
         islandFields = new boolean[this.width][height];
         bridgeFields = new boolean[this.width][height];
@@ -195,5 +202,13 @@ public class Board implements CsvPrintable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public ArrayList<Bridge> getBridges() {
+        return bridges;
+    }
+
+    public void setBridges(ArrayList<Bridge> bridges) {
+        this.bridges = bridges;
     }
 }

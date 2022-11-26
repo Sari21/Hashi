@@ -113,7 +113,6 @@ public class Bridge implements CsvPrintable, Comparable<Bridge> {
         if (o == null || getClass() != o.getClass()) return false;
         Bridge bridge = (Bridge) o;
         return isDouble == bridge.isDouble &&
-                isVertical == bridge.isVertical &&
                 startIsland.getId() == bridge.startIsland.getId() &&
                 endIsland.getId() == bridge.endIsland.getId();
     }

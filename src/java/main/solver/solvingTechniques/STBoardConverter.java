@@ -68,7 +68,7 @@ public class STBoardConverter {
         for (STBridge stBridge : stBoard.getBridges()) {
             bridges.add(stBridge.getBridge());
         }
-        board.setBridges(bridges);
+        board.setSolutionBridges(bridges);
         ArrayList<Island> islands = new ArrayList<>();
         for (STIsland stIsland : stBoard.getUnfinishedIslands()) {
             islands.add(stIsland.getIsland());
@@ -87,7 +87,7 @@ public class STBoardConverter {
         for (STBridge stBridge : stBoard.getBridges()) {
             bridges.add(stBridge.getBridge());
         }
-        board.setBridges(bridges);
+        board.setSolutionBridges(bridges);
         for (STIsland i : stBoard.getUnfinishedIslands()) {
             if (i.getUpNeighbour() != null) {
                 Bridge b = new Bridge();

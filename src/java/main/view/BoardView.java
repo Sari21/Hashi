@@ -1,10 +1,6 @@
 package main.view;
 
-import javafx.fxml.FXML;
-import main.controllers.BoardController;
 import main.controllers.MenuTestController;
-import gurobi.GRBException;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -52,18 +48,18 @@ public BoardView(Board board) {
             root.getChildren().addAll(islandElement.getNumber());
         }
 
-            checkSolutionButton = new Button("Check solution");
-            checkSolutionButton.setAlignment(Pos.BOTTOM_CENTER);
-            checkSolutionButton.setLayoutX(10);
-            checkSolutionButton.setLayoutY(height - 40);
-            root.getChildren().add(checkSolutionButton);
-            Label result = new Label();
-            result.setText("");
-            result.setAlignment(Pos.BOTTOM_CENTER);
-            result.setLayoutX(130);
-            result.setLayoutY(height - 40);
-            result.setFont(Font.font("Veranda", FontWeight.LIGHT, 12));
-            root.getChildren().add(result);
+//            checkSolutionButton = new Button("Check solution");
+//            checkSolutionButton.setAlignment(Pos.BOTTOM_CENTER);
+//            checkSolutionButton.setLayoutX(10);
+//            checkSolutionButton.setLayoutY(height - 40);
+//            root.getChildren().add(checkSolutionButton);
+//            Label result = new Label();
+//            result.setText("");
+//            result.setAlignment(Pos.BOTTOM_CENTER);
+//            result.setLayoutX(130);
+//            result.setLayoutY(height - 40);
+//            result.setFont(Font.font("Veranda", FontWeight.LIGHT, 12));
+//            root.getChildren().add(result);
 
         boardStage = new Stage();
         boardStage.setScene(new Scene(root, this.width, this.height));

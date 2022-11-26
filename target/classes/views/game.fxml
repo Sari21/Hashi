@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.BoardController">
    <children>
@@ -13,12 +15,26 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <Pane fx:id="gameMenuPane" prefHeight="398.0" prefWidth="130.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="470.0" AnchorPane.topAnchor="0.0">
+                  <Pane fx:id="gameMenuPane" prefHeight="398.0" prefWidth="130.0" style="-fx-background-color: #E5FEFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="470.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <Button fx:id="checkSolutionButton" layoutX="34.0" layoutY="38.0" mnemonicParsing="false" text="Check" />
+                        <Button fx:id="checkSolutionButton" layoutX="30.0" layoutY="38.0" mnemonicParsing="false" onAction="#checkSolution" style="-fx-background-color: lightgrey;" text="Check" textFill="WHITE">
+                           <font>
+                              <Font name="Microsoft Sans Serif" size="16.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="OPEN_HAND" />
+                           </cursor>
+                           <effect>
+                              <DropShadow color="#00000052" offsetX="3.0" offsetY="3.0" />
+                           </effect>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </Button>
+                        <Text fx:id="solutionText" layoutX="50.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" visible="false" />
                      </children>
                   </Pane>
-                  <Pane fx:id="gamePane" layoutX="132.0" prefHeight="398.0" prefWidth="470.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <Pane fx:id="gamePane" layoutX="132.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
         </items>

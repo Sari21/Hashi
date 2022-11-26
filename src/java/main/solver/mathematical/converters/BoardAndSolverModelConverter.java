@@ -5,12 +5,7 @@ import main.models.Board;
 import main.models.Coordinates;
 import main.solver.mathematical.models.BridgePairs;
 import main.solver.mathematical.models.LPModel;
-import main.models.Board;
 import main.models.Bridge;
-import main.models.Coordinates;
-import main.models.Island;
-import main.solver.mathematical.models.BridgePairs;
-import main.solver.mathematical.models.LPModel;
 
 import java.util.ArrayList;
 
@@ -96,7 +91,7 @@ public class BoardAndSolverModelConverter {
                 }
             }
         }
-        return solutionBoard.getBridges();
+        return solutionBoard.getSolutionBridges();
     }
 
     private static boolean areBridgesIntersect(Coordinates A, Coordinates B, Coordinates C, Coordinates D) {

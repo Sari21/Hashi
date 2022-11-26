@@ -3,9 +3,11 @@ package main.controllers;
 import gurobi.GRBException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import main.models.Board;
 import main.models.Bridge;
 import main.services.FileService;
@@ -16,12 +18,14 @@ import main.view.BridgeElement;
 import main.view.IslandElement;
 
 import java.net.URL;
+import java.util.Collections;
 import java.util.ResourceBundle;
 
 
 public class BoardController implements Initializable {
     public Pane gameMenuPane;
     public Pane gamePane;
+    public Text solutionText;
     private Board board;
     private BoardView boardView;
     private IslandElement startIsland, endIsland;
@@ -141,35 +145,39 @@ public class BoardController implements Initializable {
             });
         }
     }
-    private void setEventListenerForCheckSolutionButton(){
-        this.boardView.getCheckSolutionButton().setOnAction(
-                new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(final ActionEvent e) {
-                        try {
-                            if (checkSolution(board)) {
-//                                result.setText("Perfect!");
-                            }
-                            else{
-//                                result.setText(":(");
-                            }
-                        } catch (GRBException ex) {
-                            ex.printStackTrace();
-                        }
+//    private void setEventListenerForCheckSolutionButton(){
+//        this.boardView.getCheckSolutionButton().setOnAction(
+//                new EventHandler<ActionEvent>() {
+//                    @Override
+//                    public void handle(final ActionEvent e) {
+//                        try {
+//                            if (checkSolution(board)) {
+////                                result.setText("Perfect!");
+//                            }
+//                            else{
+////                                result.setText(":(");
+//                            }
+//                        } catch (GRBException ex) {
+//                            ex.printStackTrace();
+//                        }
+//
+//
+//                    }
+//                });
+//
+//    }
+    @FXML
+    public void checkSolution() throws GRBException {
+        if(board.getSolutionBridges().isEmpty()){
+            board.setBridges(LPSolver.solveAndGetBridges(board));
+        }
+        Collections.sort(board.getSolutionBridges());
+        Collections.sort(board.getBridges());
 
+        boolean isCorrect = board.getSolutionBridges().equals(board.getBridges());
+        solutionText.setText((isCorrect?"Correct!":"Incorrect!"));
+        solutionText.setVisible(true);
 
-                    }
-                });
-
-    }
-
-    //todo
-    public  boolean checkSolution(Board board) throws GRBException {
-        Board solution = fileService.readSolution(board);
-//        if(board.getBridges().isEmpty()){
-//            board.setBridges(LPSolver.solveAndGetBridges(board));
-//        }
-        return board.equals(solution);
     }
 
     public  Board getBoard() {
