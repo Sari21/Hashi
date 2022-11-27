@@ -4,13 +4,16 @@ package main;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.*;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import main.controllers.MenuGameController;
 import main.controllers.MenuTestController;
 import main.database.ManageData;
 import main.database.QueryData;
 import main.models.Board;
-import main.view.BoardView;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -18,15 +21,20 @@ import java.io.InputStream;
 public class Main extends Application {
 
     static Board board;
-    private static BoardView boardView;
     private Firestore db;
 
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-       // MenuTestController.showMenuStage();
-        MenuGameController.showMenuStage();
-
+//        todo if jatek/test
+        FXMLLoader fxmlLoader = new FXMLLoader(
+                getClass().getResource("/views/menu_game.fxml"));
+        Parent rootNode = fxmlLoader.load();
+        Scene scene = new Scene(rootNode);
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Hashi");
+        primaryStage.setResizable(false);
+        primaryStage.show();
     }
 
     public Main(String projectId) throws Exception {
@@ -198,11 +206,12 @@ public class Main extends Application {
     public static void main(String[] args) throws Exception {
 
         String projectId = "hashi-da6a0";
-        Main quickStart =  new Main(projectId) ;
+        Main quickStart = new Main(projectId);
         quickStart.run();
         quickStart.close();
         launch(args);
     }
+
     void close() throws Exception {
         db.close();
     }

@@ -4,7 +4,7 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.WriteResult;
-import main.database.model.BoardDTO;
+import main.database.dto.BoardDTO;
 import main.models.Board;
 
 import java.util.Date;

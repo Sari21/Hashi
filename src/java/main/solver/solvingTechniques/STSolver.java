@@ -1,6 +1,7 @@
 package main.solver.solvingTechniques;
 
 import main.models.*;
+import main.solver.solvingTechniques.converters.STBoardConverter;
 import main.solver.solvingTechniques.models.STBoard;
 import main.solver.solvingTechniques.models.STBridge;
 import main.solver.solvingTechniques.models.STIsland;
@@ -21,15 +22,15 @@ public class STSolver {
     private static int sixInTheMiddle, threeInTheCornerFiveOnTheSideAndSevenInTheMiddle, islandRemainingValueEqualsToUnfinishedNeighboursRemainingBridges, isolationOfATwoIslandSegment = 0;
     private static int isolationOfASegment,  isolationWhenASegmentConnectsToAnotherSegment, addRandomBridge = 0;
 
-    public static Level calculateGameLevel(Board board) {
-        solve(board);
-        if (points < 10)
-            return Level.EASY;
-        else if (points < 15)
-            return Level.MEDIUM;
-        else
-            return Level.HARD;
-    }
+//    public static Level calculateGameLevel(Board board) {
+//        solve(board);
+//        if (points < 10)
+//            return Level.EASY;
+//        else if (points < 15)
+//            return Level.MEDIUM;
+//        else
+//            return Level.HARD;
+//    }
 
     public static Board solve(Board board) {
         System.out.println("-------------------1");

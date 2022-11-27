@@ -1,7 +1,7 @@
 package main.database;
 
-import main.database.model.BoardDTO;
-import main.database.model.BridgeDTO;
+import main.database.dto.BoardDTO;
+import main.database.dto.BridgeDTO;
 import main.models.Board;
 import main.models.Bridge;
 import main.models.Island;
@@ -42,9 +42,8 @@ public class BoardModelDTOConverter {
             bridge.setEndIsland(endIsland);
             bridge.setDouble(bridgeDTO.isDouble());
             bridge.setVertical(bridge.getStartIsland().getPosition().getX() == bridge.getEndIsland().getPosition().getX());
-            model.addBridge(bridge);
+            model.addSolutionBridge(bridge);
         }
-
         return model;
     }
 
@@ -53,6 +52,9 @@ public class BoardModelDTOConverter {
     public static Board mapToModelConverter(Map<String, Object> map, Level level, int size) {
 //        model.setId((Long) map.get("id"));
 //        model.setFileName();
+        if(map.size() == 0){
+            throw new RuntimeException("no board");
+        }
         Board model = new Board(size, size);
         model.setHeight(size);
         model.setWidth(size);
@@ -95,7 +97,7 @@ public class BoardModelDTOConverter {
             bridge.setEndIsland(endIsland);
             bridge.setDouble(isDouble);
             bridge.setVertical(bridge.getStartIsland().getPosition().getX() == bridge.getEndIsland().getPosition().getX());
-            model.addBridge(bridge);
+            model.addSolutionBridge(bridge);
         }
 
         return model;
@@ -138,7 +140,7 @@ public class BoardModelDTOConverter {
         dto.setIslands(islands);
         List<BridgeDTO> bridgeDTOS = new ArrayList<>();
         BridgeDTO bridgeDTO = new BridgeDTO();
-        for (Bridge b : model.getBridges()) {
+        for (Bridge b : model.getSolutionBridges()) {
             bridgeDTO = new BridgeDTO();
             bridgeDTO.setDouble(b.isDouble());
             bridgeDTO.setStartIsland(b.getStartIsland().getId());

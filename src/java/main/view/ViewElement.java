@@ -1,6 +1,7 @@
 package main.view;
 
 public interface ViewElement {
-     int FIELD_WIDTH = 80;
+    float WIDTH = 750;
+    float MARGIN = 20;
 
 }
