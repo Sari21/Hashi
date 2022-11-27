@@ -1,4 +1,4 @@
-package main.database.model;
+package main.database.dto;
 
 import main.models.Level;
 

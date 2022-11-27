@@ -19,9 +19,6 @@ public class STBoard implements Cloneable  {
         this.height = height;
     }
 
-    public STBoard() {
-    }
-
     //true, ha van még befejezetlen szomszéd
     //false ha különálló szegmensek vannak
     public boolean checkFinishedIslands(){
@@ -43,7 +40,6 @@ public class STBoard implements Cloneable  {
             }
             notEmpty = !islands.isEmpty();
         }
-
         return true;
     }
 

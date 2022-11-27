@@ -14,7 +14,6 @@ import main.controllers.MenuTestController;
 import main.database.ManageData;
 import main.database.QueryData;
 import main.models.Board;
-import main.view.BoardView;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -22,7 +21,6 @@ import java.io.InputStream;
 public class Main extends Application {
 
     static Board board;
-    private static BoardView boardView;
     private Firestore db;
 
 

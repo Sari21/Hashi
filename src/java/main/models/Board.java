@@ -40,7 +40,9 @@ public class Board implements CsvPrintable {
         for (Coordinates c : bridge.getFields()) {
             bridgeFields[c.getX()][c.getY()] = true;
         }
-    }  public void addSolutionBridge(Bridge bridge) {
+    }
+    //todo
+     public void addSolutionBridge(Bridge bridge) {
         solutionBridges.add(bridge);
         for (Coordinates c : bridge.getFields()) {
             bridgeFields[c.getX()][c.getY()] = true;

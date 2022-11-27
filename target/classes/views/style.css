@@ -1,0 +1,16 @@
+Button{
+    -fx-background-color: lightgrey;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.2, 3, 3);
+    -fx-font-size: 20;
+}
+ComboBox{
+    -fx-background-color: lightgrey;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.2, 3, 3);
+    -fx-font-size: 14;
+}
+AnchorPane{
+    -fx-text-fill: #FFFFFF;
+    -fx-font-family: "Microsoft Sans Serif";
+    -fx-font-size: 14;
+
+}

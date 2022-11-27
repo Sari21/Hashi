@@ -1,7 +1,7 @@
 package main.database;
 
-import main.database.model.BoardDTO;
-import main.database.model.BridgeDTO;
+import main.database.dto.BoardDTO;
+import main.database.dto.BridgeDTO;
 import main.models.Board;
 import main.models.Bridge;
 import main.models.Island;
@@ -52,6 +52,9 @@ public class BoardModelDTOConverter {
     public static Board mapToModelConverter(Map<String, Object> map, Level level, int size) {
 //        model.setId((Long) map.get("id"));
 //        model.setFileName();
+        if(map.size() == 0){
+            throw new RuntimeException("no board");
+        }
         Board model = new Board(size, size);
         model.setHeight(size);
         model.setWidth(size);
