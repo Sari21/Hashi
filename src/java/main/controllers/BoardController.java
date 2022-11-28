@@ -31,13 +31,15 @@ import java.util.Collections;
 
 
 public class BoardController {
-    public Pane islandsPane;
-    public Pane bridgesPane;
     private Board board;
     private ArrayList<BridgeElement> bridgeElements = new ArrayList<>();
     private ArrayList<IslandElement> islandElements = new ArrayList<>();
-    public Pane gameMenuPane;
     private IslandElement startIsland, endIsland;
+
+    public Pane gameMenuPane;
+    public Pane islandsPane;
+    public Pane bridgesPane;
+    public Pane valuePane;
     private String SECONDARY = "SECONDARY";
     private String PRIMARY = "PRIMARY";
 
@@ -175,7 +177,7 @@ public class BoardController {
             IslandElement islandElement = new IslandElement(island, board.getWidth());
             islandElements.add(islandElement);
             islandsPane.getChildren().add(islandElement.getCircle());
-            islandsPane.getChildren().add(islandElement.getNumber());
+            valuePane.getChildren().add(islandElement.getNumber());
         }
         setEventHandlersForIslands();
         setEventHandlersForBridges();

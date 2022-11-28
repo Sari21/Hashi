@@ -15,9 +15,9 @@ public class IslandElement implements ViewElement {
     private Text number;
     private Coordinates position;
     private Island island;
-    //    private static final int RADIUS = 35;
     private boolean isMarked = false;
-    private float RADIUS = 30;
+    private float RADIUS;
+
 
     public IslandElement(Island island, int size) {
         RADIUS = (WIDTH - 2 * MARGIN) / (4 * size - 2);
@@ -25,14 +25,14 @@ public class IslandElement implements ViewElement {
         this.position = island.getPosition();
 
         circle = new Circle();
-        int islandX = island.getPosition().getX() + 1;
-        int islandY = island.getPosition().getY() + 1;
+        int islandX = island.getPosition().getX();
+        int islandY = island.getPosition().getY()+1;
 
         float centerX = ((4 * islandX - 1) * RADIUS) + ((float) RADIUS / 2);
         float centerY = ((4 * islandY - 1) * RADIUS) + ((float) RADIUS / 2);
         circle.setCenterX(centerX);
         circle.setCenterY(centerY);
-        circle.setRadius(RADIUS);
+        circle.setRadius(RADIUS*4/3);
         circle.setFill(Color.BISQUE);
 
         number = new Text();

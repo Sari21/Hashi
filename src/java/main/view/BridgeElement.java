@@ -13,9 +13,9 @@ public class BridgeElement implements ViewElement {
         line.setStrokeWidth(5);
         doubleLine.setStrokeWidth(5);
 
-        int x1 = bridge.getStartIsland().getPosition().getX() + 1;
-        int y1 = bridge.getStartIsland().getPosition().getY() + 1;
-        int x2 = bridge.getEndIsland().getPosition().getX() + 1;
+        int x1 = bridge.getStartIsland().getPosition().getX() ;
+        int y1 = bridge.getStartIsland().getPosition().getY() +1;
+        int x2 = bridge.getEndIsland().getPosition().getX() ;
         int y2 = bridge.getEndIsland().getPosition().getY() + 1;
         float RADIUS = (WIDTH - 2 * MARGIN) / (4 * size - 2);
 

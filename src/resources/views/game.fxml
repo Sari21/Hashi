@@ -14,7 +14,7 @@
         <items>
             <Pane fx:id="gameMenuPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="230.0" style="-fx-background-color: #E5FEFF;">
                <children>
-                  <Button id="button" fx:id="checkSolutionButton" layoutX="60.0" layoutY="102.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#checkSolution" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: lightgrey;" text="Check">
+                  <Button id="button" fx:id="checkSolutionButton" layoutX="60.0" layoutY="55.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#checkSolution" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: lightgrey;" text="Check">
                      <font>
                         <Font name="Microsoft Sans Serif" size="16.0" />
                      </font>
@@ -28,14 +28,15 @@
                         <Insets />
                      </opaqueInsets>
                   </Button>
-                  <Button id="button" fx:id="retryButton" layoutX="60.0" layoutY="156.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#retry" prefHeight="40.0" prefWidth="110.0" text="Retry" />
-                  <Button id="button" fx:id="solutionButton" layoutX="60.0" layoutY="210.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#showSolution" prefHeight="40.0" prefWidth="110.0" text="Solution" />
+                  <Button id="button" fx:id="retryButton" layoutX="60.0" layoutY="136.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#retry" prefHeight="40.0" prefWidth="110.0" text="Retry" />
+                  <Button id="button" fx:id="solutionButton" layoutX="60.0" layoutY="214.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#showSolution" prefHeight="40.0" prefWidth="110.0" text="Solution" />
                </children>
             </Pane>
             <StackPane pickOnBounds="false" prefHeight="150.0" prefWidth="200.0">
                <children>
                   <Pane fx:id="bridgesPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pickOnBounds="false" prefHeight="750.0" prefWidth="750.0" />
                   <Pane fx:id="islandsPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pickOnBounds="false" prefHeight="750.0" prefWidth="750.0" />
+                  <Pane fx:id="valuePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mouseTransparent="true" pickOnBounds="false" prefHeight="750.0" prefWidth="750.0" />
                </children>
             </StackPane>
         </items>
