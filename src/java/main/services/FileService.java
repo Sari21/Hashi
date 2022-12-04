@@ -5,6 +5,7 @@ import main.models.Bridge;
 import main.models.Island;
 import main.services.interfaces.IFileService;
 import main.models.Level;
+import main.view.NotificationView;
 
 import java.io.*;
 import java.util.Date;
@@ -194,9 +195,9 @@ public class FileService implements IFileService {
                 j++;
             }
             myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
+        } catch (Exception e) {
+            NotificationView.showNotification("Invalid file", "", true);
+//            e.printStackTrace();
         }
         return board;
     }

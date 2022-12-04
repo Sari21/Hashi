@@ -124,7 +124,7 @@ public class Board implements CsvPrintable {
 
     public void setSolutionBridges(ArrayList<Bridge> solutionBridges) {
         for (Bridge b : solutionBridges) {
-            addBridge(b);
+            addSolutionBridge(b);
         }
     }
 

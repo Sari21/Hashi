@@ -30,10 +30,11 @@ import javafx.geometry.*;
 public class MenuTestView implements ViewElement {
     private Desktop desktop = Desktop.getDesktop();
     private FileChooser fileChooser = new FileChooser();
+    private final GridPane gridPane;
     private Stage stage;
 
     public MenuTestView() {
-        final GridPane gridPane = new GridPane();
+        gridPane= new GridPane();
         stage = new Stage();
         stage.setTitle("Menu");
 
@@ -114,20 +115,20 @@ public class MenuTestView implements ViewElement {
                         }
                     }
                 });
-        openGame.setOnAction(
-                new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(final ActionEvent e) {
-                        File file = fileChooser.showOpenDialog(stage);
-                        if (file != null) {
-                            try {
-                                MenuTestController.openGame(file);
-                            } catch (GRBException ex) {
-                                ex.printStackTrace();
-                            }
-                        }
-                    }
-                });
+//        openGame.setOnAction(
+//                new EventHandler<ActionEvent>() {
+//                    @Override
+//                    public void handle(final ActionEvent e) {
+//                        File file = fileChooser.showOpenDialog(stage);
+//                        if (file != null) {
+//                            try {
+//                                MenuTestController.openGame(file);
+//                            } catch (GRBException ex) {
+//                                ex.printStackTrace();
+//                            }
+//                        }
+//                    }
+//                });
         solveGameLP.setOnAction(
                 new EventHandler<ActionEvent>() {
                     @Override
@@ -156,36 +157,36 @@ public class MenuTestView implements ViewElement {
                         }
                     }
                 });
-        solveMultipleGamesST.setOnAction(
-                new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(final ActionEvent e) {
-                        List<File> files = new ArrayList<>();
-                        files = fileChooser.showOpenMultipleDialog(stage);
-                        if (files != null && !files.isEmpty()) {
-                            try {
-                                MenuTestController.solveMultipleGamesST(files);
-                            } catch (Exception ex) {
-                                ex.printStackTrace();
-                            }
-                        }
-                    }
-                });
-        solveMultipleGamesLP.setOnAction(
-                new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(final ActionEvent e) {
-                        List<File> files = new ArrayList<>();
-                        files = fileChooser.showOpenMultipleDialog(stage);
-                        if (files != null && !files.isEmpty()) {
-                            try {
-                                MenuTestController.solveMultipleGamesLP(files);
-                            } catch (Exception ex) {
-                                ex.printStackTrace();
-                            }
-                        }
-                    }
-                });
+//        solveMultipleGamesST.setOnAction(
+//                new EventHandler<ActionEvent>() {
+//                    @Override
+//                    public void handle(final ActionEvent e) {
+//                        List<File> files = new ArrayList<>();
+//                        files = fileChooser.showOpenMultipleDialog(stage);
+//                        if (files != null && !files.isEmpty()) {
+//                            try {
+//                                MenuTestController.solveMultipleGamesST(files);
+//                            } catch (Exception ex) {
+//                                ex.printStackTrace();
+//                            }
+//                        }
+//                    }
+//                });
+//        solveMultipleGamesLP.setOnAction(
+//                new EventHandler<ActionEvent>() {
+//                    @Override
+//                    public void handle(final ActionEvent e) {
+//                        List<File> files = new ArrayList<>();
+//                        files = fileChooser.showOpenMultipleDialog(stage);
+//                        if (files != null && !files.isEmpty()) {
+//                            try {
+//                                MenuTestController.solveMultipleGamesLP(files);
+//                            } catch (Exception ex) {
+//                                ex.printStackTrace();
+//                            }
+//                        }
+//                    }
+//                });
 
         generateNewGame.setOnAction(
                 new EventHandler<ActionEvent>() {
@@ -249,8 +250,8 @@ public class MenuTestView implements ViewElement {
                     }
                 });
 
-        stage.setScene(new Scene(rootGroup, 400, 350));
-        stage.getScene().setFill(Color.CORAL);
+//        stage.setScene(new Scene(rootGroup, 400, 350));
+//        stage.getScene().setFill(Color.CORAL);
     }
 
     public Stage getMenuStage() {
@@ -265,4 +266,7 @@ public class MenuTestView implements ViewElement {
         }
     }
 
+    public GridPane getGridPane() {
+        return gridPane;
+    }
 }

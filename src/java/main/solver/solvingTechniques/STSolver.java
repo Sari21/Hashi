@@ -1,6 +1,7 @@
 package main.solver.solvingTechniques;
 
 import main.models.*;
+import main.services.FileService;
 import main.solver.solvingTechniques.converters.STBoardConverter;
 import main.solver.solvingTechniques.models.STBoard;
 import main.solver.solvingTechniques.models.STBridge;
@@ -13,14 +14,16 @@ import static main.solver.solvingTechniques.models.Direction.*;
 
 
 public class STSolver {
-    private static STBoard stBoard;
-    private static STBoard stBoardBeforeRandom;
-    private static int points = 0;
-    private static float[] features;
+    private static final String CSV_SEPARATOR = ";" ;
+    private STBoard stBoard;
+    private STBoard stBoardBeforeRandom;
+    private int points = 0;
+    private float[] features;
+    private FileService fileService = new FileService();
 
-    private static int leftoverTechniques, justEnoughDoubleNeighbours, oneUnsolvedNeighbour, islandRemainingValueEqualsToUnfinishedNeighboursRemainingValue, fourOnTheSide = 0;
-    private static int sixInTheMiddle, threeInTheCornerFiveOnTheSideAndSevenInTheMiddle, islandRemainingValueEqualsToUnfinishedNeighboursRemainingBridges, isolationOfATwoIslandSegment = 0;
-    private static int isolationOfASegment,  isolationWhenASegmentConnectsToAnotherSegment, addRandomBridge = 0;
+    private int leftoverTechniques, justEnoughDoubleNeighbours, oneUnsolvedNeighbour, islandRemainingValueEqualsToUnfinishedNeighboursRemainingValue, fourOnTheSide = 0;
+    private int sixInTheMiddle, threeInTheCornerFiveOnTheSideAndSevenInTheMiddle, islandRemainingValueEqualsToUnfinishedNeighboursRemainingBridges, isolationOfATwoIslandSegment = 0;
+    private int isolationOfASegment,  isolationWhenASegmentConnectsToAnotherSegment, addRandomBridge = 0;
 
 //    public static Level calculateGameLevel(Board board) {
 //        solve(board);
@@ -32,8 +35,8 @@ public class STSolver {
 //            return Level.HARD;
 //    }
 
-    public static Board solve(Board board) {
-        System.out.println("-------------------1");
+    public  Board solve(Board board) {
+//        System.out.println("-------------------1");
         leftoverTechniques = 0;
         justEnoughDoubleNeighbours = 0;
         oneUnsolvedNeighbour = 0;
@@ -47,32 +50,31 @@ public class STSolver {
         isolationWhenASegmentConnectsToAnotherSegment = 0;
         addRandomBridge = 0;
         int sumValues = 0;
-//        for (Island i : board.getIslands()) {
+        for (Island i : board.getIslands()) {
 //            System.out.println(i.getId() + " " + i.getValue() + " " + i.getPosition());
-//            sumValues += i.getValue();
-//        }
+            sumValues += i.getValue();
+        }
         board.sortIslands();
         stBoard = STBoardConverter.convertBoardToSTBoard(board);
         stBoard.setLevel(board.getLevel());
         long startTime = System.currentTimeMillis(); //fetch starting time
         int retry = 0;
-        System.out.println("-------------------2");
-        while ((stBoard.getUnfinishedIslands().size() > 0) && ((System.currentTimeMillis() - startTime) < 3000)) {
+//        System.out.println("-------------------2");
+        while ((stBoard.getUnfinishedIslands().size() > 0) && ((System.currentTimeMillis() - startTime) < 1000)) {
             callSolverFunctions();
             if (stBoardBeforeRandom != null && !stBoard.checkFinishedIslands()) {
                 stBoard = stBoardBeforeRandom;
                 retry++;
-                if(retry >= 10){
-                    break;
-                }
+//                if(retry >= 500){
+//                    break;
+//                }
             }
 
         }
-        System.out.println("-------------------3");
+//        System.out.println("-------------------3");
         long endTime = System.currentTimeMillis();
         //points = points + (stBoard.getUnfinishedIslands().size() * 50);
         int numberOfIslands = board.getIslands().size();
-        double level = (double) points / (double) numberOfIslands;
 //        System.out.println(points);
 //        points = 0;
 //        System.out.println(level);
@@ -83,17 +85,23 @@ public class STSolver {
             remainingValue += i.getRemainingValue();
             neighboursWithBridges += i.getNumberOfNeighboursWithBridges();
         }
+//        System.out.println("-------------------4");
+
         for (STIsland i : stBoard.getFinishedIslands()) {
             remainingValue += i.getRemainingValue();
             neighboursWithBridges += i.getNumberOfNeighboursWithBridges();
         }
+//        System.out.println("-------------------4");
+
         int sumBridgeLength = 0;
         for (STBridge b : stBoard.getBridges()) {
             sumBridgeLength += b.getLength();
         }
+//        System.out.println("-------------------4");
+
         double averageBridgeLength = (double) sumBridgeLength / (double) stBoard.getBridges().size();
         double averageNumberOfNeighbours = (double) neighboursWithBridges / (double) numberOfIslands;
-        System.out.println("-------------------4");
+//        System.out.println("-------------------4");
 
        features = new float[21];
         features[0] = board.getWidth() * board.getHeight() ;
@@ -117,6 +125,8 @@ public class STSolver {
         features[18] = (float)averageBridgeLength ;
         features[19] = (float)averageNumberOfNeighbours ;
         features[20] = endTime - startTime ;
+//                System.out.println("-------------------5");
+
 
 //        StringBuilder results = new StringBuilder()
 //                .append(stBoard.getFilename()).append(CSV_SEPARATOR)
@@ -142,12 +152,12 @@ public class STSolver {
 //                .append(averageNumberOfNeighbours).append(CSV_SEPARATOR)
 //                .append(endTime - startTime).append(CSV_SEPARATOR)
 //                .append(board.getLevel());
-        System.out.println("-------------------5");
+//        System.out.println("-------------------5");
 
 //        char[] tmp = new char[10];
 //        results.getChars('a', 'b', tmp, 1);
-//        fileService.writeDifficulty("Difficulty_ST.csv", results.toString());
-        System.out.println("-------------------6");
+//        fileService.writeDifficulty("Difficulty_ST.csv", board.getFileName(), features, board.getLevel());
+//        System.out.println("-------------------6");
 
         return STBoardConverter.convertSTBoardToBoard(stBoard);
 
@@ -169,7 +179,7 @@ public class STSolver {
 //    }
 
     //1. Islands with a single neighbor:
-    private static boolean islandRemainingValueEqualsToUnfinishedNeighboursRemainingValue(STIsland island) {
+    private  boolean islandRemainingValueEqualsToUnfinishedNeighboursRemainingValue(STIsland island) {
         boolean isFinishedChanged = false;
         int n = 0;
         if (island.getRemainingValueOfUnfinishedNeighbours() == island.getRemainingValue()) {
@@ -197,7 +207,7 @@ public class STSolver {
         return isFinishedChanged;
     }
 
-    private static boolean islandRemainingValueEqualsToUnfinishedNeighboursRemainingBridges(STIsland island) {
+    private  boolean islandRemainingValueEqualsToUnfinishedNeighboursRemainingBridges(STIsland island) {
         boolean isFinishedChanged = false;
         int n = 0;
         if (island.getNumberOfRemainingBridgesOfUnfinishedNeighbours() == island.getRemainingValue()) {
@@ -225,7 +235,7 @@ public class STSolver {
         return isFinishedChanged;
     }
 
-    private static boolean threeInTheCornerFiveOnTheSideAndSevenInTheMiddle(STIsland island) {
+    private boolean threeInTheCornerFiveOnTheSideAndSevenInTheMiddle(STIsland island) {
         boolean isFinishedChanged = false;
         int n = 0;
         if ((island.getNumberOfUnfinishedNeighbours() == 2 && island.getRemainingValue() == 3)
@@ -287,7 +297,7 @@ public class STSolver {
     }
 
     //4. Special case of 4 on the side:
-    private static boolean fourOnTheSide(STIsland island) {
+    private boolean fourOnTheSide(STIsland island) {
         boolean isDouble;
         boolean isFinishedChanged = false;
 
@@ -322,7 +332,7 @@ public class STSolver {
     }
 
     //5. Special case of 6 in the middle:
-    private static boolean sixInTheMiddle(STIsland island) {
+    private boolean sixInTheMiddle(STIsland island) {
         boolean isDouble = false;
         boolean isFinishedChanged = false;
         if (island.getNumberOfNeighbours() == 4 && island.getValue() == 6 && island.getRemainingValue() == 6 && island.numberOfUnfinishedNeighboursWithValueOne() == 1) {
@@ -352,7 +362,7 @@ public class STSolver {
         return isFinishedChanged;
     }
 
-    private static boolean justEnoughDoubleNeighbours(STIsland island) {
+    private boolean justEnoughDoubleNeighbours(STIsland island) {
         boolean isFinishedChanged = false;
         if (island.getValue() == (island.getNumberOfNeighbours() * 2)) {
             if (island.getDownNeighbour() != null) {
@@ -380,7 +390,7 @@ public class STSolver {
         return isFinishedChanged;
     }
 
-    private static boolean oneUnsolvedNeighbour(STIsland island) {
+    private boolean oneUnsolvedNeighbour(STIsland island) {
         boolean isFinishedChanged = false;
         if (island.numberOfUnfinishedNeighboursWithFreeBridges() == 1) {
             boolean isDouble = island.getRemainingValue() == 2;
@@ -410,7 +420,7 @@ public class STSolver {
     }
 
 
-    private static boolean leftoverTechniques(STIsland island) {
+    private boolean leftoverTechniques(STIsland island) {
         boolean isFinishedChanged = false;
         int n = 0;
         if (island.getNumberOfUnfinishedNeighbours() == island.getRemainingValue() && island.numberOfUnfinishedNeighboursWithValue(1) == island.getRemainingValue() - 1) {
@@ -461,7 +471,7 @@ public class STSolver {
 //        return isFinishedChanged;
 //    }
 
-    private static boolean isolationOfATwoIslandSegment(STIsland island) {
+    private boolean isolationOfATwoIslandSegment(STIsland island) {
         boolean isFinishedChanged = false;
         if (island.getValue() == 1 && island.getRemainingValue() == 1 && (island.numberOfUnfinishedNeighboursWithValue(1) + 1 == island.getNumberOfNeighbours())) {
             int value = island.getValue();
@@ -560,7 +570,7 @@ public class STSolver {
 //        return isFinishedChanged;
 //    }
 
-    private static boolean isolationWhenASegmentConnectsToAnotherSegment(STIsland island) {
+    private boolean isolationWhenASegmentConnectsToAnotherSegment(STIsland island) {
         boolean isFinishedChanged = false;
         if (island.getNumberOfUnfinishedNeighbours() == 2 && island.getRemainingValue() == 1) {
             HashSet<STIsland> islandSegment = getSegment(island, new HashSet<>());
@@ -623,7 +633,7 @@ public class STSolver {
     }
 
 
-    private static void addRandomBridge() {
+    private void addRandomBridge() {
         if(stBoard.getUnfinishedIslands().size() == 0)
             return;
         if (stBoardBeforeRandom == null) {
@@ -672,7 +682,7 @@ public class STSolver {
 
     }
 
-    private static void checkIntersectingBridges() {
+    private void checkIntersectingBridges() {
         for (STIsland island : stBoard.getUnfinishedIslands()) {
             if (island.getDownNeighbour() != null)
                 if (areBridgesIntersect(island, island.getDownNeighbour())) {
@@ -687,7 +697,7 @@ public class STSolver {
         }
     }
 
-    private static boolean addBridges(STIsland startIsland, STIsland endIsland, boolean isDouble, boolean canBeDouble) {
+    private boolean addBridges(STIsland startIsland, STIsland endIsland, boolean isDouble, boolean canBeDouble) {
         int numberOfBridges = stBoard.getBridges().size();
         boolean isVertical = startIsland.getPosition().getX() == endIsland.getPosition().getX();
         if ((startIsland.getPosition().getY() == endIsland.getPosition().getY()) && (startIsland.getPosition().getX() > endIsland.getPosition().getX())) {
@@ -756,7 +766,7 @@ public class STSolver {
 //        return startIsland.isFinished() || endIsland.isFinished();
     }
 
-    private static boolean areBridgesIntersect(STIsland startIsland, STIsland endIsland) {
+    private boolean areBridgesIntersect(STIsland startIsland, STIsland endIsland) {
         Coordinates A, B, C, D;
         A = startIsland.getPosition();
         B = endIsland.getPosition();
@@ -785,7 +795,7 @@ public class STSolver {
         return false;
     }
 
-    private static HashSet<STIsland> getSegment(STIsland island, HashSet<STIsland> segment) {
+    private HashSet<STIsland> getSegment(STIsland island, HashSet<STIsland> segment) {
         if (!segment.contains(island)) {
             segment.add(island);
             if (island.getDownBridges() != null) {
@@ -804,7 +814,7 @@ public class STSolver {
         return segment;
     }
 
-    private static void callSolverFunctions() {
+    private void callSolverFunctions() {
 
         boolean changed = false;
 
@@ -911,7 +921,7 @@ public class STSolver {
 //        }
 
     }
-    public static float[] getFeatures(){
+    public float[] getFeatures(){
         return features;
     }
  }

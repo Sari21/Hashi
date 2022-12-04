@@ -10,11 +10,16 @@ import main.solver.mathematical.models.LPModel;
 import java.util.ArrayList;
 
 public class LPSolver {
-    private static float[] features;
-    private static boolean hasMultipleSolutions = false;
-    private static ArrayList<Bridge> solutionBridges = new ArrayList<>();
+    private float[] features;
+    private boolean hasMultipleSolutions = false;
+    private ArrayList<Bridge> solutionBridges = new ArrayList<>();
 
-    public static Board solve(Board board) throws GRBException {
+    public float[] solveBoardAndGetFeatures(Board board) throws GRBException {
+        this.solve(board);
+        return features;
+    }
+
+    public  Board solve(Board board) throws GRBException {
         try {
             // Create empty environment, set options, and start
             GRBEnv env = new GRBEnv(true);
@@ -122,31 +127,26 @@ public class LPSolver {
             model.addConstr(sumY, GRB.GREATER_EQUAL, LPModel.getN() - 1, "spanning tree");
             model.optimize();
 
-            if(model.get(GRB.IntAttr.SolCount) != 1){
+            if (model.get(GRB.IntAttr.SolCount) != 1) {
                 return null;
             }
 
-            features = new float[13];
+            features = new float[6];
 
             features[0] = (float) model.get(GRB.DoubleAttr.IterCount);
-            features[1] = model.get(GRB.IntAttr.BarIterCount);
-            features[2] = (float) model.get(GRB.DoubleAttr.Runtime);
-            features[3] = model.get(GRB.IntAttr.Fingerprint);
-            features[4] = model.get(GRB.IntAttr.NumVars);
-            features[5] = (float) model.get(GRB.DoubleAttr.NodeCount);
-            features[6] = model.get(GRB.IntAttr.SolCount);
-            features[7] = (float) model.get(GRB.DoubleAttr.MaxBound);
-            features[8] = (float) model.get(GRB.DoubleAttr.MinBound);
-            features[9] = (float) model.get(GRB.DoubleAttr.MaxObjCoeff);
-            features[10] = (float) model.get(GRB.DoubleAttr.MinObjCoeff);
-            features[11] = (float) model.get(GRB.DoubleAttr.MaxRHS);
-            features[12] = (float) model.get(GRB.DoubleAttr.MinRHS);
-//            FileService fileService = new FileService();
-//            StringBuilder results = new StringBuilder();
+//            features[1] = model.get(GRB.IntAttr.BarIterCount);
+            features[1] = (float) model.get(GRB.DoubleAttr.Runtime);
+            features[2] = model.get(GRB.IntAttr.Fingerprint);
+            features[3] = model.get(GRB.IntAttr.NumVars);
+            features[4] = (float) model.get(GRB.DoubleAttr.NodeCount);
+//            features[6] = model.get(GRB.IntAttr.SolCount);
+//            features[7] = (float) model.get(GRB.DoubleAttr.MaxBound);
+//            features[8] = (float) model.get(GRB.DoubleAttr.MinBound);
+//            features[9] = (float) model.get(GRB.DoubleAttr.MaxObjCoeff);
+//            features[10] = (float) model.get(GRB.DoubleAttr.MinObjCoeff);
+            features[5] = (float) model.get(GRB.DoubleAttr.MaxRHS);
+//            features[12] = (float) model.get(GRB.DoubleAttr.MinRHS);
 
-//            hidak hozzáadása a táblához
-//            board = BoardAndSolverModelConverter.convertSolvedGameToBoard(LPModel, X, board);
-//            fileService.writeDifficulty("Difficulty_lp.csv", results.toString());
             solutionBridges = BoardAndSolverModelConverter.convertSolvedModelToBridges(LPModel, X, board);
 
             model.dispose();
@@ -158,15 +158,15 @@ public class LPSolver {
         return board;
     }
 
-    public static float[] getFeatures() {
+    public  float[] getFeatures() {
         return features;
     }
 
-    public static boolean hasMultipleSolutions() {
+    public  boolean hasMultipleSolutions() {
         return hasMultipleSolutions;
     }
 
-    public static ArrayList<Bridge> solveAndGetBridges(Board board) throws GRBException {
+    public ArrayList<Bridge> solveAndGetBridges(Board board) throws GRBException {
         solve(board);
         return solutionBridges;
     }

@@ -107,7 +107,6 @@ public class Main extends Application {
 
         testMode = appProps.getProperty("testMode").equals("true");
 
-
         String projectId = "hashi-da6a0";
         Main quickStart = new Main(projectId);
         quickStart.run();
