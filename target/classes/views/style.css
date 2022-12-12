@@ -1,16 +1,32 @@
+.testGrid *{
+    -fx-text-fill: #000000;
+    -fx-font-family: "Microsoft Sans Serif";
+    -fx-font-size: 14;
+}
+TextField{
+    -fx-font-family: "Microsoft Sans Serif";
+    -fx-font-size: 14;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 10, 0.2, 3, 3);
+}
 Button{
     -fx-background-color: lightgrey;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.2, 3, 3);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 10, 0.2, 3, 3);
     -fx-font-size: 20;
 }
 ComboBox{
     -fx-background-color: lightgrey;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.2, 3, 3);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 10, 0.2, 3, 3);
     -fx-font-size: 14;
+}
+.split-pane *.split-pane-divider {
+    -fx-padding: 0 0 0 0;
 }
 AnchorPane{
     -fx-text-fill: #FFFFFF;
     -fx-font-family: "Microsoft Sans Serif";
     -fx-font-size: 14;
-
 }
+Circle{
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 10, 0.2, 3, 3);
+}
+

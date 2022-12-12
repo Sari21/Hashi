@@ -9,43 +9,43 @@ public class BridgeElement implements ViewElement {
     private Line doubleLine = new Line();
 
     public BridgeElement(Bridge bridge, int size) {
+        int lineWidth = (size < 15) ? 5 : 2;
+        int lineGap = (size < 15) ? 5 : 2;
         this.bridge = bridge;
-        line.setStrokeWidth(5);
-        doubleLine.setStrokeWidth(5);
+        line.setStrokeWidth(lineWidth);
+        doubleLine.setStrokeWidth(lineWidth);
 
-        int x1 = bridge.getStartIsland().getPosition().getX() + 1;
-        int y1 = bridge.getStartIsland().getPosition().getY() + 1;
-        int x2 = bridge.getEndIsland().getPosition().getX() + 1;
-        int y2 = bridge.getEndIsland().getPosition().getY() + 1;
+        int x1 = bridge.getStartIsland().getPosition().getX();
+        int y1 = bridge.getStartIsland().getPosition().getY();
+        int x2 = bridge.getEndIsland().getPosition().getX();
+        int y2 = bridge.getEndIsland().getPosition().getY() ;
         float RADIUS = (WIDTH - 2 * MARGIN) / (4 * size - 2);
 
-        float centerX1 = ((4 * x1 - 1) * RADIUS) + (RADIUS / 2);
-        float centerX2 = ((4 * x2 - 1) * RADIUS) + (RADIUS / 2);
-        float centerY1 = ((4 * y1 - 1) * RADIUS) + (RADIUS / 2);
-        float centerY2 = ((4 * y2 - 1) * RADIUS) + (RADIUS / 2);
+        float centerX1 = ((4 * (x1 + (float) 0.5) - 1) * RADIUS) + (RADIUS / 2);
+        float centerX2 = ((4 * (x2 + (float) 0.5) - 1) * RADIUS) + (RADIUS / 2);
+        float centerY1 = ((4 * (y1 + (float) 0.5) - 1) * RADIUS) + (RADIUS / 2);
+        float centerY2 = ((4 * (y2 + (float) 0.5) - 1) * RADIUS) + (RADIUS / 2);
         if (bridge.isDouble()) {
             if (x1 == x2) {
-                line.setStartX(centerX1 - 10);
+                line.setStartX(centerX1 - lineGap);
                 line.setStartY(centerY1);
-                line.setEndX(centerX2 - 10);
+                line.setEndX(centerX2 - lineGap);
                 line.setEndY(centerY2);
-
-                doubleLine.setStartX(centerX1 + 10);
+                doubleLine.setStartX(centerX1 + lineGap);
                 doubleLine.setStartY(centerY1);
-                doubleLine.setEndX(centerX2 + 10);
+                doubleLine.setEndX(centerX2 + lineGap);
                 doubleLine.setEndY(centerY2);
             } else {
                 line.setStartX(centerX1);
-                line.setStartY(centerY1-10);
-                line.setEndX(centerX2 );
-                line.setEndY(centerY2-10);
+                line.setStartY(centerY1 - lineGap);
+                line.setEndX(centerX2);
+                line.setEndY(centerY2 - lineGap);
                 doubleLine.setStartX(centerX1);
-                doubleLine.setStartY(centerY1+10);
-                doubleLine.setEndX(centerX2 );
-                doubleLine.setEndY(centerY2+10);
+                doubleLine.setStartY(centerY1 + lineGap);
+                doubleLine.setEndX(centerX2);
+                doubleLine.setEndY(centerY2 + lineGap);
             }
-        }
-        else{
+        } else {
             line.setStartX(centerX1);
             line.setStartY(centerY1);
             line.setEndX(centerX2);

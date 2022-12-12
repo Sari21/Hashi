@@ -6,24 +6,18 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import main.models.Board;
 import main.models.Bridge;
 import main.models.Island;
 import main.solver.mathematical.LPSolver;
 import main.view.BridgeElement;
 import main.view.IslandElement;
-import org.controlsfx.control.Notifications;
+import main.view.NotificationView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,22 +25,27 @@ import java.util.Collections;
 
 
 public class BoardController {
-    public Pane islandsPane;
-    public Pane bridgesPane;
     private Board board;
     private ArrayList<BridgeElement> bridgeElements = new ArrayList<>();
     private ArrayList<IslandElement> islandElements = new ArrayList<>();
-    public Pane gameMenuPane;
     private IslandElement startIsland, endIsland;
+
+    @FXML
+    private Pane islandsPane;
+    @FXML
+    private Pane bridgesPane;
+    @FXML
+    private Pane valuePane;
     private String SECONDARY = "SECONDARY";
     private String PRIMARY = "PRIMARY";
+    private boolean solution = false;
 
     private void setEventHandlersForIslands() {
         for (IslandElement islandElement : islandElements) {
             islandElement.getCircle().setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(javafx.scene.input.MouseEvent e) {
-                    if (e.getButton().name().equals(PRIMARY)) {
+                    if (e.getButton().name().equals(PRIMARY) && !solution) {
                         if (startIsland == null) {
                             startIsland = islandElement;
                             islandElement.addStroke();
@@ -58,6 +57,7 @@ public class BoardController {
                                     startIsland.getIsland().getPosition().getY() == endIsland.getIsland().getPosition().getY())) {
                                 startIsland.removeStroke();
                                 boolean done = false;
+                                //todo ezt a modell végezze
                                 for (Bridge b : board.getBridges()) {
                                     if ((b.getStartIsland().equals(startIsland.getIsland()) && b.getEndIsland().equals(endIsland.getIsland()))
                                             || (b.getStartIsland().equals(endIsland.getIsland()) && b.getEndIsland().equals(startIsland.getIsland()))) {
@@ -70,14 +70,14 @@ public class BoardController {
                                     Bridge newBridge = new Bridge(startIsland.getIsland(), endIsland.getIsland());
                                     board.addBridge(newBridge);
                                 }
-                                refreshBridges(board.getBridges());
+                                refreshBridges();
                                 setEventHandlersForBridges();
                                 clearSelectedIslands();
                             } else {
                                 clearSelectedIslands();
                             }
                         }
-                    } else if (e.getButton().name().equals(SECONDARY)) {
+                    } else if (e.getButton().name().equals(SECONDARY) && !solution) {
                         islandElement.mark();
                     }
                 }
@@ -90,12 +90,12 @@ public class BoardController {
             bridgeElement.getLine().setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(javafx.scene.input.MouseEvent e) {
-                    if (!bridgeElement.getBridge().isDouble()) {
+                    if (!bridgeElement.getBridge().isDouble() && !solution) {
                         board.getBridges().remove(bridgeElement.getBridge());
-                    } else {
+                    } else if (!solution) {
                         bridgeElement.getBridge().setDouble(false);
                     }
-                    refreshBridges(board.getBridges());
+                    refreshBridges();
                     setEventHandlersForBridges();
                     clearSelectedIslands();
                 }
@@ -103,10 +103,12 @@ public class BoardController {
             bridgeElement.getDoubleLine().setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(javafx.scene.input.MouseEvent e) {
-                    bridgeElement.getBridge().setDouble(false);
-                    refreshBridges(board.getBridges());
-                    setEventHandlersForBridges();
-                    clearSelectedIslands();
+                    if (!solution) {
+                        bridgeElement.getBridge().setDouble(false);
+                        refreshBridges();
+                        setEventHandlersForBridges();
+                        clearSelectedIslands();
+                    }
 
                 }
             });
@@ -127,31 +129,22 @@ public class BoardController {
     @FXML
     public void checkSolution() throws GRBException {
         if (board.getSolutionBridges().isEmpty()) {
-            board.setBridges(LPSolver.solveAndGetBridges(board));
+            LPSolver lpSolver = new LPSolver();
+
+            board.setSolutionBridges(lpSolver.solveAndGetBridges(board));
         }
         Collections.sort(board.getSolutionBridges());
         Collections.sort(board.getBridges());
 
         boolean isCorrect = board.getSolutionBridges().equals(board.getBridges());
         String text;
-        Image img;
-        if(isCorrect){
-            text = "Correct solution!";
-            img = new Image("/images/happy.png");
+        if (isCorrect) {
+            NotificationView.showNotification("Correct solution!", "Great job!", false);
+
+        } else {
+            NotificationView.showNotification("Incorrect solution!", "Don't give up!", true);
+
         }
-        else{
-            text = "Incorrect solution!";
-            img = new Image("/images/sad.png");
-        }
-        ImageView iv = new ImageView(img);
-        iv.setFitHeight(50);
-        iv.setFitWidth(50);
-        Notifications notification = Notifications.create()
-                .title(text)
-                .graphic(iv)
-                .hideAfter(Duration.seconds(5))
-                .position(Pos.TOP_RIGHT);
-        notification.show();
 
     }
 
@@ -161,32 +154,24 @@ public class BoardController {
 
     public void setGame(Board board) {
         this.board = board;
-        for (Bridge bridge : board.getBridges()) {
-            BridgeElement bridgeView = new BridgeElement(bridge, board.getWidth());
-            bridgeElements.add(bridgeView);
-            bridgesPane.getChildren().add(bridgeView.getLine());
-//            root.getChildren().addAll(bridgeView.getLine());
-            if (bridgeView.getDoubleLine() != null) {
-                islandsPane.getChildren().add(bridgeView.getDoubleLine());
-//                root.getChildren().addAll(bridgeView.getDoubleLine());
-            }
-        }
+        refreshBridges();
         for (Island island : board.getIslands()) {
             IslandElement islandElement = new IslandElement(island, board.getWidth());
             islandElements.add(islandElement);
             islandsPane.getChildren().add(islandElement.getCircle());
-            islandsPane.getChildren().add(islandElement.getNumber());
+            valuePane.getChildren().add(islandElement.getNumber());
         }
         setEventHandlersForIslands();
         setEventHandlersForBridges();
 
     }
 
-    private void refreshBridges(ArrayList<Bridge> bridges) {
+    private void refreshBridges() {
         for (BridgeElement b : bridgeElements) {
             bridgesPane.getChildren().removeAll(b.getDoubleLine(), b.getLine());
         }
         bridgeElements.clear();
+        ArrayList<Bridge> bridges = solution ? board.getSolutionBridges() : board.getBridges();
         for (Bridge bridge : bridges) {
             BridgeElement bridgeView = new BridgeElement(bridge, board.getWidth());
             bridgeElements.add(bridgeView);
@@ -199,11 +184,18 @@ public class BoardController {
 
     public void retry(ActionEvent actionEvent) {
         board.getBridges().clear();
-        refreshBridges(board.getBridges());
+        solution = false;
+        refreshBridges();
+
     }
 
-    public void showSolution(ActionEvent actionEvent) {
-        refreshBridges(board.getSolutionBridges());
+    public void showSolution(ActionEvent actionEvent) throws GRBException {
+        if (board.getSolutionBridges().isEmpty()) {
+            LPSolver lpSolver = new LPSolver();
+            board.setSolutionBridges(lpSolver.solveAndGetBridges(board));
+        }
+        solution = !solution;
+        refreshBridges();
     }
 
     @FXML
@@ -220,5 +212,11 @@ public class BoardController {
         stage.show();
     }
 
+    public boolean isSolution() {
+        return solution;
+    }
 
+    public void setSolution(boolean solution) {
+        this.solution = solution;
+    }
 }

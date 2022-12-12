@@ -3,18 +3,20 @@
   <ID>JAVA</ID>
   <OriginalElement />
   <nodes>
-    <node x="294.0" y="350.0">solver.mathematical.LPSolver</node>
-    <node x="0.0" y="186.0">solver.mathematical.models.BridgePairs</node>
-    <node x="0.0" y="0.0">solver.mathematical.models.LPModel</node>
-    <node x="0.0" y="350.0">solver.mathematical.converters.BoardAndSolverModelConverter</node>
+    <node x="0.0" y="370.0">main.view</node>
+    <node x="206.0" y="222.0">main.services</node>
+    <node x="0.0" y="74.0">main.solver.mathematical</node>
+    <node x="192.0" y="296.0">main.models</node>
+    <node x="0.0" y="222.0">main.classifier</node>
+    <node x="0.0" y="0.0">main.solver.solvingTechniques</node>
+    <node x="0.0" y="296.0">main.database</node>
+    <node x="0.0" y="148.0">main.controllers</node>
   </nodes>
   <notes />
   <edges />
-  <settings layout="Hierarchic Group" zoom="0.7319502074688796" x="782.6502267573696" y="804.18820861678" />
+  <settings layout="Hierarchic Group" zoom="0.7000000000000001" x="606.7500000000002" y="338.42857142857144" />
   <SelectedNodes />
-  <Categories>
-    <Category>Fields</Category>
-  </Categories>
+  <Categories />
   <SCOPE>All</SCOPE>
   <VISIBILITY>private</VISIBILITY>
 </Diagram>

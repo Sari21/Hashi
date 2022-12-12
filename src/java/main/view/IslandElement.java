@@ -10,36 +10,36 @@ import org.tensorflow.ndarray.FloatNdArray;
 
 
 public class IslandElement implements ViewElement {
-//    private final Text id;
+    //    private final Text id;
     private Circle circle;
     private Text number;
     private Coordinates position;
     private Island island;
-    //    private static final int RADIUS = 35;
     private boolean isMarked = false;
-    private float RADIUS = 30;
+    private float RADIUS;
+
 
     public IslandElement(Island island, int size) {
-        RADIUS = (WIDTH - 2 * MARGIN) / (4 * size - 2);
+        RADIUS = (WIDTH - 2 * MARGIN) / (4 * size -2);
         this.island = island;
         this.position = island.getPosition();
 
         circle = new Circle();
-        int islandX = island.getPosition().getX() + 1;
-        int islandY = island.getPosition().getY() + 1;
+        int islandX = island.getPosition().getX();
+        int islandY = island.getPosition().getY();
 
-        float centerX = ((4 * islandX - 1) * RADIUS) + ((float) RADIUS / 2);
-        float centerY = ((4 * islandY - 1) * RADIUS) + ((float) RADIUS / 2);
+        float centerX = ((4 * (islandX+ (float) 0.5) - 1) * RADIUS) + ( RADIUS / 2);
+        float centerY = ((4 * (islandY+ (float) 0.5) - 1) * RADIUS) + ( RADIUS / 2);
         circle.setCenterX(centerX);
         circle.setCenterY(centerY);
-        circle.setRadius(RADIUS);
+        circle.setRadius(RADIUS * 4 / 3);
         circle.setFill(Color.BISQUE);
 
         number = new Text();
         number.setText(String.valueOf(island.getValue()));
         number.setFont(Font.font("Microsoft Sans Serif", 18));
-        number.setX(centerX-5);
-        number.setY(centerY+5);
+        number.setX(centerX - 5);
+        number.setY(centerY + 5);
 //        id = new Text();
 //        id.setText(String.valueOf(island.getId()));
 //        id.setFont(Font.font("Verdana", 20));

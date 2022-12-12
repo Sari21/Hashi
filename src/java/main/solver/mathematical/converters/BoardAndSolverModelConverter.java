@@ -83,11 +83,11 @@ public class BoardAndSolverModelConverter {
             for (int j = 0; j < solverModel.getN(); j++) {
                 if (X[i][j].get(GRB.DoubleAttr.X) == 1.0) {
                     Bridge bridge = new Bridge(solutionBoard.getIslands().get(i), solutionBoard.getIslands().get(j));
-                    solutionBoard.addBridge(bridge);
+                    solutionBoard.addSolutionBridge(bridge);
                 } else if (X[i][j].get(GRB.DoubleAttr.X) == 2.0) {
                     Bridge bridge = new Bridge(solutionBoard.getIslands().get(i), solutionBoard.getIslands().get(j));
                     bridge.setDouble(true);
-                    solutionBoard.addBridge(bridge);
+                    solutionBoard.addSolutionBridge(bridge);
                 }
             }
         }

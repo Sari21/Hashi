@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="244.5" y="282.0">main.models.Level</node>
+    <node x="0.0" y="304.0">main.models.Bridge</node>
+    <node x="56.1425865800866" y="0.0">main.models.Coordinates</node>
+    <node x="64.5" y="135.0">main.models.Island</node>
+    <node x="72.10281385281385" y="495.0">main.models.Board</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="main.models.Bridge" target="main.models.Coordinates">
+      <point x="-18.0" y="-59.5" />
+      <point x="54.0" y="257.0" />
+      <point x="48.330086580086586" y="257.0" />
+      <point x="48.330086580086586" y="105.0" />
+      <point x="87.8925865800866" y="105.0" />
+      <point x="-31.75" y="37.5" />
+    </edge>
+    <edge source="main.models.Board" target="main.models.Island">
+      <point x="0.0" y="-125.5" />
+      <point x="187.10281385281385" y="470.0" />
+      <point x="189.24540043290045" y="470.0" />
+      <point x="189.24540043290045" y="257.0" />
+      <point x="203.625" y="257.0" />
+      <point x="59.625" y="48.5" />
+    </edge>
+    <edge source="main.models.Bridge" target="main.models.Island">
+      <point x="54.0" y="-59.5" />
+      <point x="126.0" y="257.0" />
+      <point x="124.125" y="257.0" />
+      <point x="-19.875" y="48.5" />
+    </edge>
+    <edge source="main.models.Island" target="main.models.Coordinates">
+      <point x="-53.0" y="-48.5" />
+      <point x="91.0" y="115.0" />
+      <point x="109.05925324675326" y="115.0" />
+      <point x="-10.583333333333343" y="37.5" />
+    </edge>
+    <edge source="main.models.Board" target="main.models.Coordinates">
+      <point x="32.85714285714283" y="-125.5" />
+      <point x="219.95995670995669" y="470.0" />
+      <point x="234.0" y="470.0" />
+      <point x="234.0" y="105.0" />
+      <point x="172.5592532467533" y="105.0" />
+      <point x="52.916666666666686" y="37.5" />
+    </edge>
+    <edge source="main.models.Board" target="main.models.Bridge">
+      <point x="-98.57142857142858" y="-125.5" />
+      <point x="88.53138528138527" y="470.0" />
+      <point x="36.0" y="470.0" />
+      <point x="-36.0" y="59.5" />
+    </edge>
+    <edge source="main.models.Board" target="main.models.Level">
+      <point x="65.7142857142857" y="-125.5" />
+      <point x="252.81709956709955" y="470.0" />
+      <point x="267.0" y="470.0" />
+      <point x="-22.5" y="81.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.8" x="294.4444444444446" y="408.8888888888889" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

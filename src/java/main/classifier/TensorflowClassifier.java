@@ -18,8 +18,10 @@ public class TensorflowClassifier {
     private static SavedModelBundle model;
 
     public static void loadModel() {
-        String modelPath = "C:\\work\\onlab\\saved_model\\tensorflow_model_3";
+        //todo
+        String modelPath = "C:\\work\\onlab\\saved_model\\my_model";
         model = SavedModelBundle.load(modelPath, "serve");
+        model.metaGraphDef();
 //        System.out.println(model.session());
 //        System.out.println(model.graph());
     }
@@ -28,7 +30,7 @@ public class TensorflowClassifier {
         if (model == null) {
             loadModel();
         }
-        FloatNdArray input_matrix = NdArrays.ofFloats(Shape.of(1, 34));
+        FloatNdArray input_matrix = NdArrays.ofFloats(Shape.of(1, 27));
         input_matrix.set(NdArrays.vectorOf(features), 0);
         Tensor input_tensor = TFloat32.tensorOf(input_matrix);
 //        SignatureDef a = model.metaGraphDef().getSignatureDefMap().get("serving_default");
@@ -39,7 +41,7 @@ public class TensorflowClassifier {
 
         List<Tensor> output = model.session()
                 .runner()
-                .feed("serving_default_dense_40_input:0", input_tensor)
+                .feed("serving_default_dense_15_input:0", input_tensor)
                 .fetch("StatefulPartitionedCall:0")
 //                .fetch("StatefulPartitionedCall:0")
                 .run();

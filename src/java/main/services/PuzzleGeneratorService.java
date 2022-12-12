@@ -17,16 +17,27 @@ import java.util.Random;
 public class PuzzleGeneratorService implements IPuzzleGeneratorService {
     private static Board board;
 
-    public static Board generatePuzzle(int width, int height, int numberOfIslands){
+    public static Board generatePuzzle(int width, int height, int numberOfIslands) {
+        long startTime = System.currentTimeMillis();
+
         board = new Board(width, height);
         Random random = new Random();
         int randomX = random.nextInt(width);
         int randomY = random.nextInt(height);
         int id = 1;
+        int count = 0;
         Island firstIsland = new Island(new Coordinates(randomX, randomY), id++);
         board.addIsland(firstIsland);
 
         while (board.getIslands().size() < numberOfIslands) {
+            if (System.currentTimeMillis() - startTime > 1000) {
+                board = new Board(width, height);
+                board.addIsland(firstIsland);
+                count++;
+            }
+            if (count >= 10) {
+                return null;
+            }
             Island randomIsland = chooseARandomIsland();
             int x = randomIsland.getPosition().getX();
             int y = randomIsland.getPosition().getY();

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="60.5625" y="188.0">main.controllers.BoardController</node>
+    <node x="101.26794871794874" y="0.0">main.view.ViewElement</node>
+    <node x="322.9895833333333" y="89.0">main.view.NotificationView</node>
+    <node x="0.0" y="89.0">main.view.IslandElement</node>
+    <node x="161.00000000000003" y="89.0">main.view.BridgeElement</node>
+    <node x="305.3679487179487" y="267.0">main.controllers.MenuGameController</node>
+    <node x="90.63749999999999" y="267.0">main.controllers.MenuTestController</node>
+    <node x="141.6375" y="346.0">main.view.MenuTestView</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="main.view.MenuTestView" target="main.controllers.MenuTestController">
+      <point x="-50.25" y="-14.5" />
+      <point x="158.3875" y="321.0" />
+      <point x="120.13749999999999" y="321.0" />
+      <point x="-59.0" y="14.5" />
+    </edge>
+    <edge source="main.controllers.MenuGameController" target="main.controllers.BoardController">
+      <point x="-44.25" y="-14.5" />
+      <point x="349.6179487179487" y="237.0" />
+      <point x="176.8125" y="237.0" />
+      <point x="38.75" y="14.5" />
+    </edge>
+    <edge source="main.view.MenuTestView" target="main.view.ViewElement">
+      <point x="50.25" y="-14.5" />
+      <point x="258.8875" y="321.0" />
+      <point x="519.1179487179487" y="321.0" />
+      <point x="519.1179487179487" y="49.0" />
+      <point x="215.56794871794875" y="49.0" />
+      <point x="50.80000000000001" y="14.5" />
+    </edge>
+    <edge source="main.controllers.BoardController" target="main.view.NotificationView">
+      <point x="67.81250000000006" y="-14.5" />
+      <point x="205.87500000000006" y="168.0" />
+      <point x="350.15625" y="168.0" />
+      <point x="-54.33333333333334" y="14.5" />
+    </edge>
+    <edge source="main.view.IslandElement" target="main.view.ViewElement">
+      <point x="-35.25" y="-14.5" />
+      <point x="35.25" y="59.0" />
+      <point x="113.96794871794873" y="59.0" />
+      <point x="-50.80000000000001" y="14.5" />
+    </edge>
+    <edge source="main.controllers.MenuGameController" target="main.view.NotificationView">
+      <point x="44.25" y="-14.5" />
+      <point x="438.1179487179487" y="168.0" />
+      <point x="458.8229166666667" y="168.0" />
+      <point x="54.33333333333336" y="14.5" />
+    </edge>
+    <edge source="main.controllers.BoardController" target="main.view.BridgeElement">
+      <point x="29.062500000000057" y="-14.5" />
+      <point x="167.12500000000006" y="148.0" />
+      <point x="231.50000000000003" y="148.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="main.controllers.MenuTestController" target="main.view.MenuTestView">
+      <point x="0.0" y="14.5" />
+      <point x="179.1375" y="321.0" />
+      <point x="191.8875" y="321.0" />
+      <point x="-16.75" y="-14.5" />
+    </edge>
+    <edge source="main.controllers.MenuTestController" target="main.view.NotificationView">
+      <point x="44.25" y="-14.5" />
+      <point x="223.3875" y="247.0" />
+      <point x="361.6871794871795" y="247.0" />
+      <point x="361.6871794871795" y="168.0" />
+      <point x="404.4895833333333" y="168.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="main.controllers.MenuTestController" target="main.controllers.BoardController">
+      <point x="-44.25" y="-14.5" />
+      <point x="134.8875" y="247.0" />
+      <point x="99.3125" y="247.0" />
+      <point x="-38.75" y="14.5" />
+    </edge>
+    <edge source="main.controllers.BoardController" target="main.view.IslandElement">
+      <point x="-9.687499999999943" y="-14.5" />
+      <point x="128.37500000000006" y="168.0" />
+      <point x="123.375" y="168.0" />
+      <point x="52.875" y="14.5" />
+    </edge>
+    <edge source="main.view.BridgeElement" target="main.view.ViewElement">
+      <point x="35.25" y="-14.5" />
+      <point x="266.75" y="59.0" />
+      <point x="190.16794871794878" y="59.0" />
+      <point x="25.400000000000034" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="318.5" y="252.0" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
