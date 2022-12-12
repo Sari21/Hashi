@@ -181,14 +181,14 @@ public class BoardController {
             }
         }
     }
-
+@FXML
     public void retry(ActionEvent actionEvent) {
         board.getBridges().clear();
         solution = false;
         refreshBridges();
 
     }
-
+@FXML
     public void showSolution(ActionEvent actionEvent) throws GRBException {
         if (board.getSolutionBridges().isEmpty()) {
             LPSolver lpSolver = new LPSolver();
@@ -219,4 +219,5 @@ public class BoardController {
     public void setSolution(boolean solution) {
         this.solution = solution;
     }
+
 }

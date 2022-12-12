@@ -31,6 +31,7 @@ import main.services.interfaces.IFileService;
 import main.solver.mathematical.LPSolver;
 import main.solver.solvingTechniques.STSolver;
 import main.view.NotificationView;
+
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -185,6 +186,7 @@ public class MenuTestController implements Initializable {
 
     }
 
+    @FXML
     public void solveGameLP(ActionEvent actionEvent) {
         Stage stage = new Stage();
         fileChooser = new FileChooser();
@@ -204,6 +206,7 @@ public class MenuTestController implements Initializable {
         }
     }
 
+    @FXML
     public void solveGameST(ActionEvent actionEvent) {
         Stage stage = new Stage();
         fileChooser = new FileChooser();
@@ -219,6 +222,7 @@ public class MenuTestController implements Initializable {
         }
     }
 
+    @FXML
     public void predictDifficultyRF(ActionEvent actionEvent) {
         Stage stage = new Stage();
         fileChooser = new FileChooser();
@@ -267,7 +271,7 @@ public class MenuTestController implements Initializable {
         }
     }
 
-
+    @FXML
     public void predictDifficultyTF(ActionEvent actionEvent) {
         Stage stage = new Stage();
         fileChooser = new FileChooser();
