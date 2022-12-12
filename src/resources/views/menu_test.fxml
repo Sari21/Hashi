@@ -103,8 +103,8 @@
                                                 <Button mnemonicParsing="false" onAction="#solveGameST" prefHeight="31.0" prefWidth="160.0" text="Solve game ST" GridPane.rowIndex="2" />
                                                 <Button mnemonicParsing="false" onAction="#solveMultipleGamesST" prefHeight="31.0" prefWidth="185.0" text="Solve multiple games ST" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                                 <Button id="startButton" fx:id="startButton2" mnemonicParsing="false" onAction="#openGameFromFile" prefHeight="31.0" prefWidth="196.0" text="Open game from file" GridPane.columnIndex="1" />
-                                                <Button mnemonicParsing="false" onAction="#predictDifficultyRF" prefHeight="31.0" prefWidth="159.0" text="Predict difficulti RF" GridPane.rowIndex="3" />
-                                                <Button mnemonicParsing="false" onAction="#predictDifficultyTF" prefHeight="31.0" prefWidth="185.0" text="Predict difficulti TF" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                                <Button mnemonicParsing="false" onAction="#predictDifficultyRF" prefHeight="31.0" prefWidth="159.0" text="Predict difficulty RF" GridPane.rowIndex="3" />
+                                                <Button mnemonicParsing="false" onAction="#predictDifficultyTF" prefHeight="31.0" prefWidth="185.0" text="Predict difficulty TF" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                              </children>
                                           </GridPane>
                                        </children>

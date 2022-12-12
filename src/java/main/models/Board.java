@@ -12,8 +12,6 @@ public class Board implements CsvPrintable {
     private ArrayList<Bridge> bridges = new ArrayList<>();
     private boolean[][] islandFields;
     private boolean[][] bridgeFields;
-    //    private Set<Coordinates> islandFields = new HashSet<>();
-//    private Set<Coordinates> bridgeFields = new HashSet<>();
     private String fileName;
     private Level level;
     private int id;
@@ -36,17 +34,19 @@ public class Board implements CsvPrintable {
     }
 
     public void addBridge(Bridge bridge) {
+        for (Coordinates c : bridge.getFields()) {
+            if ( islandFields[c.getX()][c.getY()]) {
+                return;
+            }
+        }
+        for (Coordinates c : bridge.getFields()) {
+            bridgeFields[c.getX()][c.getY()] = true;
+        }
         bridges.add(bridge);
-        for (Coordinates c : bridge.getFields()) {
-            bridgeFields[c.getX()][c.getY()] = true;
-        }
     }
-    //todo
-     public void addSolutionBridge(Bridge bridge) {
+
+    public void addSolutionBridge(Bridge bridge) {
         solutionBridges.add(bridge);
-        for (Coordinates c : bridge.getFields()) {
-            bridgeFields[c.getX()][c.getY()] = true;
-        }
     }
 
     public void addIsland(Island island) {

@@ -6,17 +6,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import main.models.Board;
 import main.models.Bridge;
 import main.models.Island;
@@ -24,7 +18,6 @@ import main.solver.mathematical.LPSolver;
 import main.view.BridgeElement;
 import main.view.IslandElement;
 import main.view.NotificationView;
-
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,9 +30,11 @@ public class BoardController {
     private ArrayList<IslandElement> islandElements = new ArrayList<>();
     private IslandElement startIsland, endIsland;
 
-    private Pane gameMenuPane;
+    @FXML
     private Pane islandsPane;
+    @FXML
     private Pane bridgesPane;
+    @FXML
     private Pane valuePane;
     private String SECONDARY = "SECONDARY";
     private String PRIMARY = "PRIMARY";
@@ -159,16 +154,7 @@ public class BoardController {
 
     public void setGame(Board board) {
         this.board = board;
-        for (Bridge bridge : board.getBridges()) {
-            BridgeElement bridgeView = new BridgeElement(bridge, board.getWidth());
-            bridgeElements.add(bridgeView);
-            bridgesPane.getChildren().add(bridgeView.getLine());
-//            root.getChildren().addAll(bridgeView.getLine());
-            if (bridgeView.getDoubleLine() != null) {
-                islandsPane.getChildren().add(bridgeView.getDoubleLine());
-//                root.getChildren().addAll(bridgeView.getDoubleLine());
-            }
-        }
+        refreshBridges();
         for (Island island : board.getIslands()) {
             IslandElement islandElement = new IslandElement(island, board.getWidth());
             islandElements.add(islandElement);

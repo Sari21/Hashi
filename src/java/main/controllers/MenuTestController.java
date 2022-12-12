@@ -9,47 +9,37 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.Duration;
+import main.classifier.RandomForestClassifier;
 import main.classifier.TensorflowClassifier;
 import main.database.BoardModelDTOConverter;
 import main.database.ManageData;
 import main.database.QueryData;
 import main.models.Board;
+import main.models.Bridge;
+import main.models.Level;
 import main.services.FileService;
 import main.services.PuzzleGeneratorService;
 import main.services.interfaces.IFileService;
 import main.solver.mathematical.LPSolver;
-import main.models.Level;
 import main.solver.solvingTechniques.STSolver;
-import main.view.MenuTestView;
-import main.classifier.RandomForestClassifier;
 import main.view.NotificationView;
-import org.controlsfx.control.Notifications;
-
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutionException;
 
 
 public class MenuTestController implements Initializable {
-
-    private static MenuTestView menuTestView = new MenuTestView();
     private FileChooser fileChooser;
     private static IFileService fileService = new FileService();
     @Inject
@@ -86,28 +76,6 @@ public class MenuTestController implements Initializable {
                 ex.printStackTrace();
             }
         }
-    }
-
-    public static void solveGameLP(File file) throws GRBException {
-        Board board = fileService.readGame(file);
-        closeMenuStage();
-        LPSolver lpSolver = new LPSolver();
-        Board board2 = lpSolver.solve(board);
-//        BoardController.openGame(board2);
-    }
-
-    public static void solveGameST(File file) throws GRBException {
-        Board board = fileService.readGame(file);
-        closeMenuStage();
-        STSolver stSolver = new STSolver();
-        Board board2 = stSolver.solve(board);
-//        BoardController.openGame(board2);
-    }
-
-    public static void openSolution(File file) {
-        Board board = fileService.readSolution(file);
-        closeMenuStage();
-//        BoardController.openGame(board);
     }
 
     @FXML
@@ -148,38 +116,10 @@ public class MenuTestController implements Initializable {
                 fileService.writeDifficulty("Difficulty_LP_data.csv", file.getName(), features, board.getLevel());
             }
         }
-        showMenuStage();
-    }
-
-    public static void predictRF(File file) throws GRBException {
-        Board board = fileService.readGame(file);
-        closeMenuStage();
-
-        float[] featuresLP;
-        float[] featuresST;
-        LPSolver lpSolver = new LPSolver();
-        featuresLP = lpSolver.solveBoardAndGetFeatures(board);
-        STSolver stSolver = new STSolver();
-        stSolver.solve(board);
-        featuresST = stSolver.getFeatures();
-        double[] features = new double[featuresLP.length + featuresST.length];
-        System.arraycopy(featuresLP, 0, features, 0, featuresLP.length);
-        System.arraycopy(featuresST, 0, features, featuresLP.length, featuresST.length);
-
-        int prediction = RandomForestClassifier.predict(features);
-        System.out.println(prediction);
-        System.out.println(board.getLevel());
-//        for (double d : features) {
-//            System.out.print(d);
-//            System.out.print(", ");
-//        }
-//        BoardController.openGame(boardLP);
     }
 
     public static void predictFromFileTF(File file) throws GRBException {
         Board board = fileService.readGame(file);
-        closeMenuStage();
-
         Level level = predictTF(board);
         System.out.println("predicted level: " + level);
         System.out.println("original level: " + board.getLevel());
@@ -206,39 +146,32 @@ public class MenuTestController implements Initializable {
 
     }
 
-    public static void generatePuzzle(int w, int h, int i, boolean withSolution) throws
-            GRBException, ExecutionException, InterruptedException {
-        Board board = PuzzleGeneratorService.generatePuzzle(w, h, i);
-        LPSolver lpSolver = new LPSolver();
+    @FXML
+    public void generateNewGame(ActionEvent actionEvent) {
+        try {
+            Board board = PuzzleGeneratorService.generatePuzzle(sizeCombo.getValue(), sizeCombo.getValue(), Integer.parseInt(numOfIslandsField.getText()));
+            if (board == null) {
+                NotificationView.showNotification("Error", "It is not possible to create a puzzle with these parameters", true);
+            }
+            LPSolver lpSolver = new LPSolver();
 
-        while (lpSolver.solve(board) == null) {
-            board = PuzzleGeneratorService.generatePuzzle(w, h, i);
-
-        }
+            ArrayList<Bridge> bridges = lpSolver.solveAndGetBridges(board);
+            while (bridges.isEmpty() || board == null) {
+                board = PuzzleGeneratorService.generatePuzzle(sizeCombo.getValue(), sizeCombo.getValue(), Integer.parseInt(numOfIslandsField.getText()));
+                bridges = lpSolver.solveAndGetBridges(board);
+            }
+            board.setSolutionBridges(bridges);
 //        while (LPSolver.hasMultipleSolutions()) {
 //            board = PuzzleGeneratorService.generatePuzzle(w, h, i);
 //            LPSolver.solve(board);
 //        }
-        Level level = predictTF(board);
-        board.setLevel(level);
-        manageData.addSimpleDocumentAsEntity(board);
+            Level level = predictTF(board);
+            board.setLevel(level);
+            manageData.addSimpleDocumentAsEntity(board);
+        } catch (Exception e) {
+            NotificationView.showNotification("Error", "It is not possible to create a puzzle with these parameters", true);
 
-
-//        FileService fileService = new FileService();
-//        File file = fileService.saveNewBoard(board);
-//        if (withSolution)
-//            openSolution(file);
-//        else
-//            openGame(file);
-//        System.out.println(board.getLevel().toString());
-    }
-
-    public static void showMenuStage() {
-        menuTestView.getMenuStage().show();
-    }
-
-    public static void closeMenuStage() {
-        menuTestView.getMenuStage().close();
+        }
     }
 
     @Override
@@ -252,10 +185,23 @@ public class MenuTestController implements Initializable {
 
     }
 
-    public void generateNewGame(ActionEvent actionEvent) {
-    }
-
     public void solveGameLP(ActionEvent actionEvent) {
+        Stage stage = new Stage();
+        fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+        fileChooser.getExtensionFilters().add(extFilter);
+        File file = fileChooser.showOpenDialog(stage);
+        if (file != null) {
+            Board board = fileService.readGame(file);
+            LPSolver lpSolver = new LPSolver();
+            try {
+                board.setSolutionBridges(lpSolver.solveAndGetBridges(board));
+            } catch (GRBException e) {
+                NotificationView.showNotification("Error", "Can not solve board", true);
+            }
+            showBoard(board, true);
+
+        }
     }
 
     public void solveGameST(ActionEvent actionEvent) {
@@ -266,7 +212,6 @@ public class MenuTestController implements Initializable {
         File file = fileChooser.showOpenDialog(stage);
         if (file != null) {
             Board board = fileService.readGame(file);
-            closeMenuStage();
             STSolver stSolver = new STSolver();
             Board board2 = stSolver.solve(board);
             showBoard(board2, true);
@@ -274,12 +219,86 @@ public class MenuTestController implements Initializable {
         }
     }
 
-
     public void predictDifficultyRF(ActionEvent actionEvent) {
+        Stage stage = new Stage();
+        fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+        fileChooser.getExtensionFilters().add(extFilter);
+        File file = fileChooser.showOpenDialog(stage);
+        if (file != null) {
+            try {
+                Board board = fileService.readGame(file);
+                float[] featuresLP;
+                float[] featuresST;
+                LPSolver lpSolver = new LPSolver();
+                featuresLP = lpSolver.solveBoardAndGetFeatures(board);
+                STSolver stSolver = new STSolver();
+                stSolver.solve(board);
+                featuresST = stSolver.getFeatures();
+                float[] features = new float[featuresLP.length + featuresST.length];
+                System.arraycopy(featuresLP, 0, features, 0, featuresLP.length);
+                System.arraycopy(featuresST, 0, features, featuresLP.length, featuresST.length);
+                double[] featuresDouble = new double[features.length];
+                for (int i = 0; i < features.length; i++) {
+                    featuresDouble[i] = features[i];
+                }
+//todo
+                int prediction = RandomForestClassifier.predict(featuresDouble);
+                Level predictedLevel;
+                switch (prediction) {
+                    case 0:
+                        predictedLevel = Level.EASY;
+                        break;
+                    case 1:
+                        predictedLevel = Level.MEDIUM;
+                        break;
+                    case 2:
+                        predictedLevel = Level.HARD;
+                        break;
+                    default:
+                        predictedLevel = Level.EASY;
+                }
+
+
+                NotificationView.showNotification("Random forest prediction", "Prediction: " + predictedLevel.toString() + "\nOriginal level: " + board.getLevel(), false);
+            } catch (Exception e) {
+                NotificationView.showNotification("Error", "Prediction error", true);
+            }
+        }
     }
 
 
     public void predictDifficultyTF(ActionEvent actionEvent) {
+        Stage stage = new Stage();
+        fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+        fileChooser.getExtensionFilters().add(extFilter);
+        File file = fileChooser.showOpenDialog(stage);
+        if (file != null) {
+            try {
+                Board board = fileService.readGame(file);
+                float[] featuresLP;
+                float[] featuresST;
+                LPSolver lpSolver = new LPSolver();
+                featuresLP = lpSolver.solveBoardAndGetFeatures(board);
+                STSolver stSolver = new STSolver();
+                stSolver.solve(board);
+                featuresST = stSolver.getFeatures();
+                float[] features = new float[featuresLP.length + featuresST.length];
+                System.arraycopy(featuresLP, 0, features, 0, featuresLP.length);
+                System.arraycopy(featuresST, 0, features, featuresLP.length, featuresST.length);
+                double[] featuresDouble = new double[features.length];
+                for (int i = 0; i < features.length; i++) {
+                    featuresDouble[i] = features[i];
+                }
+                Level level = TensorflowClassifier.predict(features);
+
+
+                NotificationView.showNotification("Random forest prediction", "Prediction: " + level.toString() + "\nOriginal level: " + board.getLevel(), false);
+            } catch (Exception e) {
+                NotificationView.showNotification("Error", "Prediction error", true);
+            }
+        }
     }
 
     @FXML
@@ -301,9 +320,9 @@ public class MenuTestController implements Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader(
                     getClass().getResource("/views/game.fxml"));
             Parent rootNode = fxmlLoader.load();
-           BoardController boardController =  ((BoardController) fxmlLoader.getController());
-            boardController.setGame(board);
+            BoardController boardController = ((BoardController) fxmlLoader.getController());
             boardController.setSolution(showSolution);
+            boardController.setGame(board);
             Scene scene = new Scene(rootNode);
             Stage stage = new Stage();
             stage.setScene(scene);

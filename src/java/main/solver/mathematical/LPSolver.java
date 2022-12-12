@@ -167,6 +167,7 @@ public class LPSolver {
     }
 
     public ArrayList<Bridge> solveAndGetBridges(Board board) throws GRBException {
+        solutionBridges = new ArrayList<>();
         solve(board);
         return solutionBridges;
     }

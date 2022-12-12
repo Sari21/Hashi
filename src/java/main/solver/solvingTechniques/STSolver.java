@@ -14,29 +14,15 @@ import static main.solver.solvingTechniques.models.Direction.*;
 
 
 public class STSolver {
-    private static final String CSV_SEPARATOR = ";" ;
     private STBoard stBoard;
     private STBoard stBoardBeforeRandom;
-    private int points = 0;
     private float[] features;
-    private FileService fileService = new FileService();
 
     private int leftoverTechniques, justEnoughDoubleNeighbours, oneUnsolvedNeighbour, islandRemainingValueEqualsToUnfinishedNeighboursRemainingValue, fourOnTheSide = 0;
     private int sixInTheMiddle, threeInTheCornerFiveOnTheSideAndSevenInTheMiddle, islandRemainingValueEqualsToUnfinishedNeighboursRemainingBridges, isolationOfATwoIslandSegment = 0;
     private int isolationOfASegment,  isolationWhenASegmentConnectsToAnotherSegment, addRandomBridge = 0;
 
-//    public static Level calculateGameLevel(Board board) {
-//        solve(board);
-//        if (points < 10)
-//            return Level.EASY;
-//        else if (points < 15)
-//            return Level.MEDIUM;
-//        else
-//            return Level.HARD;
-//    }
-
     public  Board solve(Board board) {
-//        System.out.println("-------------------1");
         leftoverTechniques = 0;
         justEnoughDoubleNeighbours = 0;
         oneUnsolvedNeighbour = 0;
@@ -51,7 +37,6 @@ public class STSolver {
         addRandomBridge = 0;
         int sumValues = 0;
         for (Island i : board.getIslands()) {
-//            System.out.println(i.getId() + " " + i.getValue() + " " + i.getPosition());
             sumValues += i.getValue();
         }
         board.sortIslands();
@@ -823,7 +808,6 @@ public class STSolver {
         for (int i = 0; i < stBoard.getUnfinishedIslands().size(); i++) {
             changed = leftoverTechniques(stBoard.getUnfinishedIslands().get(i));
             if (changed) {
-                points += 5;
 //                System.out.println("leftoverTechniques " + stBoard.getUnfinishedIslands().get(i).getId() + "(" + stBoard.getUnfinishedIslands().get(i).getPosition().toString() + ")" );
                 return;
             }
@@ -831,7 +815,6 @@ public class STSolver {
         for (int i = 0; i < stBoard.getUnfinishedIslands().size(); i++) {
             changed = justEnoughDoubleNeighbours(stBoard.getUnfinishedIslands().get(i));
             if (changed) {
-                points += 10;
 //                System.out.println("justEnoughDoubleNeighbours " + stBoard.getUnfinishedIslands().get(i).getValue() + "(" + stBoard.getUnfinishedIslands().get(i).getPosition().toString() + ")" );
                 return;
             }
@@ -839,7 +822,6 @@ public class STSolver {
         for (int i = 0; i < stBoard.getUnfinishedIslands().size(); i++) {
             changed = oneUnsolvedNeighbour(stBoard.getUnfinishedIslands().get(i));
             if (changed) {
-                points += 5;
 //                System.out.println("oneUnsolvedNeighbour " + stBoard.getUnfinishedIslands().get(i).getId() + "(" + stBoard.getUnfinishedIslands().get(i).getPosition().toString() + ")" );
                 return;
             }
@@ -847,7 +829,6 @@ public class STSolver {
         for (int i = 0; i < stBoard.getUnfinishedIslands().size(); i++) {
             changed = islandRemainingValueEqualsToUnfinishedNeighboursRemainingValue(stBoard.getUnfinishedIslands().get(i));
             if (changed) {
-                points += 10;
 //                System.out.println("islandRemainingValueEqualsToUnfinishedNeighboursRemainingValue " + stBoard.getUnfinishedIslands().get(i).getId() + "(" + stBoard.getUnfinishedIslands().get(i).getPosition().toString() + ")" );
                 return;
             }
@@ -855,7 +836,6 @@ public class STSolver {
         for (int i = 0; i < stBoard.getUnfinishedIslands().size(); i++) {
             changed = fourOnTheSide(stBoard.getUnfinishedIslands().get(i));
             if (changed) {
-                points += 20;
 //                System.out.println("fourOnTheSide " + stBoard.getUnfinishedIslands().get(i).getId() + "(" + stBoard.getUnfinishedIslands().get(i).getPosition().toString() + ")" );
                 return;
             }
@@ -863,7 +843,6 @@ public class STSolver {
         for (int i = 0; i < stBoard.getUnfinishedIslands().size(); i++) {
             changed = sixInTheMiddle(stBoard.getUnfinishedIslands().get(i));
             if (changed) {
-                points += 20;
 //                System.out.println("sixInTheMiddle " + stBoard.getUnfinishedIslands().get(i).getId() + "(" + stBoard.getUnfinishedIslands().get(i).getPosition().toString() + ")" );
                 return;
             }
@@ -871,7 +850,6 @@ public class STSolver {
         for (int i = 0; i < stBoard.getUnfinishedIslands().size(); i++) {
             changed = threeInTheCornerFiveOnTheSideAndSevenInTheMiddle(stBoard.getUnfinishedIslands().get(i));
             if (changed) {
-                points += 20;
 //                System.out.println("threeInTheCornerFiveOnTheSideAndSevenInTheMiddle " + stBoard.getUnfinishedIslands().get(i).getId() + "(" + stBoard.getUnfinishedIslands().get(i).getPosition().toString() + ")" );
                 return;
             }
@@ -879,7 +857,7 @@ public class STSolver {
         for (int i = 0; i < stBoard.getUnfinishedIslands().size(); i++) {
             changed = islandRemainingValueEqualsToUnfinishedNeighboursRemainingBridges(stBoard.getUnfinishedIslands().get(i));
             if (changed) {
-                points += 20;
+
 //                System.out.println("islandRemainingValueEqualsToUnfinishedNeighboursRemainingBridges " + stBoard.getUnfinishedIslands().get(i).getId() + "(" + stBoard.getUnfinishedIslands().get(i).getPosition().toString() + ")" );
                 return;
             }
@@ -887,7 +865,7 @@ public class STSolver {
         for (int i = 0; i < stBoard.getUnfinishedIslands().size(); i++) {
             changed = isolationOfATwoIslandSegment(stBoard.getUnfinishedIslands().get(i));
             if (changed) {
-                points += 50;
+
 //                System.out.println("isolationOfATwoIslandSegment " + stBoard.getUnfinishedIslands().get(i).getId() + "(" + stBoard.getUnfinishedIslands().get(i).getPosition().toString() + ")" );
                 return;
             }
@@ -903,7 +881,7 @@ public class STSolver {
         for (int i = 0; i < stBoard.getUnfinishedIslands().size(); i++) {
             changed = isolationWhenASegmentConnectsToAnotherSegment(stBoard.getUnfinishedIslands().get(i));
             if (changed) {
-                points += 60;
+
 //                System.out.println("isolationWhenASegmentConnectsToAnotherSegment " + stBoard.getUnfinishedIslands().get(i).getId() + "(" + stBoard.getUnfinishedIslands().get(i).getPosition().toString() + ")" );
                 return;
             }

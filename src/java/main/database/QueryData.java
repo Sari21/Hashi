@@ -3,6 +3,9 @@ package main.database;
 import com.google.cloud.firestore.*;
 import main.models.Level;
 
+import java.util.Map;
+import java.util.Random;
+
 public class QueryData {
     private static Firestore db;
     private References references;
@@ -19,13 +22,11 @@ public class QueryData {
     public Query createQuery(Level level, int size) throws Exception {
         references = new References(db);
         CollectionReference collection = references.getCollectionReference(size, level);
-        // retrieve  query results asynchronously using query.get()
-//        ApiFuture<QuerySnapshot> querySnapshot = query.get();
-//        Map<String, Object> data = querySnapshot.get().getDocuments().get(0).getData();
-//
-//        for (DocumentSnapshot document : querySnapshot.get().getDocuments()) {
-//            System.out.println(document.getId());
-//        }
-        return collection.limit(1);
+        Map<String, Object> maxIdMap = collection.orderBy("id", Query.Direction.DESCENDING)
+                .limit(1).get().get().getDocuments().get(0).getData();
+        long maxId = (long) maxIdMap.get("id");
+        Random random = new Random();
+        long randomValue = (long) (random.nextDouble() * (maxId));
+        return collection.whereGreaterThanOrEqualTo("id", randomValue).limit(1);
     }
 }
